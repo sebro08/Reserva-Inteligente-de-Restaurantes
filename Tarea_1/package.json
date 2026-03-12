@@ -1,0 +1,15 @@
+{
+  "name": "restaurante-backend-workspace",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm --prefix backend run dev",
+    "build": "npm --prefix backend run build",
+    "start": "npm --prefix backend run start",
+    "test": "npm --prefix backend run test",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:reset": "docker-compose down -v"
+  },
+  "private": true,
+  "description": "Workspace scripts for the local backend-only restaurant project"
+}
