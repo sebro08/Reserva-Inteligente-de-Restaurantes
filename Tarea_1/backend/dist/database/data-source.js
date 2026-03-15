@@ -42,15 +42,18 @@ require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const dotenv = __importStar(require("dotenv"));
 const path_1 = __importDefault(require("path"));
+const Canton_1 = require("../model/Canton");
+const Province_1 = require("../model/Province");
+const District_1 = require("../model/District");
 dotenv.config({ path: path_1.default.resolve(__dirname, "../../../.env") });
 exports.AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT || "5432"),
-    username: process.env.DB_USERNAME || process.env.DB_USER,
+    username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     synchronize: true,
     logging: true,
-    entities: [path_1.default.join(__dirname, "../model/**/*.{ts,js}")],
+    entities: [Canton_1.Canton, Province_1.Province, District_1.District],
 });

@@ -1,0 +1,21 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from "typeorm";
+import { Country } from "./Country";
+import { Canton } from "./Canton";
+
+@Entity()
+export class Province {
+
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @ManyToOne(() => Country, country => country.provinces)
+  @JoinColumn({ name: "country_id" })
+  country: Country;
+
+  @OneToMany(() => Canton, canton => canton.province)
+  cantons: Canton[];
+
+}

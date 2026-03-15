@@ -20,15 +20,20 @@ app.get("/health", (_req: Request, res: Response) => {
 
 AppDataSource.initialize()
   .then(() => {
-    console.log("✅ Conectado a la base de datos");
+    console.log(
+      "Entidades cargadas:",
+      AppDataSource.entityMetadatas.map(e => e.name)
+    );
+    
+    console.log("Conectado a la base de datos");
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`Servidor corriendo en http://localhost:${PORT}`);
     });
   })
   .catch((error: unknown) => {
     if (error instanceof Error) {
-      console.error("❌ Error al conectar la base de datos:", error.message);
+      console.error("Error al conectar la base de datos:", error.message);
     } else {
-      console.error("❌ Error desconocido:", error);
+      console.error("Error desconocido:", error);
     }
   });
