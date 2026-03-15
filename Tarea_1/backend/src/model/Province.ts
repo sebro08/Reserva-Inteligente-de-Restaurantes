@@ -6,7 +6,7 @@ import { Canton } from "./Canton";
 export class Province {
 
   @PrimaryGeneratedColumn()
-  id: number;
+  code: number;
 
   @Column()
   name: string;

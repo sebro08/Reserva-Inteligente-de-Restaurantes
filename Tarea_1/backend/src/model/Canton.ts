@@ -6,7 +6,7 @@ import { District } from "./District";
 export class Canton {
 
   @PrimaryGeneratedColumn()
-  id: number;
+  code: number;
 
   @Column()
   name: string;

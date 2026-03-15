@@ -6,14 +6,14 @@ import { Location } from "./Location";
 export class District {
 
   @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  name: string;
+  code: number;
 
   @ManyToOne(() => Canton, canton => canton.districts)
   @JoinColumn({ name: "canton_id" })
   canton: Canton;
+
+  @Column()
+  name: string;
 
   @OneToMany(() => Location, location => location.district)
   locations: Location[];
