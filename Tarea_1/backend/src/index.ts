@@ -7,12 +7,16 @@ import path from "path";
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 import { AppDataSource } from "./database/data-source";
+import routes from "./routes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Montar las rutas principales
+app.use("/", routes);
 
 app.get("/health", (_req: Request, res: Response) => {
   res.status(200).json({ status: "ok", service: "restaurante-api" });
