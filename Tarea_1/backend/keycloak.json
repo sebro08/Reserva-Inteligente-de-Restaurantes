@@ -1,0 +1,9 @@
+{
+  "realm": "restaurante-realm",
+  "auth-server-url": "http://localhost:8080/",
+  "ssl-required": "external",
+  "resource": "restaurante-api",
+  "bearer-only": true,
+  "public-client": true,
+  "confidential-port": 0
+}

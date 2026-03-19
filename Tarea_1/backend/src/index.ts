@@ -8,12 +8,25 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 import { AppDataSource } from "./database/data-source";
 import routes from "./routes";
+import session from "express-session";
+import { keycloak, memoryStore } from "./middleware/keycloak";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// 1. Añadir el manejo de sesiones (requerido por keycloak-connect)
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'clave-secreta-restaurante',
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore
+}));
+
+// 2. Inicializar middleware de Keycloak
+app.use(keycloak.middleware());
 
 // Montar las rutas principales
 app.use("/", routes);

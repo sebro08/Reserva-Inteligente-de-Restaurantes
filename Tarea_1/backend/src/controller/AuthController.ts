@@ -1,52 +1,158 @@
-// src/controller/AuthController.ts
 import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { User } from "../model/User";
+import { Role } from "../model/Role";
+import axios from "axios";
 
 const userRepository = AppDataSource.getRepository(User);
+const roleRepository = AppDataSource.getRepository(Role);
+
+const KEYCLOAK_URL = process.env.KEYCLOAK_URL || "http://localhost:8080";
+const REALM = "restaurante-realm";
+const CLIENT_ID = "restaurante-api";
 
 export class AuthController {
   
+  // Función de apoyo para conseguir token de administración de Keycloak
+  private static async getAdminToken(): Promise<string> {
+    const params = new URLSearchParams();
+    params.append("grant_type", "password");
+    params.append("client_id", "admin-cli");
+    // Usar variables de entorno de KeycloakAdmin, con default por si acaso
+    params.append("username", process.env.KEYCLOAK_ADMIN_USER || "admin");
+    params.append("password", process.env.KEYCLOAK_ADMIN_PASSWORD || "admin");
+
+    const response = await axios.post(
+      `${KEYCLOAK_URL}/realms/master/protocol/openid-connect/token`,
+      params,
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+    return response.data.access_token;
+  }
+
   // POST /auth/register - Registro de un nuevo usuario
   static async register(req: Request, res: Response) {
     try {
-      const { first_name, last_name, email, keycloak_id } = req.body;
+      const { first_name, last_name, email, password, role_name = "cliente_restaurante" } = req.body;
       
+      if (!first_name || !last_name || !email || !password) {
+        return res.status(400).json({ message: "Faltan campos requeridos (first_name, last_name, email, password)" });
+      }
+
+      // 1. Verificar el nombre del rol a nivel de DB y nivel Keycloak
+      // Como en tu DB local se llaman "Admin" y "User", y en Keycloak "admin_restaurante" y "cliente_restaurante", hacemos un mapa de traducción
+      const dbRoleName = role_name === "admin_restaurante" ? "Admin" : "User";
+
+      // Verificar si el rol existe en PostgreSQL (para que el usuario no lance error al guardar en BD después)
+      const role = await roleRepository.findOneBy({ name: dbRoleName });
+      if (!role) {
+        return res.status(400).json({ message: `El rol ${dbRoleName} no existe en la base de datos local.` });
+      }
+
+      // 2. Obtener Token Admin de Keycloak
+      const adminToken = await AuthController.getAdminToken();
+
+      // 3. Crear el usuario en Keycloak
+      const keycloakUserUrl = `${KEYCLOAK_URL}/admin/realms/${REALM}/users`;
+      const newUserPayload = {
+        username: email,
+        email: email,
+        firstName: first_name,
+        lastName: last_name,
+        enabled: true,
+        emailVerified: true,  // Saltar verificación manual
+        credentials: [{
+          type: "password",
+          value: password,
+          temporary: false  // No pedir cambio de clave
+        }]
+      };
+
+      await axios.post(keycloakUserUrl, newUserPayload, {
+        headers: {
+          Authorization: `Bearer ${adminToken}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      // 4. Obtener el keycloak_id que Keycloak le acaba de asignar internamente a este nuevo usuario
+      const usersResponse = await axios.get(`${keycloakUserUrl}?username=${email}&exact=true`, {
+        headers: { Authorization: `Bearer ${adminToken}` }
+      });
+      const keycloak_id = usersResponse.data[0].id;
+
+      // 5. Asignarle el rol correspondiente dentro de Keycloak
+      try {
+        const roleResponse = await axios.get(`${KEYCLOAK_URL}/admin/realms/${REALM}/roles/${role_name}`, {
+          headers: { Authorization: `Bearer ${adminToken}` }
+        });
+        const roleDef = roleResponse.data;
+        await axios.post(`${keycloakUserUrl}/${keycloak_id}/role-mappings/realm`, [roleDef], {
+          headers: { Authorization: `Bearer ${adminToken}`, "Content-Type": "application/json" }
+        });
+      } catch (e) {
+        console.error("Advertencia: No se pudo enlazar el rol en Keycloak. Asegúrate de que el rol exista en la consola de Keycloak.", e);
+      }
+
+      // 6. Finalmente, guardar el usuario en PostgreSQL
       const user = new User();
       user.first_name = first_name;
       user.last_name = last_name;
       user.email = email;
-      user.keycloak_id = keycloak_id || "placeholder-keycloak-id";
+      user.keycloak_id = keycloak_id; // <-- Guardamos el ID unificado
       user.is_active = true;
       user.created_at = new Date();
-      // Omitiendo la logica de role por simplicidad de momento
+      user.role = role; // Enlazamos el objeto Role de TypeORM
 
       await userRepository.save(user);
 
-      res.status(201).json({ message: "Usuario sincronizado con éxito", user });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error en el registro del usuario" });
+      res.status(201).json({ message: "Usuario creado y sincronizado con éxito", user });
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        return res.status(409).json({ message: "El usuario ya existe (el correo ya está registrado)" });
+      }
+      console.error("Error en registro:", error.response?.data || error.message);
+      res.status(500).json({ message: "Error interno en el registro del usuario" });
     }
   }
 
   // POST /auth/login - Inicio de sesión y obtención de JWT
   static async login(req: Request, res: Response) {
     try {
-      const { email } = req.body;
-      
-      const user = await userRepository.findOneBy({ email });
-      if (!user) {
-         return res.status(401).json({ message: "Credenciales inválidas" });
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+         return res.status(400).json({ message: "Faltan credenciales" });   
       }
 
-      // Con Keycloak usualmente el front trae el JWT directo desde el auth server. 
-      // Aquí simulamos que se ha autenticado
-      res.json({ message: "Login validado según Keycloak (Simulado)", user_role: user.role });
+      // Pedir el token directamente a Keycloak
+      const params = new URLSearchParams();
+      params.append("grant_type", "password");
+      params.append("client_id", CLIENT_ID);
+      params.append("username", email);
+      params.append("password", password);
+
+      const response = await axios.post(
+        `${KEYCLOAK_URL}/realms/${REALM}/protocol/openid-connect/token`,
+        params,
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+      );
+
+      // Si todo sale bien, Keycloak nos da el JWT y se lo retornamos al Front-End/Postman
+      res.json({ 
+        message: "Login exitoso", 
+        access_token: response.data.access_token,
+        refresh_token: response.data.refresh_token,
+        expires_in: response.data.expires_in
+      });
       
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error al iniciar sesión" });
+    } catch (error: any) {
+      // Usualmente si Keycloak falla es porque la clave es incorrecta -> DA un HTTP 401
+      if (error.response && error.response.status === 401) {
+        return res.status(401).json({ message: "Credenciales inválidas" });
+      }
+      console.error("Error al iniciar sesión:", error.response?.data || error.message);
+      res.status(500).json({ message: "Error interno al iniciar sesión" });
     }
   }
 }
