@@ -43,10 +43,24 @@ const dotenv = __importStar(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 dotenv.config({ path: path_1.default.resolve(__dirname, "../../.env") });
 const data_source_1 = require("./database/data-source");
+const routes_1 = __importDefault(require("./routes"));
+const express_session_1 = __importDefault(require("express-session"));
+const keycloak_1 = require("./middleware/keycloak");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+// 1. Añadir el manejo de sesiones (requerido por keycloak-connect)
+app.use((0, express_session_1.default)({
+    secret: process.env.SESSION_SECRET || 'clave-secreta-restaurante',
+    resave: false,
+    saveUninitialized: true,
+    store: keycloak_1.memoryStore
+}));
+// 2. Inicializar middleware de Keycloak
+app.use(keycloak_1.keycloak.middleware());
+// Montar las rutas principales
+app.use("/", routes_1.default);
 app.get("/health", (_req, res) => {
     res.status(200).json({ status: "ok", service: "restaurante-api" });
 });

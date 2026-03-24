@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const UserController_1 = require("../controller/UserController");
+const keycloak_1 = require("../middleware/keycloak");
+const router = (0, express_1.Router)();
+router.get("/me", keycloak_1.keycloak.protect(), UserController_1.UserController.getMe);
+router.put("/:id", keycloak_1.keycloak.protect(), UserController_1.UserController.updateUser);
+router.delete("/:id", keycloak_1.keycloak.protect("realm:admin_restaurante"), UserController_1.UserController.deleteUser);
+exports.default = router;

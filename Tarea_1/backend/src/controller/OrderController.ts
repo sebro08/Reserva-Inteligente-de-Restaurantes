@@ -29,7 +29,7 @@ export class OrderController {
         if (restaurant) order.restaurant = restaurant;
       }
 
-      // Notas: Aquí también podrías guardar en OrderItem
+      // Notas: Aquí también podría guardar en OrderItem
 
       await orderRepository.save(order);
       res.status(201).json(order);

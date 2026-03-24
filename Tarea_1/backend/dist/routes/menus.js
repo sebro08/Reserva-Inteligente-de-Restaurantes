@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const MenuController_1 = require("../controller/MenuController");
+const keycloak_1 = require("../middleware/keycloak");
+const router = (0, express_1.Router)();
+router.post("/", keycloak_1.keycloak.protect("realm:admin_restaurante"), MenuController_1.MenuController.createMenu);
+router.get("/:id", keycloak_1.keycloak.protect(), MenuController_1.MenuController.getMenu);
+router.put("/:id", keycloak_1.keycloak.protect("realm:admin_restaurante"), MenuController_1.MenuController.updateMenu);
+router.delete("/:id", keycloak_1.keycloak.protect("realm:admin_restaurante"), MenuController_1.MenuController.deleteMenu);
+exports.default = router;
