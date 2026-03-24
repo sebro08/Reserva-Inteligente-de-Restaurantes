@@ -40,7 +40,7 @@ export class AuthController {
       }
 
       // 1. Verificar el nombre del rol a nivel de DB y nivel Keycloak
-      // Como en tu DB local se llaman "Admin" y "User", y en Keycloak "admin_restaurante" y "cliente_restaurante", hacemos un mapa de traducción
+      // En la DB local se llaman "Admin" y "User", y en Keycloak "admin_restaurante" y "cliente_restaurante", entonces hacemos un mapa de traducción
       const dbRoleName = role_name === "admin_restaurante" ? "Admin" : "User";
 
       // Verificar si el rol existe en PostgreSQL (para que el usuario no lance error al guardar en BD después)

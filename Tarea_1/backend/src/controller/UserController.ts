@@ -6,15 +6,23 @@ const userRepository = AppDataSource.getRepository(User);
 
 export class UserController {
   
-  // Obtener detalles del usuario autenticado (Placeholder, requiere lógica de token)
+  // Obtener detalles del usuario autenticado a partir del Token de Keycloak
   static async getMe(req: Request, res: Response) {
     try {
-      // Asumiremos que el ID viene del token validado en req.user
-      const userId = (req as any).user?.id || 1; // Placeholder para pruebas
-      const user = await userRepository.findOneBy({ id: userId });
+      // Keycloak inyecta la información del token validado en req.kauth
+      const kauth = (req as any).kauth;
+      if (!kauth || !kauth.grant) {
+        return res.status(401).json({ message: "No autorizado" });
+      }
+
+      // El 'sub' es el ID único del usuario dentro de Keycloak
+      const keycloakId = kauth.grant.access_token.content.sub;
+
+      // Buscamos al usuario en nuestra base de datos que coincida con ese Keycloak ID
+      const user = await userRepository.findOneBy({ keycloak_id: keycloakId });
       
       if (!user) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
+        return res.status(404).json({ message: "Usuario no encontrado en la base de datos local" });
       }
       
       res.json(user);
