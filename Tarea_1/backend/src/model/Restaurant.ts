@@ -15,7 +15,7 @@ export class Restaurant {
   @Column()
   name: string;
 
-  @Column({ type: "timestamp" })
+  @Column({ type: process.env.NODE_ENV === "test" ? "datetime" : "timestamp" })
   created_at: Date;
 
   @ManyToOne(() => Location, location => location.restaurants)

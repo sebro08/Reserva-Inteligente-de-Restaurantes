@@ -1,6 +1,16 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "!src/model/**",
+    "!src/database/**",
+    "!src/middleware/**",
+    "!src/routes/**",
+    "!src/index.ts",
+    "!src/swagger.ts",
+    "!src/integration/**"
+  ],
   projects: [
     {
       displayName: "unit",
@@ -13,7 +23,9 @@ module.exports = {
         "!src/database/**",
         "!src/middleware/**",
         "!src/routes/**",
-        "!src/index.ts"
+        "!src/index.ts",
+        "!src/swagger.ts",
+        "!src/integration/**"
       ],
     },
     {
@@ -21,7 +33,13 @@ module.exports = {
       preset: "ts-jest",
       testEnvironment: "node",
       testMatch: ["**/integration/**/*.test.ts"],
-      setupFilesAfterEnv: ["<rootDir>/src/integration/setup.ts"],
+      reporters: [
+        "default",
+        ["jest-html-reporter", {
+          pageTitle: "Integration Test Report",
+          outputPath: "test-report.html"
+        }]
+      ]
     }
   ]
 };

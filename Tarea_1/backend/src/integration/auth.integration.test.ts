@@ -1,20 +1,13 @@
 import request from "supertest";
 import { TestDataSource } from "../database/data-source.test";
 
-// ── Mockear AppDataSource con TestDataSource ─────────────────────────────────
-jest.mock("../database/data-source", () => ({
-  AppDataSource: TestDataSource,
-}));
-
-// ── Mockear Keycloak middleware antes de importar la app ─────────────────────
-// memoryStore con .on() que express-session necesita
+// Mock Keycloak
 jest.mock("../middleware/keycloak", () => {
   const EventEmitter = require("events");
   const store = new EventEmitter();
   store.get = jest.fn((_sid: string, cb: Function) => cb(null, null));
   store.set = jest.fn((_sid: string, _session: any, cb: Function) => cb(null));
   store.destroy = jest.fn((_sid: string, cb: Function) => cb(null));
-
   return {
     memoryStore: store,
     keycloak: {
@@ -24,14 +17,19 @@ jest.mock("../middleware/keycloak", () => {
   };
 });
 
-// ── Mockear axios (Keycloak Admin API) ───────────────────────────────────────
+// Mock axios 
 jest.mock("axios");
-import axios from "axios";
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+// Mock DataSource
+jest.mock("../database/data-source", () => {
+  const { TestDataSource } = require("../database/data-source.test");
+  return { AppDataSource: TestDataSource };
+});
 
 import { app } from "../index";
+import axios from "axios";                                   
+const mockedAxios = axios as jest.Mocked<typeof axios>;      
 
-// ── Setup / Teardown ─────────────────────────────────────────────────────────
 beforeAll(async () => {
   if (!TestDataSource.isInitialized) {
     await TestDataSource.initialize();
@@ -45,11 +43,15 @@ afterAll(async () => {
 });
 
 afterEach(async () => {
-  jest.clearAllMocks();
+  jest.clearAllMocks();                                       // limpiar mocks de axios entre tests
+  const queryRunner = TestDataSource.createQueryRunner();
+  await queryRunner.connect();
+  await queryRunner.query("PRAGMA foreign_keys = OFF");
   for (const entity of TestDataSource.entityMetadatas) {
-  const repository = TestDataSource.getRepository(entity.target);
-  await repository.clear();
-}
+    await queryRunner.query(`DELETE FROM "${entity.tableName}"`);
+  }
+  await queryRunner.query("PRAGMA foreign_keys = ON");
+  await queryRunner.release();
 });
 
 // ── Helper: simula respuestas de Keycloak Admin ──────────────────────────────

@@ -25,9 +25,9 @@ export class User {
   @Column()
   is_active: boolean;
 
-  @Column({ type: "timestamp" })
+  @Column({ type: process.env.NODE_ENV === "test" ? "datetime" : "timestamp" })
   created_at: Date;
-
+  
   @ManyToOne(() => Role, role => role.users)
   @JoinColumn({ name: "role_id" })
   role: Role;
