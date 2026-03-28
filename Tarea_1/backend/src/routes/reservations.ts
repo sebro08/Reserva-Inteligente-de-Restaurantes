@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { ReservationController } from "../controller/ReservationController";
 import { keycloak } from "../middleware/keycloak";
-
+ 
 const router = Router();
-
+ 
 /**
  * @swagger
  * /reservations:
@@ -22,17 +22,17 @@ const router = Router();
  *             properties:
  *               user_id:
  *                 type: integer
- *                 example: 1
+ *                 example: 2
  *               restaurant_id:
  *                 type: integer
  *                 example: 1
  *               reservation_date:
  *                 type: string
  *                 format: date
- *                 example: "2025-12-25"
+ *                 example: "2026-03-30"
  *               reservation_time:
  *                 type: string
- *                 example: "20:00"
+ *                 example: "19:30:00"
  *               people_count:
  *                 type: integer
  *                 example: 4
@@ -47,7 +47,7 @@ const router = Router();
  *         description: Error al crear la reserva
  */
 router.post("/", keycloak.protect("realm:cliente_restaurante"), ReservationController.createReservation);
-
+ 
 /**
  * @swagger
  * /reservations/{id}:
@@ -74,5 +74,6 @@ router.post("/", keycloak.protect("realm:cliente_restaurante"), ReservationContr
  *         description: Error al cancelar la reserva
  */
 router.delete("/:id", keycloak.protect(), ReservationController.deleteReservation);
-
+ 
 export default router;
+ 

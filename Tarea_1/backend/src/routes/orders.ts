@@ -21,7 +21,7 @@ const router = Router();
  *             properties:
  *               user_id:
  *                 type: integer
- *                 example: 1
+ *                 example: 2
  *               restaurant_id:
  *                 type: integer
  *                 example: 1

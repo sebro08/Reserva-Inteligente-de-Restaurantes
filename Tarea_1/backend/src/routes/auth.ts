@@ -17,18 +17,18 @@ const router = Router();
  *             type: object
  *             required: [first_name, last_name, email, password]
  *             properties:
- *               first_name:
- *                 type: string
- *                 example: Juan
- *               last_name:
- *                 type: string
- *                 example: Pérez
  *               email:
  *                 type: string
  *                 example: juan@correo.com
  *               password:
  *                 type: string
  *                 example: "pass123"
+ *               first_name:
+ *                 type: string
+ *                 example: Juan
+ *               last_name:
+ *                 type: string
+ *                 example: Pérez
  *               role_name:
  *                 type: string
  *                 enum: [cliente_restaurante, admin_restaurante]
@@ -61,10 +61,10 @@ router.post("/register", AuthController.register);
  *             properties:
  *               email:
  *                 type: string
- *                 example: juan@correo.com
+ *                 example: admin@restaurante.com
  *               password:
  *                 type: string
- *                 example: "pass123"
+ *                 example: "Password123!"
  *     responses:
  *       200:
  *         description: Login exitoso, retorna tokens de Keycloak
