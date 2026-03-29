@@ -1,22 +1,35 @@
 # Reserva Inteligente de Restaurantes - API REST
 
-Esta es la primera entrega del proyecto "Reserva Inteligente de Restaurantes". Consiste en una API REST desarrollada con **Node.js, Express y TypeORM**, diseñada para la gestión de usuarios, autenticación y reservas de mesas. Todo el entorno está contenedorizado y orquestado mediante Docker.
+Esta es nuestra primera entrega del proyecto **"Reserva Inteligente de Restaurantes"**. 
 
-## Tecnologías Utilizadas
-- **Backend:** Node.js, Express.js, TypeScript.
+Esta es una API REST para manejar todo lo necesario en un sistema de reservas: registro de usuarios, autenticación segura y, por supuesto, la gestión de restaurantes, menús y reserva de mesas.
+
+Para hacer todo esto, usamos **Node.js, Express y TypeORM**. Además, metemos toda la aplicación en contenedores usando **Docker**.
+
+## Autores
+- Sebastián Rodríguez Sánchez
+- Gabriel Arguedas Solano
+
+---
+
+## Tecnologías que usamos
+- **Backend:** Node.js, Express.js y TypeScript.
 - **Base de Datos:** PostgreSQL.
-- **ORM:** TypeORM.
-- **Autenticación:** Keycloak (JWT - JSON Web Tokens).
-- **Contenedorización:** Docker, Docker Compose (Multi-stage build).
-- **Documentación:** Swagger.
-- **Pruebas:** Jest & Supertest.
+- **ORM:** TypeORM (nos facilitó muchísimo el manejo de la base de datos).
+- **Autenticación:** Keycloak (usamos JWT).
+- **Contenedorización:** Docker y Docker Compose.
+- **Documentación de la API:** Swagger.
+- **Pruebas (Testing):** Jest y Supertest.
 
-## Requisitos Previos
-- [Docker](https://docs.docker.com/get-docker/) y [Docker Compose](https://docs.docker.com/compose/install/) instalados.
-- Archivo `.env` configurado en la raíz del proyecto (ver plantilla más abajo).
+---
 
-## Variables de Entorno (`.env`)
-Asegúrate de contar con el archivo `.env` en la raíz de tu proyecto con las siguientes variables:
+## ¿Cómo levantar el proyecto? (Requisitos Previos)
+Para correr esto, solo necesitas tener instalados:
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### 1. Variables de Entorno (`.env`)
+Antes de encender los contenedores, crea un archivo llamado `.env` en la raíz del proyecto y pégale esto:
 
 ```env
 # Configuración de la Base de Datos
@@ -34,43 +47,63 @@ KEYCLOAK_REALM=restaurante-realm
 KEYCLOAK_CLIENT_ID=restaurante-api
 ```
 
-## Instrucciones de Ejecución
-
-### 1. Levantar la Infraestructura
-Para iniciar la base de datos, el servicio de autenticación (Keycloak) y la API, ejecuta en la terminal:
+### 2. Levantar los contenedores
+Abre tu terminal en la raíz del proyecto y ejecuta el siguiente comando. Esto descargará las imágenes y construirá la app. Puede tardar un poco la primera vez:
 
 ```bash
 docker-compose up -d --build
 ```
 
-### 2. Poblar la Base de Datos (Seeding)
-Una vez que los contenedores estén corriendo y la API esté conectada, puedes insertar los datos base (catálogos de ubicaciones, roles y estados). Ejecuta el script de PowerShell incluido en la raíz:
+### 3. Poblar la Base de Datos (Seeding)
+Para que no tengas que probar el sistema en blanco, preparamos un script que inserta datos base como ubicaciones, roles de usuario y estados de los pedidos. Si estás en Windows, solo corre:
 
 ```powershell
 ./seed.ps1
 ```
 
-### 3. Documentación Swagger y Pruebas Unitarias
-El proyecto cuenta con documentación interactiva provista por Swagger y cobertura de pruebas.
-- **Swagger:** Una vez corriendo, revisa la documentación de los endpoints navegando a `http://localhost:3000/api-docs`. AJUSTAR RUTA***
-- **Pruebas Unitarias:** Fueron desarrolladas con Jest. Se pueden correr localmente ejecutando:
-  ```bash
-  npm run test
-  ```
+---
 
-## Resumen de Endpoints Principales
+## Documentación (Swagger)
+En cuanto a la documentación, para que los endpoints sean más fácil probarlos, usamos **Swagger** para generar una interfaz interactiva donde se ve qué rutas existen, qué datos piden y qué responden.
 
-| Método | Endpoint | Descripción |
+**Para probarlo:** Una vez que el proyecto esté corriendo, simplemente abre tu navegador y entra a:
+`http://localhost:3000/api-docs` *(Nota: asegúrate de que el puerto de la API sea el 3000)*. Podrás mandar peticiones de prueba directo desde la página sin necesitar Postman.
+
+---
+
+## Pruebas Automatizadas (Testing)
+Para asegurarnos de que el código aguante y funcione bien, escribimos pruebas divididas en dos tipos. Para correrlas, tienes que estar dentro de la carpeta `/backend`:
+
+### Pruebas Unitarias
+Estas pruebas (*unit tests*) revisan partes específicas y aisladas del código, como los controladores, "simulando" la base de datos para ver que la lógica matemática o los condicionales estén correctos. Se hicieron con **Jest**.
+* **Para correrlas:** `npm run test`
+
+### Pruebas de Integración
+Estas son más completas. Levantan toda la aplicación en un entorno de pruebas (usando SQLite en memoria pura para los test, gracias a un `data-source.test.ts` que armamos) y tiran peticiones HTTP reales a nuestros endpoints usando **Supertest**. Esto confirma que el flujo completo, desde la petición hasta el guardado en base de datos, fluya sin problemas o "choques".
+* **Para correrlas:** `npm run test:integration`
+
+*(Si quieres correr **ambas** al mismo tiempo, puedes usar `npm run test:all`)*.
+
+---
+
+## Resumen de los Endpoints Principales
+
+Aquí tienes un vistazo rápido de lo más importante que hace la API:
+
+| Método | Endpoint | ¿Para qué sirve? |
 | :--- | :--- | :--- |
-| **POST** | `/auth/register` | Registro de nuevo usuario. |
-| **POST** | `/auth/login` | Inicio de sesión y obtención de JWT. |
-| **GET** | `/users/me` | Obtener detalles del usuario autenticado. |
-| **GET** | `/restaurants` | Listar restaurantes disponibles. |
-| **POST** | `/restaurants` | Registrar un restaurante *(Solo Admins)*. |
-| **POST** | `/menus` | Crear menú para un restaurante. |
-| **POST** | `/reservations` | Crear una nueva reserva de mesa. |
-| **POST** | `/orders` | Realizar un pedido. |
+| **POST** | `/auth/register` | Para que un usuario nuevo se registre. |
+| **POST** | `/auth/login` | Para iniciar sesión y que el sistema te devuelva un token (JWT). |
+| **GET** | `/users/me` | Ver los datos de tu propio perfil estando logueado. |
+| **GET** | `/restaurants` | Ver la lista de restaurantes disponibles. |
+| **POST** | `/restaurants` | Registrar un restaurante nuevo *(solo si eres Admin)*. |
+| **POST** | `/menus` | Ponerle un menú a un restaurante *(solo si eres Admin)*. |
+| **POST** | `/reservations` | Para reservar una mesa. |
+| **POST** | `/orders` | Para pedir algo del menú. |
 
-## Notas de Seguridad y Buenas Prácticas Implementadas
-- **Puerto de Base de Datos Privado:** Por seguridad, la base de datos PostgreSQL no expone su puerto por defecto hacia el host, sino que es accedida exclusivamente de forma interna en la red de Docker por el contenedor de la API.
-- **Multi-stage Dockerfile:** La imagen final del backend carece de archivos y dependencias de desarrollo (TypeScript, utilidades temporales), resultando en una imagen mucho más segura y ligera.
+---
+
+## Datos extra y "Buenas Prácticas" que quisimos añadir
+* **Multi-stage build en Dockerfile:** Metimos la creación de la imagen del backend en un proceso de varias etapas. Al final, la imagen que corre no tiene archivos "basura" de desarrollo ni todo el código fuente original de TypeScript, así queda mucho más ligera y segura para "producción". En nuestro caso también lo hicimos ya que como la imagen es más ligera, es una ayuda para probarlo en nuestras computadoras sin que dure tanto cada vez que volvermos a inicar los contenedores.
+* **Seguridad en la DB:** Por seguridad, la base de datos PostgreSQL no expone su puerto real hacia la máquina host obligatoriamente. Solamente la API puede hablar directo con la base de datos. Además toda la información importante de la base de datos se pasa mediante variables de entorno.
+* **Pineado de versiones:** Todas las versiones utilizadas están definidas y pineadas en el docker-compose/dockerfile. Usamos mayormente versiones "alpine" para priorizar la ligereza de las imágenes.
