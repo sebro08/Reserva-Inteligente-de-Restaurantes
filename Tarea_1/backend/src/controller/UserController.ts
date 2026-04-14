@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../database/data-source";
 import { User } from "../model/User";
+import { RepositoryFactory } from "../repository/RepositoryFactory";
 
-const userRepository = AppDataSource.getRepository(User);
+const userRepository = RepositoryFactory.getUserRepository();
 
 export class UserController {
   
@@ -19,7 +19,7 @@ export class UserController {
       const keycloakId = kauth.grant.access_token.content.sub;
 
       // Buscamos al usuario en nuestra base de datos que coincida con ese Keycloak ID
-      const user = await userRepository.findOneBy({ keycloak_id: keycloakId });
+      const user = await userRepository.findByKeycloakId(keycloakId);
       
       if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado en la base de datos local" });
@@ -38,15 +38,12 @@ export class UserController {
       const { id } = req.params;
       const dataToUpdate = req.body;
       
-      const user = await userRepository.findOneBy({ id: parseInt(id) });
+      const user = await userRepository.update(parseInt(id), dataToUpdate);
       if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
 
-      userRepository.merge(user, dataToUpdate);
-      const results = await userRepository.save(user);
-
-      res.json(results);
+      res.json(user);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error al actualizar el usuario" });
@@ -57,9 +54,9 @@ export class UserController {
   static async deleteUser(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const results = await userRepository.delete(parseInt(id));
+      const isDeleted = await userRepository.delete(parseInt(id));
       
-      if (results.affected === 0) {
+      if (!isDeleted) {
          return res.status(404).json({ message: "Usuario no encontrado" });
       }
       

@@ -59,24 +59,34 @@ app.get("/health", (_req: Request, res: Response) => {
 // Inicialización SOLO fuera de tests
 // ─────────────────────────────────────────────
 if (process.env.NODE_ENV !== "test") {
-  AppDataSource.initialize()
-    .then(() => {
-      console.log(
-        "Entidades cargadas:",
-        AppDataSource.entityMetadatas.map((e) => e.name)
-      );
+  const dbType = process.env.DB_TYPE || "postgres";
 
-      console.log("Conectado a la base de datos");
+  const initDb = async () => {
+    try {
+      if (dbType === "postgres") {
+        await AppDataSource.initialize();
+        console.log(
+          "Entidades cargadas:",
+          AppDataSource.entityMetadatas.map((e) => e.name)
+        );
+        console.log("Conectado a la base de datos PostgreSQL");
+      } else if (dbType === "mongodb") {
+        const { MongoDatabase } = require("./database/mongo/MongoDatabase");
+        await MongoDatabase.connect();
+        console.log("Conectado a la base de datos MongoDB");
+      }
 
       app.listen(PORT, () => {
         console.log(`Servidor corriendo en http://localhost:${PORT}`);
       });
-    })
-    .catch((error: unknown) => {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         console.error("Error al conectar la base de datos:", error.message);
       } else {
         console.error("Error desconocido:", error);
       }
-    });
+    }
+  };
+
+  initDb();
 }

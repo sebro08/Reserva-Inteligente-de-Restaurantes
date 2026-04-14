@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../database/data-source";
 import { User } from "../model/User";
-import { Role } from "../model/Role";
+import { RepositoryFactory } from "../repository/RepositoryFactory";
 import axios from "axios";
 
-const userRepository = AppDataSource.getRepository(User);
-const roleRepository = AppDataSource.getRepository(Role);
+const userRepository = RepositoryFactory.getUserRepository();
+const roleRepository = RepositoryFactory.getRoleRepository();
 
 const KEYCLOAK_URL = process.env.KEYCLOAK_URL || "http://localhost:8080";
 const REALM = "restaurante-realm";
@@ -44,7 +43,7 @@ export class AuthController {
       const dbRoleName = role_name === "admin_restaurante" ? "Admin" : "User";
 
       // Verificar si el rol existe en PostgreSQL (para que el usuario no lance error al guardar en BD después)
-      const role = await roleRepository.findOneBy({ name: dbRoleName });
+      const role = await roleRepository.findByName(dbRoleName);
       if (!role) {
         return res.status(400).json({ message: `El rol ${dbRoleName} no existe en la base de datos local.` });
       }
@@ -95,16 +94,15 @@ export class AuthController {
       }
 
       // 6. Finalmente, guardar el usuario en PostgreSQL
-      const user = new User();
-      user.first_name = first_name;
-      user.last_name = last_name;
-      user.email = email;
-      user.keycloak_id = keycloak_id; // <-- Guardamos el ID unificado
-      user.is_active = true;
-      user.created_at = new Date();
-      user.role = role; // Enlazamos el objeto Role de TypeORM
-
-      await userRepository.save(user);
+      const user = await userRepository.create({
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        keycloak_id: keycloak_id, // <-- Guardamos el ID unificado
+        is_active: true,
+        created_at: new Date(),
+        role: role // Enlazamos el objeto Role de TypeORM
+      });
 
       res.status(201).json({ message: "Usuario creado y sincronizado con éxito", user });
     } catch (error: any) {

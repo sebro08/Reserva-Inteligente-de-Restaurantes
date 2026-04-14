@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for controller/MenuController.ts</title>
+    <title>Code coverage report for repository/postgres/PostgresRestaurantRepository.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">controller</a> MenuController.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">repository/postgres</a> PostgresRestaurantRepository.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">73.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/33</span>
+                <span class='fraction'>22/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">64.28% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>9/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>3/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">73.07% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>33/33</span>
+                <span class='fraction'>19/26</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -121,171 +121,120 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response } from "express";
-import { RepositoryFactory } from "../repository/RepositoryFactory";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { AppDataSource } from "../../database/data-source";
+import { Restaurant } from "../../model/Restaurant";
+import { User } from "../../model/User";
+import { Location } from "../../model/Location";
+import { IRestaurantRepository } from "../IRestaurantRepository";
 &nbsp;
-const menuRepository = RepositoryFactory.getMenuRepository();
+export class PostgresRestaurantRepository implements IRestaurantRepository {
+  private repository = AppDataSource.getRepository(Restaurant);
 &nbsp;
-export class MenuController {
-  
-  // Crear un nuevo menú
-  static async createMenu(req: Request, res: Response) {
-    try {
-      const { name, restaurant_id } = req.body;
-      
-      const menu = await menuRepository.create({
-        name,
-        restaurant_id
-      });
-&nbsp;
-      res.status(201).json(menu);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error al crear el menú" });
-    }
+  async findAll(): Promise&lt;Restaurant[]&gt; {
+    return await this.repository.find({
+      relations: ["location", "admin"],
+    });
   }
 &nbsp;
-  // Obtener detalles de un menú
-  static async getMenu(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const menu = await menuRepository.findById(parseInt(id));
-&nbsp;
-      if (!menu) {
-        return res.status(404).json({ message: "Menú no encontrado" });
-      }
-      res.json(menu);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error al obtener el menú" });
-    }
+<span class="fstat-no" title="function not covered" >  async </span>findById(id: number): Promise&lt;Restaurant | null&gt; {
+<span class="cstat-no" title="statement not covered" >    return await this.repository.findOne({</span>
+      where: { id },
+      relations: ["location", "admin"],
+    });
   }
 &nbsp;
-  // Actualizar un menú
-  static async updateMenu(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      
-      const menuUpdated = await menuRepository.update(parseInt(id), req.body);
-      
-      if (!menuUpdated) {
-        return res.status(404).json({ message: "Menú no encontrado" });
-      }
+  async create(data: Partial&lt;Restaurant&gt; &amp; { location_id?: number; admin_id?: number }): Promise&lt;Restaurant&gt; {
+    const restaurant = new Restaurant();
+    // También se puede usar Object.assign o this.repository.create
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (data.name) restaurant.name = data.name;
+    
+    // Si uso created_at generado automáticamente, podría omitirlo o setearlo:
+    restaurant.created_at = new Date(); 
 &nbsp;
-      res.json(menuUpdated);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error al actualizar el menú" });
+    if (data.admin_id) {
+      const userRepo = AppDataSource.getRepository(User);
+      const admin = await userRepo.findOneBy({ id: data.admin_id });
+      if (admin) restaurant.admin = admin;
     }
+&nbsp;
+    if (data.location_id) {
+      const locationRepo = AppDataSource.getRepository(Location);
+      const location = await locationRepo.findOneBy({ id: data.location_id });
+      if (location) restaurant.location = location;
+    }
+&nbsp;
+    return await this.repository.save(restaurant);
   }
 &nbsp;
-  // Eliminar un menú
-  static async deleteMenu(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const isDeleted = await menuRepository.delete(parseInt(id));
-      
-      if (!isDeleted) {
-         return res.status(404).json({ message: "Menú no encontrado" });
-      }
-      
-      res.json({ message: "Menú eliminado con éxito" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error al eliminar el menú" });
-    }
+<span class="fstat-no" title="function not covered" >  async </span>update(id: number, data: Partial&lt;Restaurant&gt;): Promise&lt;Restaurant | null&gt; {
+    const restaurant = <span class="cstat-no" title="statement not covered" >await this.findById(id);</span>
+<span class="cstat-no" title="statement not covered" >    if (!restaurant) <span class="cstat-no" title="statement not covered" >return null;</span></span>
+    
+<span class="cstat-no" title="statement not covered" >    Object.assign(restaurant, data);</span>
+<span class="cstat-no" title="statement not covered" >    return await this.repository.save(restaurant);</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  async </span>delete(id: number): Promise&lt;boolean&gt; {
+    const result = <span class="cstat-no" title="statement not covered" >await this.repository.delete(id);</span>
+<span class="cstat-no" title="statement not covered" >    return result.affected !== null &amp;&amp; result.affected! &gt; 0;</span>
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -297,14 +246,14 @@ export class MenuController {
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
                 at 2026-04-07T18:59:52.652Z
             </div>
-        <script src="../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../sorter.js"></script>
-        <script src="../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

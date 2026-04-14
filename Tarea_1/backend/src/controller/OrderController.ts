@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../database/data-source";
-import { Order } from "../model/Order";
-import { User } from "../model/User";
-import { Restaurant } from "../model/Restaurant";
+import { RepositoryFactory } from "../repository/RepositoryFactory";
 
-const orderRepository = AppDataSource.getRepository(Order);
+const orderRepository = RepositoryFactory.getOrderRepository();
 
 export class OrderController {
   
@@ -13,25 +10,12 @@ export class OrderController {
     try {
       const { user_id, restaurant_id, pickup } = req.body;
       
-      const order = new Order();
-      order.pickup = pickup || false;
-      order.created_at = new Date(); // timestamp
+      const order = await orderRepository.create({
+        user_id,
+        restaurant_id,
+        pickup
+      });
 
-      if (user_id) {
-        const userRepo = AppDataSource.getRepository(User);
-        const user = await userRepo.findOneBy({ id: user_id });
-        if (user) order.user = user;
-      }
-
-      if (restaurant_id) {
-        const restaurantRepo = AppDataSource.getRepository(Restaurant);
-        const restaurant = await restaurantRepo.findOneBy({ id: restaurant_id });
-        if (restaurant) order.restaurant = restaurant;
-      }
-
-      // Notas: Aquí también podría guardar en OrderItem
-
-      await orderRepository.save(order);
       res.status(201).json(order);
     } catch (error) {
       console.error(error);
@@ -43,10 +27,7 @@ export class OrderController {
   static async getOrder(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const order = await orderRepository.findOne({
-        where: { id: parseInt(id) },
-        relations: ["user", "restaurant", "items"] 
-      });
+      const order = await orderRepository.findById(parseInt(id));
 
       if (!order) {
         return res.status(404).json({ message: "Pedido no encontrado" });

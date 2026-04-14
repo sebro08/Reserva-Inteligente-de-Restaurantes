@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../database/data-source";
-import { Reservation } from "../model/Reservation";
-import { User } from "../model/User";
-import { Restaurant } from "../model/Restaurant";
+import { RepositoryFactory } from "../repository/RepositoryFactory";
 
-const reservationRepository = AppDataSource.getRepository(Reservation);
+const reservationRepository = RepositoryFactory.getReservationRepository();
 
 export class ReservationController {
   
@@ -13,24 +10,14 @@ export class ReservationController {
     try {
       const { user_id, restaurant_id, reservation_date, reservation_time, people_count } = req.body;
       
-      const reservation = new Reservation();
-      reservation.reservation_date = new Date(reservation_date);
-      reservation.reservation_time = reservation_time;
-      reservation.people_count = people_count;
+      const reservation = await reservationRepository.create({
+        user_id,
+        restaurant_id,
+        reservation_date,
+        reservation_time,
+        people_count
+      });
 
-      if (user_id) {
-        const userRepo = AppDataSource.getRepository(User);
-        const user = await userRepo.findOneBy({ id: user_id });
-        if (user) reservation.user = user;
-      }
-
-      if (restaurant_id) {
-        const restaurantRepo = AppDataSource.getRepository(Restaurant);
-        const restaurant = await restaurantRepo.findOneBy({ id: restaurant_id });
-        if (restaurant) reservation.restaurant = restaurant;
-      }
-
-      await reservationRepository.save(reservation);
       res.status(201).json(reservation);
     } catch (error) {
       console.error(error);
@@ -42,9 +29,9 @@ export class ReservationController {
   static async deleteReservation(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const results = await reservationRepository.delete(parseInt(id));
+      const isDeleted = await reservationRepository.delete(parseInt(id));
       
-      if (results.affected === 0) {
+      if (!isDeleted) {
          return res.status(404).json({ message: "Reserva no encontrada" });
       }
       

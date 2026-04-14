@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Servidor de Configuración
+  configsvr:
+    image: mongo:6.0
+    container_name: m-configsvr
+    command: mongod --configsvr --replSet rs-config --port 27019 --bind_ip_all
+    ports:
+      - "27019:27019"
+    volumes:
+      - configsvr_data:/data/configdb
+
+  # Shard 1 - Nodo Primario
+  shard1a:
+    image: mongo:6.0
+    container_name: m-shard1a
+    command: mongod --shardsvr --replSet rs-shard1 --port 27018 --bind_ip_all
+    ports:
+      - "27018:27018"
+    volumes:
+      - shard1a_data:/data/db
+
+  # Shard 1 - Nodo Secundario 1
+  shard1b:
+    image: mongo:6.0
+    container_name: m-shard1b
+    command: mongod --shardsvr --replSet rs-shard1 --port 27028 --bind_ip_all
+    ports:
+      - "27028:27028"
+    volumes:
+      - shard1b_data:/data/db
+
+  # Shard 1 - Nodo Secundario 2
+  shard1c:
+    image: mongo:6.0
+    container_name: m-shard1c
+    command: mongod --shardsvr --replSet rs-shard1 --port 27038 --bind_ip_all
+    ports:
+      - "27038:27038"
+    volumes:
+      - shard1c_data:/data/db
+
+  # Router (mongos) - Nuestro punto de entrada de la aplicación
+  mongos:
+    image: mongo:6.0
+    container_name: m-mongos
+    depends_on:
+      - configsvr
+      - shard1a
+      - shard1b
+      - shard1c
+    command: mongos --configdb rs-config/configsvr:27019 --bind_ip_all --port 27017
+    ports:
+      - "27017:27017"
+
+volumes:
+  configsvr_data:
+  shard1a_data:
+  shard1b_data:
+  shard1c_data:
