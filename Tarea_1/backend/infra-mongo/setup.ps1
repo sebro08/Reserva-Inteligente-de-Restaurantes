@@ -17,4 +17,10 @@ docker exec m-mongos mongosh --port 27017 --eval "sh.enableSharding('restaurant_
 Write-Host "`nCreando índices y particionando colecciones..." -ForegroundColor Cyan
 docker exec m-mongos mongosh --port 27017 --eval "db.getSiblingDB('restaurant_db').plate.createIndex({ menu_id: 1 }); db.getSiblingDB('restaurant_db').reservation.createIndex({ restaurant_id: 1 }); sh.shardCollection('restaurant_db.plate', { menu_id: 1 }); sh.shardCollection('restaurant_db.reservation', { restaurant_id: 1 });"
 
-Write-Host "`nClúster MongoDB inicializado con éxito. (El backend debe apuntar a localhost:27017)" -ForegroundColor Green
+Write-Host "`nPoblando la base de datos (Seeding)..." -ForegroundColor Cyan
+Get-Content backend\infra-mongo\seed.js | docker exec -i m-mongos mongosh
+
+Write-Host "`nReiniciando la API para que tome la conexión de MongoDB fresca..." -ForegroundColor Cyan
+docker restart restaurante_api
+
+Write-Host "`nClúster MongoDB inicializado con éxito. ¡Todo listo para usar!" -ForegroundColor Green

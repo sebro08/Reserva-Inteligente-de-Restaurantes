@@ -4,6 +4,7 @@ services:
   db:
     image: postgres:15-alpine
     container_name: restaurante_db
+    profiles: ["postgres"]
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -18,6 +19,71 @@ services:
       timeout: 5s
       retries: 5
 
+  # MongoDB Replication y Sharding
+  configsvr:
+    image: mongo:6.0
+    container_name: m-configsvr
+    profiles: ["mongo"]
+    command: mongod --configsvr --replSet rs-config --port 27019 --bind_ip_all
+    ports:
+      - "27019:27019"
+    volumes:
+      - configsvr_data:/data/configdb
+    networks:
+      - app-network
+
+  shard1a:
+    image: mongo:6.0
+    container_name: m-shard1a
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet rs-shard1 --port 27018 --bind_ip_all
+    ports:
+      - "27018:27018"
+    volumes:
+      - shard1a_data:/data/db
+    networks:
+      - app-network
+
+  shard1b:
+    image: mongo:6.0
+    container_name: m-shard1b
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet rs-shard1 --port 27028 --bind_ip_all
+    ports:
+      - "27028:27028"
+    volumes:
+      - shard1b_data:/data/db
+    networks:
+      - app-network
+
+  shard1c:
+    image: mongo:6.0
+    container_name: m-shard1c
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet rs-shard1 --port 27038 --bind_ip_all
+    ports:
+      - "27038:27038"
+    volumes:
+      - shard1c_data:/data/db
+    networks:
+      - app-network
+
+  mongos:
+    image: mongo:6.0
+    container_name: m-mongos
+    profiles: ["mongo"]
+    depends_on:
+      - configsvr
+      - shard1a
+      - shard1b
+      - shard1c
+    command: mongos --configdb rs-config/configsvr:27019 --bind_ip_all --port 27017
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  # Servicios comunes
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.1
     container_name: restaurante_auth
@@ -52,11 +118,14 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - DB_TYPE=${DB_TYPE:-postgres}
       - DB_HOST=db
       - DB_PORT=5432
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
+      - MONGO_URI=mongodb://m-mongos:27017
+      - MONGO_DB_NAME=${MONGO_DB_NAME}
       - KEYCLOAK_URL=http://localhost:8080
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
       - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
@@ -64,6 +133,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+        required: false
+      mongos:
+        condition: service_started
+        required: false
       keycloak:
         condition: service_started
       redis:
@@ -79,3 +152,7 @@ networks:
 
 volumes:
   postgres_data:
+  configsvr_data:
+  shard1a_data:
+  shard1b_data:
+  shard1c_data:

@@ -11,5 +11,8 @@
     "docker:reset": "docker-compose down -v"
   },
   "private": true,
-  "description": "Workspace scripts for the local backend-only restaurant project"
+  "description": "Workspace scripts for the local backend-only restaurant project",
+  "devDependencies": {
+    "tsx": "^4.21.0"
+  }
 }
