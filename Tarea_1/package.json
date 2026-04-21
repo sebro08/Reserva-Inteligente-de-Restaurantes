@@ -14,5 +14,8 @@
   "description": "Workspace scripts for the local backend-only restaurant project",
   "devDependencies": {
     "tsx": "^4.21.0"
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^9.3.4"
   }
 }

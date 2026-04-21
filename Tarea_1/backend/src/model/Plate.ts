@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from "typeorm";
 import { Menu } from "./Menu";
 import { OrderItem } from "./OrderItem";
+import { Category } from "./Category";
 
 @Entity()
 export class Plate {
@@ -21,7 +22,10 @@ export class Plate {
   @JoinColumn({ name: "menu_id" })
   menu: Menu;
 
+  @ManyToOne(() => Category, category => category.plates)
+  @JoinColumn({ name: "category_id" })
+  category: Category;
+  
   @OneToMany(() => OrderItem, item => item.plate)
   orderItems: OrderItem[];
-
 }

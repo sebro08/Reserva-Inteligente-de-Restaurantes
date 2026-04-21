@@ -4,7 +4,6 @@ services:
   db:
     image: postgres:15-alpine
     container_name: restaurante_db
-    profiles: ["postgres"]
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -109,6 +108,36 @@ services:
       timeout: 5s
       retries: 5
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    networks:
+      - app-network
+
+  search-service:
+    build:
+      context: ./search-service
+    container_name: restaurante_search
+    ports:
+      - "3001:3001"
+    environment:
+      - ELASTIC_URL=http://elasticsearch:9200
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - elasticsearch
+      - db
+    networks:
+      - app-network
+      
   api:
     build:
       context: .

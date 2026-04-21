@@ -15,6 +15,13 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 export const app = express();
 const PORT = process.env.PORT || 3000;
 
+console.log("DB CONFIG:", {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+});
+
 // ─────────────────────────────────────────────
 // Middlewares base
 // ─────────────────────────────────────────────
