@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15-alpine
@@ -19,68 +17,167 @@ services:
       retries: 5
 
   # MongoDB Replication y Sharding
-  configsvr:
+  mongocfg1:
     image: mongo:6.0
-    container_name: m-configsvr
+    container_name: mongocfg1
     profiles: ["mongo"]
-    command: mongod --configsvr --replSet rs-config --port 27019 --bind_ip_all
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
     ports:
       - "27019:27019"
     volumes:
-      - configsvr_data:/data/configdb
+      - config1:/data/db
     networks:
       - app-network
 
-  shard1a:
+  mongocfg2:
     image: mongo:6.0
-    container_name: m-shard1a
+    container_name: mongocfg2
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet rs-shard1 --port 27018 --bind_ip_all
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
+    ports:
+      - "27020:27019"
+    volumes:
+      - config2:/data/db
+    networks:
+      - app-network
+
+  mongocfg3:
+    image: mongo:6.0
+    container_name: mongocfg3
+    profiles: ["mongo"]
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
+    ports:
+      - "27021:27019"
+    volumes:
+      - config3:/data/db
+    networks:
+      - app-network
+
+  mongors1n1:
+    image: mongo:6.0
+    container_name: mongors1n1
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
     ports:
       - "27018:27018"
     volumes:
-      - shard1a_data:/data/db
+      - data1:/data/db
     networks:
       - app-network
 
-  shard1b:
+  mongors1n2:
     image: mongo:6.0
-    container_name: m-shard1b
+    container_name: mongors1n2
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet rs-shard1 --port 27028 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
     ports:
-      - "27028:27028"
+      - "27028:27018"
     volumes:
-      - shard1b_data:/data/db
+      - data2:/data/db
     networks:
       - app-network
 
-  shard1c:
+  mongors1n3:
     image: mongo:6.0
-    container_name: m-shard1c
+    container_name: mongors1n3
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet rs-shard1 --port 27038 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
     ports:
-      - "27038:27038"
+      - "27038:27018"
     volumes:
-      - shard1c_data:/data/db
+      - data3:/data/db
     networks:
       - app-network
 
-  mongos:
+  mongors2n1:
     image: mongo:6.0
-    container_name: m-mongos
+    container_name: mongors2n1
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+    ports:
+      - "27048:27018"
+    volumes:
+      - data4:/data/db
+    networks:
+      - app-network
+
+  mongors2n2:
+    image: mongo:6.0
+    container_name: mongors2n2
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+    ports:
+      - "27058:27018"
+    volumes:
+      - data5:/data/db
+    networks:
+      - app-network
+
+  mongors2n3:
+    image: mongo:6.0
+    container_name: mongors2n3
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+    ports:
+      - "27068:27018"
+    volumes:
+      - data6:/data/db
+    networks:
+      - app-network
+
+  mongos1:
+    image: mongo:6.0
+    container_name: mongos1
     profiles: ["mongo"]
     depends_on:
-      - configsvr
-      - shard1a
-      - shard1b
-      - shard1c
-    command: mongos --configdb rs-config/configsvr:27019 --bind_ip_all --port 27017
+      - mongocfg1
+      - mongocfg2
+      - mongocfg3
+      - mongors1n1
+      - mongors1n2
+      - mongors1n3
+      - mongors2n1
+      - mongors2n2
+      - mongors2n3
+    command: mongos --configdb mongors1conf/mongocfg1:27019,mongocfg2:27019,mongocfg3:27019 --bind_ip_all --port 27017
     ports:
       - "27017:27017"
     networks:
       - app-network
+
+  mongos2:
+    image: mongo:6.0
+    container_name: mongos2
+    profiles: ["mongo"]
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+      - mongocfg3
+      - mongors1n1
+      - mongors1n2
+      - mongors1n3
+      - mongors2n1
+      - mongors2n2
+      - mongors2n3
+    command: mongos --configdb mongors1conf/mongocfg1:27019,mongocfg2:27019,mongocfg3:27019 --bind_ip_all --port 27017
+    ports:
+      - "27027:27017"
+    networks:
+      - app-network
+
+  mongoinit:
+    image: mongo:6.0
+    container_name: mongoinit
+    profiles: ["mongo"]
+    depends_on:
+      - mongos1
+      - mongos2
+    networks:
+      - app-network
+    volumes:
+      - ./backend/infra-mongo/init.sh:/init.sh
+      - ./backend/infra-mongo/seed.js:/seed.js
+    command: bash -c "bash /init.sh"
 
   # Servicios comunes
   keycloak:
@@ -153,7 +250,7 @@ services:
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
-      - MONGO_URI=mongodb://m-mongos:27017
+      - MONGO_URI=mongodb://mongos1:27017,mongos2:27017
       - MONGO_DB_NAME=${MONGO_DB_NAME}
       - KEYCLOAK_URL=http://localhost:8080
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
@@ -163,7 +260,10 @@ services:
       db:
         condition: service_healthy
         required: false
-      mongos:
+      mongos1:
+        condition: service_started
+        required: false
+      mongos2:
         condition: service_started
         required: false
       keycloak:
@@ -181,7 +281,12 @@ networks:
 
 volumes:
   postgres_data:
-  configsvr_data:
-  shard1a_data:
-  shard1b_data:
-  shard1c_data:
+  config1:
+  config2:
+  config3:
+  data1:
+  data2:
+  data3:
+  data4:
+  data5:
+  data6:
