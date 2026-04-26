@@ -219,9 +219,9 @@ services:
   search-service:
     build:
       context: ./search-service
-    container_name: restaurante_search
-    ports:
-      - "3001:3001"
+    expose:
+      - "3001"
+    restart: on-failure
     environment:
       - ELASTIC_URL=http://elasticsearch:9200
       - DB_HOST=db
@@ -239,10 +239,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: restaurante_api
     restart: on-failure
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
       - DB_TYPE=${DB_TYPE:-postgres}
       - DB_HOST=db
@@ -272,6 +271,21 @@ services:
         condition: service_healthy
     extra_hosts:
       - "localhost:host-gateway"
+    networks:
+      - app-network
+
+  # Load Balancer Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_balancer
+    ports:
+      - "80:80"
+    restart: on-failure
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - search-service
     networks:
       - app-network
 
