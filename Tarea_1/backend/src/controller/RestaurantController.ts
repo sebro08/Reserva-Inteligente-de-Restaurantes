@@ -9,18 +9,8 @@ export class RestaurantController {
   // Obtener todos los restaurantes
   static async getRestaurants(req: Request, res: Response) {
     try {
-      const cacheKey = "restaurants:all";
-      const cachedList = await cacheHelper.get(cacheKey);
-
-      if (cachedList) {
-        return res.json(JSON.parse(cachedList));
-      }
-
       const restaurants = await restaurantRepository.findAll();
       
-      // Guardar con TTL (en este caso 30 minutos = 1800 segundos)
-      await cacheHelper.set(cacheKey, JSON.stringify(restaurants), 1800);
-
       res.json(restaurants);
     } catch (error) {
       console.error(error);
@@ -40,7 +30,8 @@ export class RestaurantController {
       });
 
       // Invalidamos la caché de restaurantes general para evitar listados desactualizados
-      await cacheHelper.del("restaurants:all");
+      // req.originalUrl es el path original del lado del enrutador (e.g. /restaurants)
+      await cacheHelper.del(req.originalUrl);
 
       res.status(201).json(restaurant);
     } catch (error) {

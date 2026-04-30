@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { RestaurantController } from "../controller/RestaurantController";
 import { keycloak } from "../middleware/keycloak";
+import { cacheMiddleware } from "../middleware/cache";
 
 const router = Router();
 
@@ -72,6 +73,6 @@ router.post("/", keycloak.protect("realm:admin_restaurante"), RestaurantControll
  *       500:
  *         description: Error al obtener restaurantes
  */
-router.get("/", keycloak.protect(), RestaurantController.getRestaurants);
+router.get("/", keycloak.protect(), cacheMiddleware(1800), RestaurantController.getRestaurants);
 
 export default router;

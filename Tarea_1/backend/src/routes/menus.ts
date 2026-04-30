@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { MenuController } from "../controller/MenuController";
 import { keycloak } from "../middleware/keycloak";
+import { cacheMiddleware } from "../middleware/cache";
 
 const router = Router();
 
@@ -78,7 +79,7 @@ router.post("/", keycloak.protect("realm:admin_restaurante"), MenuController.cre
  *       500:
  *         description: Error al obtener el menú
  */
-router.get("/:id", keycloak.protect(), MenuController.getMenu);
+router.get("/:id", keycloak.protect(), cacheMiddleware(1800), MenuController.getMenu);
 
 /**
  * @swagger

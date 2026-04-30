@@ -28,23 +28,13 @@ export class MenuController {
   static async getMenu(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const cacheKey = `menu:${id}`;
 
-      // Intentar obtener desde la caché (Redis)
-      const cachedMenu = await cacheHelper.get(cacheKey);
-      if (cachedMenu) {
-        return res.json(JSON.parse(cachedMenu));
-      }
-
-      // Si no existe, obtener desde Base de Datos
+      // Obtener desde Base de Datos (el middleware cacheMiddleware ya revisó la caché previamente)
       const menu = await menuRepository.findById(parseInt(id));
 
       if (!menu) {
         return res.status(404).json({ message: "Menú no encontrado" });
       }
-
-      // Guardar el resultado en caché con un TTL, por ejemplo podemos poner 1 hora (3600 segundos)
-      await cacheHelper.set(cacheKey, JSON.stringify(menu));
 
       res.json(menu);
     } catch (error) {
@@ -64,8 +54,10 @@ export class MenuController {
         return res.status(404).json({ message: "Menú no encontrado" });
       }
 
-      // Invalidamos el caché después de una mutación
-      await cacheHelper.del(`menu:${id}`);
+      // Invalidamos el caché después de una mutación. La URL original de GET era del tipo /menus/id
+      await cacheHelper.del(req.originalUrl); // Elimina /menus/:id
+      // En caso que haya más variaciones, la borramos (ej sin API de sufijo si la hubiera):
+      // Para estar aún más seguros, podríamos también eliminar basándonos en baseUrl si fuera necesario.
 
       res.json(menuUpdated);
     } catch (error) {
@@ -84,8 +76,8 @@ export class MenuController {
          return res.status(404).json({ message: "Menú no encontrado" });
       }
       
-      // Invalidar en caché
-      await cacheHelper.del(`menu:${id}`);
+      // Invalidar en caché usando la url original
+      await cacheHelper.del(req.originalUrl);
 
       res.json({ message: "Menú eliminado con éxito" });
     } catch (error) {
