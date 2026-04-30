@@ -42,12 +42,25 @@ rs.initiate({
 })
 "
 
+echo "Iniciando Shard 3..."
+mongosh --host mongors3n1:27018 --eval "
+rs.initiate({
+  _id: 'mongors3',
+  members: [
+    { _id: 0, host: 'mongors3n1:27018' },
+    { _id: 1, host: 'mongors3n2:27018' },
+    { _id: 2, host: 'mongors3n3:27018' }
+  ]
+})
+"
+
 sleep 15
 
 echo "Configurando mongos1..."
 mongosh --host mongos1:27017 --eval "
 sh.addShard('mongors1/mongors1n1:27018,mongors1n2:27018,mongors1n3:27018')
 sh.addShard('mongors2/mongors2n1:27018,mongors2n2:27018,mongors2n3:27018')
+sh.addShard('mongors3/mongors3n1:27018,mongors3n2:27018,mongors3n3:27018')
 sh.enableSharding('restaurant_db')
 "
 

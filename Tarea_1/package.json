@@ -16,6 +16,7 @@
     "tsx": "^4.21.0"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^9.3.4"
+    "@elastic/elasticsearch": "^9.3.4",
+    "fs": "^0.0.1-security"
   }
 }

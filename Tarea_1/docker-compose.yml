@@ -125,6 +125,42 @@ services:
     networks:
       - app-network
 
+  mongors3n1:
+    image: mongo:6.0
+    container_name: mongors3n1
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+    ports:
+      - "27078:27018"
+    volumes:
+      - data7:/data/db
+    networks:
+      - app-network
+
+  mongors3n2:
+    image: mongo:6.0
+    container_name: mongors3n2
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+    ports:
+      - "27088:27018"
+    volumes:
+      - data8:/data/db
+    networks:
+      - app-network
+
+  mongors3n3:
+    image: mongo:6.0
+    container_name: mongors3n3
+    profiles: ["mongo"]
+    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+    ports:
+      - "27098:27018"
+    volumes:
+      - data9:/data/db
+    networks:
+      - app-network
+
   mongos1:
     image: mongo:6.0
     container_name: mongos1
@@ -139,6 +175,9 @@ services:
       - mongors2n1
       - mongors2n2
       - mongors2n3
+      - mongors3n1
+      - mongors3n2
+      - mongors3n3
     command: mongos --configdb mongors1conf/mongocfg1:27019,mongocfg2:27019,mongocfg3:27019 --bind_ip_all --port 27017
     ports:
       - "27017:27017"
@@ -159,6 +198,9 @@ services:
       - mongors2n1
       - mongors2n2
       - mongors2n3
+      - mongors3n1
+      - mongors3n2
+      - mongors3n3
     command: mongos --configdb mongors1conf/mongocfg1:27019,mongocfg2:27019,mongocfg3:27019 --bind_ip_all --port 27017
     ports:
       - "27027:27017"
@@ -304,3 +346,6 @@ volumes:
   data4:
   data5:
   data6:
+  data7:
+  data8:
+  data9:
