@@ -10,21 +10,43 @@ app.use(searchRoutes);
 
 const PORT = 3001;
 
+async function waitForElasticsearch() {
+  const maxRetries = 30;
+  let attempt = 0;
+
+  while (attempt < maxRetries) {
+    try {
+      await ElasticService.ping();
+      console.log("✅ Elasticsearch conectado");
+      return;
+    } catch (err) {
+      attempt++;
+      console.log(`⏳ Esperando Elasticsearch... (${attempt}/${maxRetries})`);
+      await new Promise(r => setTimeout(r, 5000));
+    }
+  }
+
+  throw new Error("❌ Elasticsearch no disponible después de múltiples intentos");
+}
+
 async function bootstrap() {
   try {
-    console.log(`Search service corriendo en puerto ${PORT}`);
+    console.log(`Iniciando search service...`);
 
-    //  Inicializar Mongo solo si se usa
+    // Mongo opcional
     if (process.env.DB_TYPE === "mongo") {
       await MongoDatabase.connect();
       console.log("Conectado a MongoDB");
     }
 
-    //  SIEMPRE inicializar índice de Elasticsearch
+    // esperar ES primero
+    await waitForElasticsearch();
+
+    // crear índice
     await ElasticService.createIndex("products");
     console.log("Índice de Elasticsearch listo");
 
-    app.listen(PORT, () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`Search service escuchando en puerto ${PORT}`);
     });
 

@@ -1,16 +1,25 @@
 import { Client } from "@elastic/elasticsearch";
 
-const client = new Client({
-  node: process.env.ELASTIC_URL || "http://elasticsearch:9200"
-});
-
 export class ElasticService {
 
-  static async createIndex(index: string) {
-    const exists = await client.indices.exists({ index });
+  // EXPONER CLIENT
+  static client = new Client({
+    node: process.env.ELASTIC_URL || "http://elasticsearch-svc:9200"
+  });
 
-    if (!exists) {
-      await client.indices.create({
+  static async ping() {
+    return ElasticService.client.ping();
+  }
+  
+  static async createIndex(index: string) {
+    const exists = await this.client.indices.exists({ index });
+
+    const existsValue = (exists as any).body ?? exists;
+
+    if (!existsValue) {
+      console.log("Creando índice:", index);
+
+      await this.client.indices.create({
         index,
         mappings: {
           properties: {
@@ -20,12 +29,15 @@ export class ElasticService {
           }
         }
       });
+
+    } else {
+      console.log("Índice ya existe:", index);
     }
   }
 
   static async deleteIndex(index: string) {
     try {
-      await client.indices.delete({ index });
+      await this.client.indices.delete({ index });
     } catch (error: any) {
       if (error.meta?.body?.error?.type !== "index_not_found_exception") {
         throw error;
@@ -34,10 +46,8 @@ export class ElasticService {
   }
 
   static async bulkIndexProducts(products: any[]) {
-    if (products.length === 0) return;
+    if (!products || products.length === 0) return;
 
-    console.log("Primer producto:", JSON.stringify(products[0]));
-    
     const operations = products.flatMap(p => [
       { index: { _index: "products", _id: String(p.id) } },
       {
@@ -47,11 +57,41 @@ export class ElasticService {
       }
     ]);
 
-    await client.bulk({ operations, refresh: true });
+    try {
+      const response = await this.client.bulk({
+        operations,
+        refresh: true
+      });
+
+      // Elasticsearch puede devolver 200 OK pero con errores internos
+      if (response.errors) {
+        const errores = response.items
+          .map((item: any, i: number) => {
+            const action = item.index;
+            if (action?.error) {
+              return {
+                status: action.status,
+                error: action.error,
+                documento: products[i]
+              };
+            }
+            return null;
+          })
+          .filter(Boolean);
+
+        console.error("Errores en bulk:", JSON.stringify(errores, null, 2));
+      } else {
+        console.log(`Bulk exitoso: ${products.length} documentos indexados`);
+      }
+
+    } catch (error) {
+      console.error("Error ejecutando bulk:", error);
+      throw error;
+    }
   }
 
   static async search(q: string) {
-    const result = await client.search({
+    const result = await this.client.search({
       index: "products",
       query: {
         multi_match: {
@@ -65,12 +105,10 @@ export class ElasticService {
   }
 
   static async searchByCategory(category: string) {
-    const result = await client.search({
+    const result = await this.client.search({
       index: "products",
       query: {
-        term: {
-          category: category
-        }
+        term: { category }
       }
     });
 

@@ -178,11 +178,17 @@ spec:
           value: "-Xms256m -Xmx256m"
         ports:
         - containerPort: 9200
+        readinessProbe:
+          httpGet:
+            path: /_cluster/health
+            port: 9200
+          initialDelaySeconds: 60
+          periodSeconds: 10
         resources:
           limits:
-            memory: "600Mi"
-            cpu: "500m"
-
+            memory: "900Mi"
+            cpu: "600m"
+    
 ---
 apiVersion: v1
 kind: Service
@@ -219,7 +225,7 @@ spec:
       containers:
       - name: keycloak
         image: quay.io/keycloak/keycloak:24.0.1
-        command: ["start-dev"]
+        args: ["start-dev"]
         env:
         - name: KEYCLOAK_ADMIN
           value: "admin"
@@ -278,11 +284,15 @@ spec:
         image: search-service-img:latest
         imagePullPolicy: Never # Usa la imagen local de la PC
         envFrom:
-        - name: ELASTIC_URL
-          valueFrom:
-            configMapKeyRef:
-              name: env-config
-              key: ELASTIC_URL
+          - configMapRef:         #Momentaneas
+              name: env-config    #Momentaneas
+          - secretRef:            #Momentaneas
+              name: db-secret     #Momentaneas
+        # - name: ELASTIC_URL # Comentado para probar
+        #  valueFrom: # Comentado para probar
+        #    configMapKeyRef:
+        #      name: env-config
+        #      key: ELASTIC_URL
         # Descomentar esto si se usa DB_TYPE: "mongo"
         # - name: MONGO_URI
         #   valueFrom:
@@ -298,7 +308,7 @@ spec:
         - containerPort: 3001
         resources:
           limits:
-            memory: "128Mi"
+            memory: "300Mi"
             cpu: "200m"
 
 ---
@@ -340,11 +350,15 @@ spec:
         image: api-img:latest
         imagePullPolicy: Never # Usa la imagen local de la PC
         envFrom:
-        - name: ELASTIC_URL
-          valueFrom:
-            configMapKeyRef:
-              name: env-config
-              key: ELASTIC_URL
+        #- name: ELASTIC_URL    # Comentado para probar
+          - configMapRef:       #Momentaneas
+              name: env-config  #Momentaneas
+          - secretRef:          #Momentaneas
+              name: db-secret   #Momentaneas
+        #  valueFrom:           # Comentado para probar
+        #    configMapKeyRef:   # Comentado para probar 
+        #      name: env-config # Comentado para probar
+        #      key: ELASTIC_URL # Comentado para probar
         # Descomentar esto si se usa DB_TYPE: "mongo"
         # - name: MONGO_URI
         #   valueFrom:
