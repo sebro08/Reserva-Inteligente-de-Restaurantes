@@ -8,12 +8,12 @@ import session from "express-session";
 import { setupSwagger } from "./swagger";
 import routes from "./routes";
 import { AppDataSource } from "./database/data-source";
-import { keycloak, memoryStore } from "./middleware/keycloak";
 
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 export const app = express();
 const PORT = process.env.PORT || 3000;
+const isTest = process.env.NODE_ENV === "test";
 
 console.log("DB CONFIG:", {
   host: process.env.DB_HOST,
@@ -23,40 +23,35 @@ console.log("DB CONFIG:", {
 });
 
 // ─────────────────────────────────────────────
-// Middlewares base
+// Middlewares base (SIEMPRE)
 // ─────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
 
 // ─────────────────────────────────────────────
-// Session (requerido por Keycloak)
+// SOLO en runtime (NO en test)
 // ─────────────────────────────────────────────
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "clave-secreta-restaurante",
-    resave: false,
-    saveUninitialized: true,
-    store: memoryStore,
-  })
-);
+if (!isTest) {
+  const { keycloak, memoryStore } = require("./middleware/keycloak");
+
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || "clave-secreta-restaurante",
+      resave: false,
+      saveUninitialized: true,
+      store: memoryStore,
+    })
+  );
+
+  app.use(keycloak.middleware());
+
+  setupSwagger(app);
+
+  app.use("/", routes);
+}
 
 // ─────────────────────────────────────────────
-// Keycloak middleware
-// ─────────────────────────────────────────────
-app.use(keycloak.middleware());
-
-// ─────────────────────────────────────────────
-// Swagger
-// ─────────────────────────────────────────────
-setupSwagger(app);
-
-// ─────────────────────────────────────────────
-// Rutas
-// ─────────────────────────────────────────────
-app.use("/", routes);
-
-// ─────────────────────────────────────────────
-// Health check
+// Health check (SIEMPRE disponible)
 // ─────────────────────────────────────────────
 app.get("/health", (_req: Request, res: Response) => {
   res.status(200).json({ status: "ok", service: "restaurante-api" });
@@ -65,7 +60,7 @@ app.get("/health", (_req: Request, res: Response) => {
 // ─────────────────────────────────────────────
 // Inicialización SOLO fuera de tests
 // ─────────────────────────────────────────────
-if (process.env.NODE_ENV !== "test") {
+if (!isTest) {
   const dbType = process.env.DB_TYPE || "postgres";
 
   const initDb = async () => {
@@ -76,22 +71,18 @@ if (process.env.NODE_ENV !== "test") {
           "Entidades cargadas:",
           AppDataSource.entityMetadatas.map((e) => e.name)
         );
-        console.log("Conectado a la base de datos PostgreSQL");
+        console.log("Conectado a PostgreSQL");
       } else if (dbType === "mongodb") {
         const { MongoDatabase } = require("./database/mongo/MongoDatabase");
         await MongoDatabase.connect();
-        console.log("Conectado a la base de datos MongoDB");
+        console.log("Conectado a MongoDB");
       }
 
       app.listen(PORT, () => {
         console.log(`Servidor corriendo en http://localhost:${PORT}`);
       });
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Error al conectar la base de datos:", error.message);
-      } else {
-        console.error("Error desconocido:", error);
-      }
+      console.error("Error al conectar DB:", error);
     }
   };
 

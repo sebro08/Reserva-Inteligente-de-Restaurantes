@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Hamburguesa BBQ",
+    "description": "Carne a la parrilla con salsa BBQ",
+    "price": 5500,
+    "category": "Comida rápida"
+  },
+  {
+    "name": "Pasta Alfredo",
+    "description": "Pasta cremosa con parmesano",
+    "price": 7200,
+    "category": "Italiana"
+  }
+]

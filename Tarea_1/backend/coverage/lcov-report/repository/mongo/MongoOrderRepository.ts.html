@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for repository/postgres/PostgresUserRepository.ts</title>
+    <title>Code coverage report for repository/mongo/MongoOrderRepository.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">repository/postgres</a> PostgresUserRepository.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">repository/mongo</a> MongoOrderRepository.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/16</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/15</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -92,27 +92,13 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,60 +107,50 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { AppDataSource } from "../../database/data-source";
-import { User } from "../../model/User";
-import { IUserRepository } from "../IUserRepository";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { MongoDatabase } from "../../database/mongo/MongoDatabase";</span>
+import { Order } from "../../model/Order";
+import { IOrderRepository } from "../IOrderRepository";
 &nbsp;
-export class PostgresUserRepository implements IUserRepository {
-  private repository = AppDataSource.getRepository(User);
-&nbsp;
-  async findByKeycloakId(keycloakId: string): Promise&lt;User | null&gt; {
-    return await this.repository.findOneBy({ keycloak_id: keycloakId });
+<span class="cstat-no" title="statement not covered" >export class M</span>ongoOrderRepository implements IOrderRepository {
+<span class="fstat-no" title="function not covered" >  private get c</span>ollection() {
+<span class="cstat-no" title="statement not covered" >    return MongoDatabase.getDb().collection&lt;Order&gt;("orders");</span>
   }
 &nbsp;
-  async findById(id: number): Promise&lt;User | null&gt; {
-    return await this.repository.findOneBy({ id });
+<span class="fstat-no" title="function not covered" >  async </span>findById(id: number): Promise&lt;Order | null&gt; {
+    const doc = <span class="cstat-no" title="statement not covered" >await this.collection.findOne({ id });</span>
+<span class="cstat-no" title="statement not covered" >    return doc ? this.mapEntity(doc) : null;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>create(data: Partial&lt;User&gt;): Promise&lt;User&gt; {
-    const user = <span class="cstat-no" title="statement not covered" >this.repository.create(data);</span>
-<span class="cstat-no" title="statement not covered" >    return await this.repository.save(user);</span>
+<span class="fstat-no" title="function not covered" >  async </span>create(data: Partial&lt;Order&gt; &amp; { user_id?: number, restaurant_id?: number }): Promise&lt;Order&gt; {
+    const newOrder = <span class="cstat-no" title="statement not covered" >{</span>
+      ...data,
+      id: Math.floor(Math.random() * 10000000),
+      created_at: new Date()
+    } as Order;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    await this.collection.insertOne(newOrder);</span>
+<span class="cstat-no" title="statement not covered" >    return newOrder;</span>
   }
 &nbsp;
-  async update(id: number, data: Partial&lt;User&gt;): Promise&lt;User | null&gt; {
-    const user = await this.findById(id);
-    if (!user) return null;
-    
-    this.repository.merge(user, data);
-    return await this.repository.save(user);
+  private <span class="fstat-no" title="function not covered" >mapEntity(</span>doc: any): Order {
+    const { _id, ...rest } = <span class="cstat-no" title="statement not covered" >doc;</span>
+<span class="cstat-no" title="statement not covered" >    return rest as Order;</span>
   }
-&nbsp;
-  async delete(id: number): Promise&lt;boolean&gt; {
-    const result = await this.repository.delete(id);
-    return result.affected !== null &amp;&amp; result.affected! &gt; 0;
-  }
-&nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>findByEmail(email: string): Promise&lt;User | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return await this.repository.findOneBy({ email });</span>
-  }
-}
-&nbsp;</pre></td></tr></table></pre>
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

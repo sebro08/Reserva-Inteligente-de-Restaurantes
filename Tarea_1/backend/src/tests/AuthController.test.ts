@@ -1,29 +1,23 @@
 import { Request, Response } from "express";
  
 // Mocks ANTES de importar el controlador
-const mockUserRepo = {
-  save: jest.fn()
-};
+const mockUserRepo = { create: jest.fn() };
+const mockRoleRepo = { findByName: jest.fn() };
  
-const mockRoleRepo = {
-  findOneBy: jest.fn()
-};
- 
-jest.mock("../database/data-source", () => ({
-  AppDataSource: {
-    getRepository: jest.fn((entity) => {
-      if (entity.name === "Role") return mockRoleRepo;
-      return mockUserRepo;
-    })
+jest.mock("../repository/RepositoryFactory", () => ({
+  RepositoryFactory: {
+    getUserRepository: jest.fn(() => mockUserRepo),
+    getRoleRepository: jest.fn(() => mockRoleRepo)
   }
 }));
  
 jest.mock("axios");
+
 import axios from "axios";
 const mockedAxios = axios as jest.Mocked<typeof axios>;
  
 import { AuthController } from "../controller/AuthController";
- 
+
 describe("AuthController", () => {
   let req: any;
   let res: any;
@@ -86,11 +80,11 @@ describe("AuthController", () => {
         email: "john@test.com",
         password: "pass123"
       };
-      mockRoleRepo.findOneBy.mockResolvedValue(null);
+      mockRoleRepo.findByName.mockResolvedValue(null);
  
       await AuthController.register(req, res);
  
-      expect(mockRoleRepo.findOneBy).toHaveBeenCalledWith({ name: "User" });
+      expect(mockRoleRepo.findByName).toHaveBeenCalledWith("User");
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({
         message: "El rol User no existe en la base de datos local."
@@ -105,11 +99,11 @@ describe("AuthController", () => {
         password: "pass123",
         role_name: "admin_restaurante"
       };
-      mockRoleRepo.findOneBy.mockResolvedValue(null);
+      mockRoleRepo.findByName.mockResolvedValue(null);
  
       await AuthController.register(req, res);
  
-      expect(mockRoleRepo.findOneBy).toHaveBeenCalledWith({ name: "Admin" });
+      expect(mockRoleRepo.findByName).toHaveBeenCalledWith("Admin");
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({
         message: "El rol Admin no existe en la base de datos local."
@@ -124,9 +118,9 @@ describe("AuthController", () => {
         password: "pass123"
       };
       const roleObj = { id: 2, name: "User" };
-      mockRoleRepo.findOneBy.mockResolvedValue(roleObj);
+      mockRoleRepo.findByName.mockResolvedValue(roleObj);
       mockKeycloakSuccess("kc-uuid-001");
-      mockUserRepo.save.mockResolvedValue({
+      mockUserRepo.create.mockResolvedValue({
         id: 1,
         first_name: "John",
         last_name: "Doe",
@@ -136,8 +130,8 @@ describe("AuthController", () => {
  
       await AuthController.register(req, res);
  
-      expect(mockRoleRepo.findOneBy).toHaveBeenCalledWith({ name: "User" });
-      expect(mockUserRepo.save).toHaveBeenCalled();
+      expect(mockRoleRepo.findByName).toHaveBeenCalledWith("User");
+      expect(mockUserRepo.create).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith(
         expect.objectContaining({ message: "Usuario creado y sincronizado con éxito" })
@@ -153,13 +147,13 @@ describe("AuthController", () => {
         role_name: "admin_restaurante"
       };
       const roleObj = { id: 1, name: "Admin" };
-      mockRoleRepo.findOneBy.mockResolvedValue(roleObj);
+      mockRoleRepo.findByName.mockResolvedValue(roleObj);
       mockKeycloakSuccess("kc-uuid-admin");
-      mockUserRepo.save.mockResolvedValue({ id: 2, email: "admin@test.com" });
+      mockUserRepo.create.mockResolvedValue({ id: 2, email: "admin@test.com" });
  
       await AuthController.register(req, res);
  
-      expect(mockRoleRepo.findOneBy).toHaveBeenCalledWith({ name: "Admin" });
+      expect(mockRoleRepo.findByName).toHaveBeenCalledWith("Admin");
       expect(res.status).toHaveBeenCalledWith(201);
     });
  
@@ -170,7 +164,7 @@ describe("AuthController", () => {
         email: "john@test.com",
         password: "pass123"
       };
-      mockRoleRepo.findOneBy.mockResolvedValue({ id: 2, name: "User" });
+      mockRoleRepo.findByName.mockResolvedValue({ id: 2, name: "User" });
  
       // 1. getAdminToken
       mockedAxios.post.mockResolvedValueOnce({ data: { access_token: "admin-token" } });
@@ -181,12 +175,12 @@ describe("AuthController", () => {
       // 4. Obtener rol en Keycloak -> FALLA (inner catch)
       mockedAxios.get.mockRejectedValueOnce(new Error("Role not found in Keycloak"));
  
-      mockUserRepo.save.mockResolvedValue({ id: 1, email: "john@test.com" });
+      mockUserRepo.create.mockResolvedValue({ id: 1, email: "john@test.com" });
  
       await AuthController.register(req, res);
  
       // A pesar del fallo interno, el registro continúa
-      expect(mockUserRepo.save).toHaveBeenCalled();
+      expect(mockUserRepo.create).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
       expect(console.error).toHaveBeenCalledWith(
         expect.stringContaining("Advertencia"),
@@ -201,7 +195,7 @@ describe("AuthController", () => {
         email: "existing@test.com",
         password: "pass123"
       };
-      mockRoleRepo.findOneBy.mockResolvedValue({ id: 2, name: "User" });
+      mockRoleRepo.findByName.mockResolvedValue({ id: 2, name: "User" });
  
       // 1. getAdminToken
       mockedAxios.post.mockResolvedValueOnce({ data: { access_token: "admin-token" } });
@@ -225,7 +219,7 @@ describe("AuthController", () => {
         email: "john@test.com",
         password: "pass123"
       };
-      mockRoleRepo.findOneBy.mockResolvedValue({ id: 2, name: "User" });
+      mockRoleRepo.findByName.mockResolvedValue({ id: 2, name: "User" });
       mockedAxios.post.mockRejectedValueOnce(new Error("Keycloak unreachable"));
  
       await AuthController.register(req, res);
@@ -237,16 +231,16 @@ describe("AuthController", () => {
       expect(console.error).toHaveBeenCalled();
     });
  
-    it("should return 500 when userRepository.save fails", async () => {
+    it("should return 500 when userRepository.create fails", async () => {
       req.body = {
         first_name: "John",
         last_name: "Doe",
         email: "john@test.com",
         password: "pass123"
       };
-      mockRoleRepo.findOneBy.mockResolvedValue({ id: 2, name: "User" });
+      mockRoleRepo.findByName.mockResolvedValue({ id: 2, name: "User" });
       mockKeycloakSuccess();
-      mockUserRepo.save.mockRejectedValue(new Error("DB Error"));
+      mockUserRepo.create.mockRejectedValue(new Error("DB Error"));
  
       await AuthController.register(req, res);
  

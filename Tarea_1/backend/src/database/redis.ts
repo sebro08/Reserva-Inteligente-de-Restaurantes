@@ -1,32 +1,58 @@
 import { createClient } from "redis";
 
-// Usar estrictamente la variable de entorno para buenas prácticas de seguridad.
+// Variables de entorno
 const redisUrl = process.env.REDIS_URL;
+const isTestEnv = process.env.NODE_ENV === "test";
 
-if (!redisUrl) {
+// Solo fallar fuera de test
+if (!redisUrl && !isTestEnv) {
   console.error("ERROR CRÍTICO: La variable de entorno REDIS_URL no está definida.");
-  process.exit(1); // Fail-fast: detenemos la aplicación si la infraestructura no está configurada
+  process.exit(1);
 }
 
-export const redisClient = createClient({
+// -----------------------------
+// Mock para testing
+// -----------------------------
+const mockClient = {
+  isReady: false,
+  connect: async () => {},
+  get: async (_key: string) => null,
+  setEx: async (_key: string, _ttl: number, _value: string) => {},
+  del: async (_key: string) => {},
+  on: () => {},
+};
+
+// -----------------------------
+// Cliente real
+// -----------------------------
+const realClient = createClient({
   url: redisUrl,
 });
 
-redisClient.on("error", (err) => {
-  // Manejo de errores silencioso para no crashear la app entera.
-  // Esto permite la Tolerancia a Fallos (si Redis la palma, la app sigue operando directamente hacia la BD).
-  console.error("Error en el cliente de Redis");
-});
+// Eventos SOLO fuera de test
+if (!isTestEnv) {
+  realClient.on("error", () => {
+    console.error("Error en el cliente de Redis");
+  });
 
-redisClient.on("ready", () => {
-  console.log("Conectado a Redis exitosamente");
-});
+  realClient.on("ready", () => {
+    console.log("Conectado a Redis exitosamente");
+  });
+}
 
-redisClient.connect().catch((err) => {
+// Elegir cliente según entorno
+export const redisClient = isTestEnv ? mockClient : realClient;
+
+// Conectar SOLO fuera de test
+if (!isTestEnv) {
+  redisClient.connect().catch((err) => {
     console.error("No se pudo conectar a Redis:", err);
-});
+  });
+}
 
-// Helper methods for safe cache access
+// -----------------------------
+// Helper de cache
+// -----------------------------
 export const cacheHelper = {
   async get(key: string): Promise<string | null> {
     if (!redisClient.isReady) return null;
@@ -36,21 +62,22 @@ export const cacheHelper = {
       return null;
     }
   },
+
   async set(key: string, value: string, ttlSeconds: number = 3600): Promise<void> {
     if (!redisClient.isReady) return;
     try {
       await redisClient.setEx(key, ttlSeconds, value);
     } catch {
-      // Ignorar errores para seguir funcionando
+      // fail silently
     }
   },
+
   async del(key: string): Promise<void> {
     if (!redisClient.isReady) return;
     try {
       await redisClient.del(key);
     } catch {
-      // Ignorar errores
+      // fail silently
     }
   }
 };
-
