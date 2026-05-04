@@ -21,6 +21,9 @@ export class MongoReservationRepository implements IReservationRepository {
     const result = await this.collection.deleteOne({ id });
     return result.deletedCount === 1;
   }
+  async findById(id: number): Promise<Reservation | null> {
+    const doc = await this.collection.findOne({ id });      return doc ? this.mapEntity(doc) : null;
+  }
 
   private mapEntity(doc: any): Reservation {
     const { _id, ...rest } = doc;
