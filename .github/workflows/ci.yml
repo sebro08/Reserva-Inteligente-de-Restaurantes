@@ -7,7 +7,7 @@ on:
     branches: [ main, develop ]
 
 jobs:
-  test:
+  test-build:
     runs-on: ubuntu-latest
 
     env:
@@ -22,18 +22,24 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
-          cache-dependency-path: Tarea_1/backend/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         working-directory: Tarea_1/backend
 
       - name: Run tests
-        run: npm run test
+        run: npm test -- --detectOpenHandles
         working-directory: Tarea_1/backend
 
-      - name: Upload coverage (artifact)
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: Tarea_1/backend/coverage
+      - name: Build Docker image
+        run: docker build -t restaurante-backend .
+        working-directory: Tarea_1
+
+      # SOLO si tienes DockerHub o GHCR
+      - name: Login Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push image
+        run: |
+          docker tag restaurante-backend ${{ secrets.DOCKER_USERNAME }}/restaurante-backend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/restaurante-backend:latest
