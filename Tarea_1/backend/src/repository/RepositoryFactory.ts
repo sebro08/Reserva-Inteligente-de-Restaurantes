@@ -11,96 +11,61 @@ import { PostgresOrderRepository } from "./postgres/PostgresOrderRepository";
 import { IReservationRepository } from "./IReservationRepository";
 import { PostgresReservationRepository } from "./postgres/PostgresReservationRepository";
 
-export class RepositoryFactory {
-  // Cuando ya implementemos MongoDB, devolvemos instanciaciones según el .env
-  
-  static getRestaurantRepository(): IRestaurantRepository {
-    const dbType = process.env.DB_TYPE || "postgres";
+// Factory para crear instancias de repositorios según la configuración de la base de datos
+const repositories = {
+  postgres: {
+    Restaurant: () => new PostgresRestaurantRepository(),
+    User: () => new PostgresUserRepository(),
+    Role: () => new PostgresRoleRepository(),
+    Menu: () => new PostgresMenuRepository(),
+    Order: () => new PostgresOrderRepository(),
+    Reservation: () => new PostgresReservationRepository()
+  },
+  mongodb: {
+    Restaurant: () => new (require("./mongo/MongoRestaurantRepository").MongoRestaurantRepository)(),
+    User: () => new (require("./mongo/MongoUserRepository").MongoUserRepository)(),
+    Role: () => new (require("./mongo/MongoRoleRepository").MongoRoleRepository)(),
+    Menu: () => new (require("./mongo/MongoMenuRepository").MongoMenuRepository)(),
+    Order: () => new (require("./mongo/MongoOrderRepository").MongoOrderRepository)(),
+    Reservation: () => new (require("./mongo/MongoReservationRepository").MongoReservationRepository)()
+  }
+};
 
-    if (dbType === "postgres") {
-      return new PostgresRestaurantRepository();
-    } 
-    
-    if (dbType === "mongodb") {
-      const { MongoRestaurantRepository } = require("./mongo/MongoRestaurantRepository");
-      return new MongoRestaurantRepository();
+type EntityName = keyof typeof repositories.postgres;
+
+export class RepositoryFactory {
+  // Método para obtener la instancia del repositorio según la entidad
+  private static getInstance<T>(entity: EntityName): T {
+    const dbType = (process.env.DB_TYPE || "postgres") as keyof typeof repositories;
+
+    if (!repositories[dbType]) {
+      throw new Error(`Database type ${dbType} is not supported.`);
     }
 
-    throw new Error(`Database type ${dbType} is not supported.`);
+    return repositories[dbType][entity]() as T;
+  }
+  
+  static getRestaurantRepository(): IRestaurantRepository {
+    return this.getInstance<IRestaurantRepository>("Restaurant");
   }
 
   static getUserRepository(): IUserRepository {
-    const dbType = process.env.DB_TYPE || "postgres";
-
-    if (dbType === "postgres") {
-      return new PostgresUserRepository();
-    }
-
-    if (dbType === "mongodb") {
-      const { MongoUserRepository } = require("./mongo/MongoUserRepository");
-      return new MongoUserRepository();
-    }
-
-    throw new Error(`Database type ${dbType} is not supported.`);
+    return this.getInstance<IUserRepository>("User");
   }
 
   static getRoleRepository(): IRoleRepository {
-    const dbType = process.env.DB_TYPE || "postgres";
-
-    if (dbType === "postgres") {
-      return new PostgresRoleRepository();
-    }
-
-    if (dbType === "mongodb") {
-      const { MongoRoleRepository } = require("./mongo/MongoRoleRepository");
-      return new MongoRoleRepository();
-    }
-
-    throw new Error(`Database type ${dbType} is not supported.`);
+    return this.getInstance<IRoleRepository>("Role");
   }
 
   static getMenuRepository(): IMenuRepository {
-    const dbType = process.env.DB_TYPE || "postgres";
-
-    if (dbType === "postgres") {
-      return new PostgresMenuRepository();
-    }
-
-    if (dbType === "mongodb") {
-      const { MongoMenuRepository } = require("./mongo/MongoMenuRepository");
-      return new MongoMenuRepository();
-    }
-
-    throw new Error(`Database type ${dbType} is not supported.`);
+    return this.getInstance<IMenuRepository>("Menu");
   }
 
   static getOrderRepository(): IOrderRepository {
-    const dbType = process.env.DB_TYPE || "postgres";
-
-    if (dbType === "postgres") {
-      return new PostgresOrderRepository();
-    }
-
-    if (dbType === "mongodb") {
-      const { MongoOrderRepository } = require("./mongo/MongoOrderRepository");
-      return new MongoOrderRepository();
-    }
-
-    throw new Error(`Database type ${dbType} is not supported.`);
+    return this.getInstance<IOrderRepository>("Order");
   }
 
   static getReservationRepository(): IReservationRepository {
-    const dbType = process.env.DB_TYPE || "postgres";
-
-    if (dbType === "postgres") {
-      return new PostgresReservationRepository();
-    }
-
-    if (dbType === "mongodb") {
-      const { MongoReservationRepository } = require("./mongo/MongoReservationRepository");
-      return new MongoReservationRepository();
-    }
-
-    throw new Error(`Database type ${dbType} is not supported.`);
+    return this.getInstance<IReservationRepository>("Reservation");
   }
 }

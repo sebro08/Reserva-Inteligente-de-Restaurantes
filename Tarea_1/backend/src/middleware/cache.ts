@@ -12,7 +12,7 @@ export const cacheMiddleware = (ttlSeconds: number = 3600) => {
       return next();
     }
 
-    const key = req.originalUrl; // Como mencionó el profesor, usamos la URL como llave
+    const key = req.originalUrl; // Como mencionó el profe, usamos la URL como llave
 
     try {
       const cachedResponse = await cacheHelper.get(key);

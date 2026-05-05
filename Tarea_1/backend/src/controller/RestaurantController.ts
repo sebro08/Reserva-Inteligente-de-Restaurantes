@@ -30,7 +30,7 @@ export class RestaurantController {
       });
 
       // Invalidamos la caché de restaurantes general para evitar listados desactualizados
-      // req.originalUrl es el path original del lado del enrutador (e.g. /restaurants)
+      // req.originalUrl es el path original del lado del enrutador (por ejemplo /restaurants)
       await cacheHelper.del(req.originalUrl);
 
       res.status(201).json(restaurant);
