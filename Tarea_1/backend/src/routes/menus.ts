@@ -4,7 +4,6 @@ import { keycloak } from "../middleware/keycloak";
 import { cacheMiddleware } from "../middleware/cache";
 
 const router = Router();
-
 /**
  * @swagger
  * /menus:
@@ -19,7 +18,8 @@ const router = Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [name]
+ *             required:
+ *               - name
  *             properties:
  *               name:
  *                 type: string
@@ -30,6 +30,10 @@ const router = Router();
  *     responses:
  *       201:
  *         description: Menú creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Menu'
  *       401:
  *         description: No autorizado
  *       403:
@@ -38,7 +42,6 @@ const router = Router();
  *         description: Error al crear el menú
  */
 router.post("/", keycloak.protect("realm:admin_restaurante"), MenuController.createMenu);
-
 /**
  * @swagger
  * /menus/{id}:
@@ -60,18 +63,7 @@ router.post("/", keycloak.protect("realm:admin_restaurante"), MenuController.cre
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 name:
- *                   type: string
- *                 restaurant:
- *                   type: object
- *                 plates:
- *                   type: array
- *                   items:
- *                     type: object
+ *               $ref: '#/components/schemas/Menu'
  *       401:
  *         description: No autorizado
  *       404:
@@ -80,7 +72,6 @@ router.post("/", keycloak.protect("realm:admin_restaurante"), MenuController.cre
  *         description: Error al obtener el menú
  */
 router.get("/:id", keycloak.protect(), cacheMiddleware(1800), MenuController.getMenu);
-
 /**
  * @swagger
  * /menus/{id}:
@@ -109,6 +100,10 @@ router.get("/:id", keycloak.protect(), cacheMiddleware(1800), MenuController.get
  *     responses:
  *       200:
  *         description: Menú actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Menu'
  *       401:
  *         description: No autorizado
  *       403:
@@ -119,7 +114,6 @@ router.get("/:id", keycloak.protect(), cacheMiddleware(1800), MenuController.get
  *         description: Error al actualizar el menú
  */
 router.put("/:id", keycloak.protect("realm:admin_restaurante"), MenuController.updateMenu);
-
 /**
  * @swagger
  * /menus/{id}:
@@ -138,6 +132,14 @@ router.put("/:id", keycloak.protect("realm:admin_restaurante"), MenuController.u
  *     responses:
  *       200:
  *         description: Menú eliminado con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Menú eliminado con éxito
  *       401:
  *         description: No autorizado
  *       403:

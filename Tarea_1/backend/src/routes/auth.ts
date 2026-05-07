@@ -3,9 +3,7 @@ import { AuthController } from "../controller/AuthController";
 
 const router = Router();
 
-
-router.post("/register", AuthController.register);
-/*
+/**
  * @swagger
  * /auth/register:
  *   post:
@@ -16,50 +14,42 @@ router.post("/register", AuthController.register);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - first_name
- *               - last_name
- *               - email
- *               - password
- *             properties:
- *               first_name:
- *                 type: string
- *                 example: Juan
- *               last_name:
- *                 type: string
- *                 example: Pérez
- *               email:
- *                 type: string
- *                 example: juan@correo.com
- *               password:
- *                 type: string
- *                 example: pass123
- *               role_name:
- *                 type: string
- *                 enum:
- *                   - cliente_restaurante
- *                   - admin_restaurante
- *                 example: cliente_restaurante
+ *             $ref: '#/components/schemas/AuthRegisterRequest'
  *     responses:
  *       201:
  *         description: Usuario creado y sincronizado con éxito
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Usuario creado y sincronizado con éxito
- *                 user:
- *                   $ref: '#/components/schemas/User'
  *       400:
  *         description: Faltan campos requeridos o el rol no existe
  *       409:
- *         description: El usuario ya existe (correo ya registrado)
+ *         description: El usuario ya existe
  *       500:
- *         description: Error interno en el registro del usuario
+ *         description: Error interno
+ */
+router.post("/register", AuthController.register);
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AuthLoginRequest'
+ *     responses:
+ *       200:
+ *         description: Login exitoso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthLoginResponse'
+ *       401:
+ *         description: Credenciales inválidas
+ *       500:
+ *         description: Error interno
  */
 router.post("/login", AuthController.login);
 

@@ -15,8 +15,8 @@ const options: swaggerJsdoc.Options = {
 
     servers: [
       {
-        url: "http://localhost:3000",
-        description: "Servidor local",
+        url: "http://localhost/api",
+        description: "Servidor Nginx",
       },
     ],
 
@@ -369,7 +369,7 @@ const options: swaggerJsdoc.Options = {
     ],
   },
 
-  apis: ["./src/routes/*.ts"],
+  apis: ["./dist/routes/*.js", "./src/routes/*.ts"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
