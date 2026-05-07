@@ -17,28 +17,14 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [reservation_date, reservation_time, people_count]
- *             properties:
- *               user_id:
- *                 type: integer
- *                 example: 1
- *               restaurant_id:
- *                 type: integer
- *                 example: 1
- *               reservation_date:
- *                 type: string
- *                 format: date
- *                 example: "2025-12-25"
- *               reservation_time:
- *                 type: string
- *                 example: "20:00"
- *               people_count:
- *                 type: integer
- *                 example: 4
+ *             $ref: '#/components/schemas/CreateReservationRequest'
  *     responses:
  *       201:
  *         description: Reserva creada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Reservation'
  *       401:
  *         description: No autorizado
  *       403:
@@ -74,5 +60,4 @@ router.post("/", keycloak.protect("realm:cliente_restaurante"), ReservationContr
  *         description: Error al cancelar la reserva
  */
 router.delete("/:id", keycloak.protect(), ReservationController.deleteReservation);
-
 export default router;

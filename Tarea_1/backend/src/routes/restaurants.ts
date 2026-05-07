@@ -4,7 +4,6 @@ import { keycloak } from "../middleware/keycloak";
 import { cacheMiddleware } from "../middleware/cache";
 
 const router = Router();
-
 /**
  * @swagger
  * /restaurants:
@@ -18,21 +17,14 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [name]
- *             properties:
- *               name:
- *                 type: string
- *                 example: Soda Tapia
- *               admin_id:
- *                 type: integer
- *                 example: 1
- *               location_id:
- *                 type: integer
- *                 example: 1
+ *             $ref: '#/components/schemas/CreateRestaurantRequest'
  *     responses:
  *       201:
  *         description: Restaurante creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Restaurant'
  *       401:
  *         description: No autorizado
  *       403:
@@ -58,16 +50,7 @@ router.post("/", keycloak.protect("realm:admin_restaurante"), RestaurantControll
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   name:
- *                     type: string
- *                   location:
- *                     type: object
- *                   admin:
- *                     type: object
+ *                 $ref: '#/components/schemas/Restaurant'
  *       401:
  *         description: No autorizado
  *       500:

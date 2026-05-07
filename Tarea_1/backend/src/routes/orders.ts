@@ -3,7 +3,6 @@ import { OrderController } from "../controller/OrderController";
 import { keycloak } from "../middleware/keycloak";
 
 const router = Router();
-
 /**
  * @swagger
  * /orders:
@@ -17,20 +16,14 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               user_id:
- *                 type: integer
- *                 example: 1
- *               restaurant_id:
- *                 type: integer
- *                 example: 1
- *               pickup:
- *                 type: boolean
- *                 example: false
+ *             $ref: '#/components/schemas/CreateOrderRequest'
  *     responses:
  *       201:
  *         description: Pedido creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Order'
  *       401:
  *         description: No autorizado
  *       403:
@@ -61,20 +54,7 @@ router.post("/", keycloak.protect("realm:cliente_restaurante"), OrderController.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 pickup:
- *                   type: boolean
- *                 user:
- *                   type: object
- *                 restaurant:
- *                   type: object
- *                 items:
- *                   type: array
- *                   items:
- *                     type: object
+ *               $ref: '#/components/schemas/Order'
  *       401:
  *         description: No autorizado
  *       404:
@@ -83,5 +63,4 @@ router.post("/", keycloak.protect("realm:cliente_restaurante"), OrderController.
  *         description: Error al obtener el pedido
  */
 router.get("/:id", keycloak.protect(), OrderController.getOrder);
-
 export default router;

@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
 
-import { setupSwagger } from "./swagger";
+import { setupSwagger } from "./swagger/swagger";
 import routes from "./routes";
 import { AppDataSource } from "./database/data-source";
 

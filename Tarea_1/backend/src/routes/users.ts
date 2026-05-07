@@ -3,7 +3,6 @@ import { UserController } from "../controller/UserController";
 import { keycloak } from "../middleware/keycloak";
 
 const router = Router();
-
 /**
  * @swagger
  * /users/me:
@@ -18,20 +17,7 @@ const router = Router();
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 first_name:
- *                   type: string
- *                 last_name:
- *                   type: string
- *                 email:
- *                   type: string
- *                 keycloak_id:
- *                   type: string
- *                 is_active:
- *                   type: boolean
+ *               $ref: '#/components/schemas/User'
  *       401:
  *         description: No autorizado
  *       404:
@@ -61,20 +47,14 @@ router.get("/me", keycloak.protect(), UserController.getMe);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               first_name:
- *                 type: string
- *                 example: Juan
- *               last_name:
- *                 type: string
- *                 example: Pérez
- *               email:
- *                 type: string
- *                 example: juan@correo.com
+ *             $ref: '#/components/schemas/UpdateUserRequest'
  *     responses:
  *       200:
  *         description: Usuario actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
  *       401:
  *         description: No autorizado
  *       404:
