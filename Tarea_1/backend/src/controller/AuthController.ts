@@ -12,7 +12,7 @@ const CLIENT_ID = "restaurante-api";
 
 export class AuthController {
 
-  // Función de apoyo, para conseguir token de administración de Keycloak
+  // Función de apoyo para conseguir token de administración de Keycloak
   private static async getAdminToken(): Promise<string> {
     const params = new URLSearchParams();
     params.append("grant_type", "password");
