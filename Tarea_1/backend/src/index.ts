@@ -28,6 +28,8 @@ console.log("DB CONFIG:", {
 app.use(cors());
 app.use(express.json());
 
+app.use("/", routes);
+
 // ─────────────────────────────────────────────
 // SOLO en runtime (NO en test)
 // ─────────────────────────────────────────────
@@ -46,8 +48,6 @@ if (!isTest) {
   app.use(keycloak.middleware());
 
   setupSwagger(app);
-
-  app.use("/", routes);
 }
 
 // ─────────────────────────────────────────────

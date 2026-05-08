@@ -44,6 +44,9 @@ module.exports = {
       preset: "ts-jest",
       testEnvironment: "node",
       testMatch: ["**/integration/**/*.test.ts"],
+
+      setupFilesAfterEnv: ["<rootDir>/src/jest.setup.ts"],
+
       reporters: [
         "default",
         ["jest-html-reporter", {
