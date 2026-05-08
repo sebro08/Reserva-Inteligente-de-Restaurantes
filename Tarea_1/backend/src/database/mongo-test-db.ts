@@ -4,7 +4,7 @@ import path from "path";
 
 export const TestMongoDataSource = new DataSource({
   type: "mongodb",
-  url: "mongodb://localhost:27017",
+  url: "mongodb://127.0.0.1:27017",
   database: "test_db",
   synchronize: true,
   logging: false,
