@@ -21,7 +21,8 @@ services:
     image: mongo:6.0
     container_name: mongocfg1
     profiles: ["mongo"]
-    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
+
     volumes:
       - config1:/data/db
     networks:
@@ -31,7 +32,8 @@ services:
     image: mongo:6.0
     container_name: mongocfg2
     profiles: ["mongo"]
-    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
+
     volumes:
       - config2:/data/db
     networks:
@@ -41,7 +43,8 @@ services:
     image: mongo:6.0
     container_name: mongocfg3
     profiles: ["mongo"]
-    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27019 --bind_ip_all
+
     volumes:
       - config3:/data/db
     networks:
@@ -51,7 +54,8 @@ services:
     image: mongo:6.0
     container_name: mongors1n1
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data1:/data/db
     networks:
@@ -61,7 +65,8 @@ services:
     image: mongo:6.0
     container_name: mongors1n2
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data2:/data/db
     networks:
@@ -71,7 +76,8 @@ services:
     image: mongo:6.0
     container_name: mongors1n3
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data3:/data/db
     networks:
@@ -81,7 +87,8 @@ services:
     image: mongo:6.0
     container_name: mongors2n1
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data4:/data/db
     networks:
@@ -91,7 +98,8 @@ services:
     image: mongo:6.0
     container_name: mongors2n2
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data5:/data/db
     networks:
@@ -101,7 +109,8 @@ services:
     image: mongo:6.0
     container_name: mongors2n3
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data6:/data/db
     networks:
@@ -111,7 +120,8 @@ services:
     image: mongo:6.0
     container_name: mongors3n1
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data7:/data/db
     networks:
@@ -121,7 +131,8 @@ services:
     image: mongo:6.0
     container_name: mongors3n2
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data8:/data/db
     networks:
@@ -131,7 +142,8 @@ services:
     image: mongo:6.0
     container_name: mongors3n3
     profiles: ["mongo"]
-    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+    command: mongod --shardsvr --replSet mongors3 --dbpath /data/db --port 27018 --bind_ip_all
+
     volumes:
       - data9:/data/db
     networks:
@@ -307,6 +319,155 @@ services:
     networks:
       - app-network
 
+  # -----------------------------------------------------
+  # INFRAESTRUCTURA ANALÍTICA (AIRFLOW + HIVE/HADOOP)
+  # Perfil "data": Para iniciar usar: docker-compose --profile data up -d
+  # -----------------------------------------------------
+
+  # --- Apache Airflow ---
+  postgres-airflow:
+    image: postgres:15-alpine
+    container_name: postgres-airflow
+    profiles: ["data"]
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres_airflow_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  airflow-init:
+    image: apache/airflow:2.8.2
+    container_name: airflow-init
+    profiles: ["data"]
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - _AIRFLOW_DB_UPGRADE=true
+      - _AIRFLOW_WWW_USER_CREATE=true
+      - _AIRFLOW_WWW_USER_USERNAME=admin
+      - _AIRFLOW_WWW_USER_PASSWORD=admin
+    command: version
+    depends_on:
+      - postgres-airflow
+    networks:
+      - app-network
+
+  airflow-webserver:
+    image: apache/airflow:2.8.2
+    container_name: airflow-webserver
+    profiles: ["data"]
+    restart: on-failure
+    ports:
+      - "8081:8080" # Se cambió el puerto a 8081 porque Keycloak usa el 8080
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+    command: webserver
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    depends_on:
+      - postgres-airflow
+      - airflow-init
+    networks:
+      - app-network
+
+  airflow-scheduler:
+    image: apache/airflow:2.8.2
+    container_name: airflow-scheduler
+    profiles: ["data"]
+    restart: on-failure
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+    command: scheduler
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    depends_on:
+      - postgres-airflow
+      - airflow-init
+    networks:
+      - app-network
+
+  # --- Apache Hive & Hadoop (Mínimo necesario) ---
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    profiles: ["data"]
+    restart: on-failure
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
+    ports:
+      - "9870:9870"
+    volumes:
+      - namenode_data:/hadoop/dfs/name
+    networks:
+      - app-network
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode
+    profiles: ["data"]
+    restart: on-failure
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+    env_file:
+      - ./hadoop.env
+    volumes:
+      - datanode_data:/hadoop/dfs/data
+    networks:
+      - app-network
+
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    container_name: hive-metastore-postgresql
+    profiles: ["data"]
+    restart: on-failure
+    networks:
+      - app-network
+
+  hive-metastore:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-metastore
+    profiles: ["data"]
+    restart: on-failure
+    env_file:
+      - ./hadoop.env
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870 datanode:9864 hive-metastore-postgresql:5432
+    command: /opt/hive/bin/hive --service metastore
+    ports:
+      - "9083:9083"
+    networks:
+      - app-network
+
+  hive-server:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-server
+    profiles: ["data"]
+    restart: on-failure
+    env_file:
+      - ./hadoop.env
+    environment:
+      - HIVE_CORE_CONF_javax_jdo_option_ConnectionURL=jdbc:postgresql://hive-metastore-postgresql/metastore
+      - SERVICE_PRECONDITION=hive-metastore:9083
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./hive_scripts:/hive_scripts
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
@@ -325,3 +486,6 @@ volumes:
   data7:
   data8:
   data9:
+  postgres_airflow_data:
+  namenode_data:
+  datanode_data:
