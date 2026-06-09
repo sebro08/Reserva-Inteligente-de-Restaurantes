@@ -1,0 +1,9 @@
+logs/
+dags/
+plugins/
+hive_scripts/
+node_modules/
+backend/node_modules/
+search-service/node_modules/
+.git/
+.env

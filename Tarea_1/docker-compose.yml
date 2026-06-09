@@ -468,6 +468,30 @@ services:
     networks:
       - app-network
 
+  # --- Apache Spark (Ejecución Temporal) ---
+  spark-submit:
+    image: apache/spark:3.4.1
+    container_name: spark-submit
+    profiles: ["spark-job"]
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=${DB_USERNAME:-restaurante_admin}
+      - DB_PASSWORD=${DB_PASSWORD:-changeme}
+      - DB_NAME=${DB_NAME:-restaurante_db}
+      - MONGO_URI=${MONGO_URI:-mongodb://mongos1:27017,mongos2:27017}
+      - MONGO_DB_NAME=${MONGO_DB_NAME:-restaurant_db}
+    volumes:
+      - ./dags/scripts:/opt/spark_scripts
+    networks:
+      - app-network
+    # El comando descarga los drivers de PostgreSQL y MongoDB dinámicamente y ejecuta el script
+    command: >
+      /opt/spark/bin/spark-submit 
+      --conf spark.jars.ivy=/tmp/.ivy2
+      --packages org.postgresql:postgresql:42.6.0,org.mongodb.spark:mongo-spark-connector_2.12:3.0.2 
+      /opt/spark_scripts/spark_etl.py
+
 networks:
   app-network:
     driver: bridge
