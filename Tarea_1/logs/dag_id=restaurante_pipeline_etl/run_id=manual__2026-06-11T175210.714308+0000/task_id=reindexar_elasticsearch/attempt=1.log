@@ -1,0 +1,15 @@
+[2026-06-11T18:44:55.668+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.reindexar_elasticsearch manual__2026-06-11T17:52:10.714308+00:00 [queued]>
+[2026-06-11T18:44:55.680+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.reindexar_elasticsearch manual__2026-06-11T17:52:10.714308+00:00 [queued]>
+[2026-06-11T18:44:55.681+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 2
+[2026-06-11T18:44:55.697+0000] {taskinstance.py:2214} INFO - Executing <Task(PythonOperator): reindexar_elasticsearch> on 2026-06-11 17:52:10.714308+00:00
+[2026-06-11T18:44:55.706+0000] {standard_task_runner.py:60} INFO - Started process 181 to run task
+[2026-06-11T18:44:55.709+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'restaurante_pipeline_etl', 'reindexar_elasticsearch', 'manual__2026-06-11T17:52:10.714308+00:00', '--job-id', '9', '--raw', '--subdir', 'DAGS_FOLDER/restaurante_pipeline.py', '--cfg-path', '/tmp/tmpsx6n9n18']
+[2026-06-11T18:44:55.712+0000] {standard_task_runner.py:88} INFO - Job 9: Subtask reindexar_elasticsearch
+[2026-06-11T18:44:55.808+0000] {task_command.py:423} INFO - Running <TaskInstance: restaurante_pipeline_etl.reindexar_elasticsearch manual__2026-06-11T17:52:10.714308+00:00 [running]> on host e164c17e4733
+[2026-06-11T18:44:55.948+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='restaurante_team' AIRFLOW_CTX_DAG_ID='restaurante_pipeline_etl' AIRFLOW_CTX_TASK_ID='reindexar_elasticsearch' AIRFLOW_CTX_EXECUTION_DATE='2026-06-11T17:52:10.714308+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-11T17:52:10.714308+00:00'
+[2026-06-11T18:44:55.951+0000] {logging_mixin.py:188} INFO - Llamando a http://search-service:3001/search/reindex...
+[2026-06-11T18:44:56.304+0000] {logging_mixin.py:188} INFO - ElasticSearch reindexado correctamente: {'message': 'Reindexacion completada'}
+[2026-06-11T18:44:56.305+0000] {python.py:202} INFO - Done. Returned value was: {'message': 'Reindexacion completada'}
+[2026-06-11T18:44:56.342+0000] {taskinstance.py:1149} INFO - Marking task as SUCCESS. dag_id=restaurante_pipeline_etl, task_id=reindexar_elasticsearch, execution_date=20260611T175210, start_date=20260611T184455, end_date=20260611T184456
+[2026-06-11T18:44:56.367+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-11T18:44:56.393+0000] {taskinstance.py:3309} INFO - 0 downstream tasks scheduled from follow-on schedule check

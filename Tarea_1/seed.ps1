@@ -10,4 +10,7 @@ Get-Content backend\seed\provinces.csv -Encoding UTF8 | docker exec -i restauran
 Get-Content backend\seed\cantones.csv -Encoding UTF8 | docker exec -i restaurante_db psql -U restaurante_admin -d restaurante_db -c "\copy canton(code, name, province_id) FROM STDIN DELIMITER ',' CSV HEADER;"
 Get-Content backend\seed\districts.csv -Encoding UTF8 | docker exec -i restaurante_db psql -U restaurante_admin -d restaurante_db -c "\copy district(code, canton_id, name) FROM STDIN DELIMITER ',' CSV HEADER;"
 
+Write-Host "3. Insertando datos transaccionales (usuarios, platos y ordenes)..."
+Get-Content backend\seed\05_transactional.sql -Encoding UTF8 | docker exec -i restaurante_db psql -U restaurante_admin -d restaurante_db
+
 Write-Host "¡Poblado de base de datos finalizado exitosamente!"

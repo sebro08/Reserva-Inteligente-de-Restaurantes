@@ -1,0 +1,9 @@
+FROM apache/airflow:2.8.2
+
+# Instalar providers como el usuario airflow (recomendación oficial de Apache Airflow).
+# La imagen bloquea pip cuando se ejecuta como root — hay que usar el usuario airflow.
+# PIP_USER=true (definido en la imagen base) instala en /home/airflow/.local/,
+# que está incluido automáticamente en el PYTHONPATH del contenedor.
+RUN pip install --no-cache-dir \
+    "apache-airflow-providers-docker" \
+    "psycopg2-binary"

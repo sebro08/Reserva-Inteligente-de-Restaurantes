@@ -241,6 +241,9 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      # Limitar heap de la JVM a 512MB (por defecto reserva mucho mas)
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    mem_limit: 1g
     ports:
       - "9200:9200"
     networks:
@@ -337,6 +340,11 @@ services:
       - postgres_airflow_data:/var/lib/postgresql/data
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   airflow-init:
     image: apache/airflow:2.8.2
@@ -345,18 +353,28 @@ services:
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW_FERNET_KEY:-ZmDfcTF7_60GrrY167zsiPd67pEvs0aGOv2oasOM1Pg=}
       - _AIRFLOW_DB_UPGRADE=true
       - _AIRFLOW_WWW_USER_CREATE=true
       - _AIRFLOW_WWW_USER_USERNAME=admin
       - _AIRFLOW_WWW_USER_PASSWORD=admin
+      - _AIRFLOW_WWW_USER_FIRSTNAME=Admin
+      - _AIRFLOW_WWW_USER_LASTNAME=User
+      - _AIRFLOW_WWW_USER_EMAIL=admin@restaurante.local
+      - _AIRFLOW_WWW_USER_ROLE=Admin
     command: version
+    # Espera a que postgres-airflow esté realmente listo (no solo iniciado)
     depends_on:
-      - postgres-airflow
+      postgres-airflow:
+        condition: service_healthy
     networks:
       - app-network
 
   airflow-webserver:
-    image: apache/airflow:2.8.2
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    image: restaurante_airflow:latest
     container_name: airflow-webserver
     profiles: ["data"]
     restart: on-failure
@@ -366,34 +384,53 @@ services:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW_FERNET_KEY:-ZmDfcTF7_60GrrY167zsiPd67pEvs0aGOv2oasOM1Pg=}
+      - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW_SECRET_KEY:-restaurante_secret_2025}
     command: webserver
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
     depends_on:
-      - postgres-airflow
-      - airflow-init
+      postgres-airflow:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
     networks:
       - app-network
 
   airflow-scheduler:
-    image: apache/airflow:2.8.2
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    image: restaurante_airflow:latest
     container_name: airflow-scheduler
     profiles: ["data"]
     restart: on-failure
+    # El usuario airflow (uid 50000) tiene GID 0 (grupo root) en la imagen oficial,
+    # lo que le da acceso al socket de Docker en Docker Desktop sin necesitar ser root.
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW_FERNET_KEY:-ZmDfcTF7_60GrrY167zsiPd67pEvs0aGOv2oasOM1Pg=}
+      - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW_SECRET_KEY:-restaurante_secret_2025}
+      # DB_TYPE que el DAG lee para elegir la fuente del ETL (postgres o mongo).
+      # Se toma del .env; el DAG fija los hosts/URIs correctos de la red Docker.
+      - DB_TYPE=${DB_TYPE:-postgres}
     command: scheduler
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      # Socket de Docker: permite que DockerOperator lance contenedores hermanos
+      # (el contenedor de Spark se crea en el mismo Docker del host)
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      - postgres-airflow
-      - airflow-init
+      postgres-airflow:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
     networks:
       - app-network
 
@@ -469,32 +506,38 @@ services:
       - app-network
 
   # --- Apache Spark (Ejecución Temporal) ---
+  # Este servicio sirve para DOS cosas:
+  #   1. Construir la imagen "restaurante_spark:latest" (docker-compose build spark-submit)
+  #   2. Ejecutar el ETL manualmente (docker-compose --profile spark-job run --rm spark-submit)
+  # Airflow usa esa misma imagen vía DockerOperator (no necesita este servicio corriendo)
   spark-submit:
-    image: apache/spark:3.4.1
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
+    image: restaurante_spark:latest
     container_name: spark-submit
     profiles: ["spark-job"]
     environment:
+      # DB_TYPE controla la fuente del ETL: "postgres" (default) o "mongo"
+      - DB_TYPE=${DB_TYPE:-postgres}
       - DB_HOST=db
       - DB_PORT=5432
       - DB_USERNAME=${DB_USERNAME:-restaurante_admin}
       - DB_PASSWORD=${DB_PASSWORD:-changeme}
       - DB_NAME=${DB_NAME:-restaurante_db}
+      # Nota: dentro de la red Docker ambos mongos escuchan en puerto 27017 interno
       - MONGO_URI=${MONGO_URI:-mongodb://mongos1:27017,mongos2:27017}
       - MONGO_DB_NAME=${MONGO_DB_NAME:-restaurant_db}
-    volumes:
-      - ./dags/scripts:/opt/spark_scripts
     networks:
       - app-network
-    # El comando descarga los drivers de PostgreSQL y MongoDB dinámicamente y ejecuta el script
-    command: >
-      /opt/spark/bin/spark-submit 
-      --conf spark.jars.ivy=/tmp/.ivy2
-      --packages org.postgresql:postgresql:42.6.0,org.mongodb.spark:mongo-spark-connector_2.12:3.0.2 
-      /opt/spark_scripts/spark_etl.py
+    # El CMD está definido en Dockerfile.spark — no hace falta repetirlo aquí
 
 networks:
   app-network:
     driver: bridge
+    # Nombre fijo para que DockerOperator de Airflow pueda referenciar la red
+    # sin necesitar el prefijo del proyecto (ej. "tarea_1_app-network")
+    name: app-network
 
 volumes:
   postgres_data:

@@ -1,0 +1,16 @@
+[2026-06-11T18:44:53.470+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_tablas_hive manual__2026-06-11T17:52:10.714308+00:00 [queued]>
+[2026-06-11T18:44:53.482+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_tablas_hive manual__2026-06-11T17:52:10.714308+00:00 [queued]>
+[2026-06-11T18:44:53.483+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 2
+[2026-06-11T18:44:53.501+0000] {taskinstance.py:2214} INFO - Executing <Task(PythonOperator): verificar_tablas_hive> on 2026-06-11 17:52:10.714308+00:00
+[2026-06-11T18:44:53.506+0000] {standard_task_runner.py:60} INFO - Started process 179 to run task
+[2026-06-11T18:44:53.510+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'restaurante_pipeline_etl', 'verificar_tablas_hive', 'manual__2026-06-11T17:52:10.714308+00:00', '--job-id', '8', '--raw', '--subdir', 'DAGS_FOLDER/restaurante_pipeline.py', '--cfg-path', '/tmp/tmp7e3mfe2_']
+[2026-06-11T18:44:53.512+0000] {standard_task_runner.py:88} INFO - Job 8: Subtask verificar_tablas_hive
+[2026-06-11T18:44:53.611+0000] {task_command.py:423} INFO - Running <TaskInstance: restaurante_pipeline_etl.verificar_tablas_hive manual__2026-06-11T17:52:10.714308+00:00 [running]> on host e164c17e4733
+[2026-06-11T18:44:53.716+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='restaurante_team' AIRFLOW_CTX_DAG_ID='restaurante_pipeline_etl' AIRFLOW_CTX_TASK_ID='verificar_tablas_hive' AIRFLOW_CTX_EXECUTION_DATE='2026-06-11T17:52:10.714308+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-11T17:52:10.714308+00:00'
+[2026-06-11T18:44:55.207+0000] {logging_mixin.py:188} INFO - Hive Data Warehouse OK. Tablas en HDFS: ['crecimiento_mensual', 'horarios_pico', 'tendencias_consumo']
+[2026-06-11T18:44:55.208+0000] {logging_mixin.py:188} INFO - Las 3 tablas OLAP fueron creadas correctamente.
+[2026-06-11T18:44:55.228+0000] {logging_mixin.py:188} INFO - Registros de origen procesados — ordenes: 0, platos: 0
+[2026-06-11T18:44:55.228+0000] {python.py:202} INFO - Done. Returned value was: None
+[2026-06-11T18:44:55.244+0000] {taskinstance.py:1149} INFO - Marking task as SUCCESS. dag_id=restaurante_pipeline_etl, task_id=verificar_tablas_hive, execution_date=20260611T175210, start_date=20260611T184453, end_date=20260611T184455
+[2026-06-11T18:44:55.291+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-11T18:44:55.335+0000] {taskinstance.py:3309} INFO - 0 downstream tasks scheduled from follow-on schedule check

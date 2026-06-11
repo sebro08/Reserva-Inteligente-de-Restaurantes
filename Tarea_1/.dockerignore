@@ -1,5 +1,6 @@
 logs/
 dags/
+!dags/scripts/spark_etl.py
 plugins/
 hive_scripts/
 node_modules/

@@ -1,0 +1,15 @@
+[2026-06-11T17:52:12.340+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos manual__2026-06-11T17:52:10.714308+00:00 [queued]>
+[2026-06-11T17:52:12.353+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos manual__2026-06-11T17:52:10.714308+00:00 [queued]>
+[2026-06-11T17:52:12.354+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 2
+[2026-06-11T17:52:12.377+0000] {taskinstance.py:2214} INFO - Executing <Task(PythonOperator): verificar_fuentes_datos> on 2026-06-11 17:52:10.714308+00:00
+[2026-06-11T17:52:12.384+0000] {standard_task_runner.py:60} INFO - Started process 312 to run task
+[2026-06-11T17:52:12.392+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'restaurante_pipeline_etl', 'verificar_fuentes_datos', 'manual__2026-06-11T17:52:10.714308+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/restaurante_pipeline.py', '--cfg-path', '/tmp/tmpo94sx6nd']
+[2026-06-11T17:52:12.398+0000] {standard_task_runner.py:88} INFO - Job 4: Subtask verificar_fuentes_datos
+[2026-06-11T17:52:12.526+0000] {task_command.py:423} INFO - Running <TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos manual__2026-06-11T17:52:10.714308+00:00 [running]> on host 02a1efffb42e
+[2026-06-11T17:52:12.680+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='restaurante_team' AIRFLOW_CTX_DAG_ID='restaurante_pipeline_etl' AIRFLOW_CTX_TASK_ID='verificar_fuentes_datos' AIRFLOW_CTX_EXECUTION_DATE='2026-06-11T17:52:10.714308+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-11T17:52:10.714308+00:00'
+[2026-06-11T17:52:12.691+0000] {logging_mixin.py:188} INFO - PostgreSQL OK — ordenes: 0, platos: 0
+[2026-06-11T17:52:12.692+0000] {logging_mixin.py:188} INFO - HiveServer2 OK en puerto 10000
+[2026-06-11T17:52:12.693+0000] {python.py:202} INFO - Done. Returned value was: {'ordenes': 0, 'platos': 0}
+[2026-06-11T17:52:12.741+0000] {taskinstance.py:1149} INFO - Marking task as SUCCESS. dag_id=restaurante_pipeline_etl, task_id=verificar_fuentes_datos, execution_date=20260611T175210, start_date=20260611T175212, end_date=20260611T175212
+[2026-06-11T17:52:12.766+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-11T17:52:12.799+0000] {taskinstance.py:3309} INFO - 1 downstream tasks scheduled from follow-on schedule check

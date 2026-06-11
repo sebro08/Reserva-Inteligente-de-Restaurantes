@@ -1,0 +1,17 @@
+FROM apache/spark:3.4.1
+
+# Copiar el script ETL dentro de la imagen para que Airflow pueda ejecutarlo
+# sin necesitar montar volúmenes del host (que causaría problemas de rutas en Windows)
+COPY dags/scripts/spark_etl.py /opt/spark_scripts/spark_etl.py
+
+# Comando por defecto: ejecutar el ETL con los drivers de PostgreSQL y MongoDB.
+# --master local[2]: usa solo 2 cores (evita saturar la CPU en maquinas modestas)
+# --driver-memory 2g: limita la memoria del proceso Spark (suficiente para este volumen)
+# mongo-spark-connector 10.2.1: version compatible con Spark 3.4 (la 3.0.2 NO lo es
+#   y usa una API distinta a la del script).
+CMD ["/opt/spark/bin/spark-submit", \
+     "--master", "local[2]", \
+     "--driver-memory", "2g", \
+     "--conf", "spark.jars.ivy=/tmp/.ivy2", \
+     "--packages", "org.postgresql:postgresql:42.6.0,org.mongodb.spark:mongo-spark-connector_2.12:10.2.1", \
+     "/opt/spark_scripts/spark_etl.py"]
