@@ -25,6 +25,7 @@
     "keycloak-connect": "^26.1.1",
     "mongodb": "^6.21.0",
     "mongoose": "^8.23.1",
+    "neo4j-driver": "^6.1.0",
     "pg": "^8.20.0",
     "redis": "^4.7.1",
     "reflect-metadata": "^0.2.2",

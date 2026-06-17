@@ -1,7 +1,7 @@
 import neo4j from "neo4j-driver";
 import { config } from "./config";
 
-export const driver = neo4j.driver(
+export const neo4jDriver = neo4j.driver(
   config.neo4j.uri,
   neo4j.auth.basic(
     config.neo4j.username,
@@ -10,13 +10,12 @@ export const driver = neo4j.driver(
 );
 
 export async function testNeo4j(): Promise<void> {
-  const session = driver.session();
+  const session = neo4jDriver.session({
+    database: "neo4j"
+  });
 
   try {
-    await session.run(`
-      CREATE (n:Test {name:'GraphLoader'})
-    `);
-
+    await session.run("RETURN 1");
     console.log("Neo4j conectado");
   } finally {
     await session.close();
@@ -24,5 +23,5 @@ export async function testNeo4j(): Promise<void> {
 }
 
 export async function closeNeo4j(): Promise<void> {
-  await driver.close();
+  await neo4jDriver.close();
 }

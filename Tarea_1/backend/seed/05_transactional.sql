@@ -39,11 +39,11 @@ INSERT INTO category (id, name) VALUES
 -- --- Ubicaciones (zonas geograficas) ----------------------------------------
 -- district_id referencia distritos ya cargados desde el CSV (existen cientos).
 INSERT INTO location (id, name, district_id) VALUES
-  (1, 'Centro San Jose', 1),
-  (2, 'Escazu',          2),
-  (3, 'Heredia Centro',  3),
-  (4, 'Cartago Centro',  4),
-  (5, 'Alajuela Centro', 5);
+  (1, 'Centro San Jose', 10101), -- Carmen
+  (2, 'Escazu',          10201), -- Escazu
+  (3, 'Desamparados',    10301),
+  (4, 'Zapote',          10105),
+  (5, 'Pavas',           10109);
 
 -- --- Usuarios ---------------------------------------------------------------
 -- id 1 = administrador (role 1). Resto = clientes (role 2).
