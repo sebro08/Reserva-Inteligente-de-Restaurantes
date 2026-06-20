@@ -4,7 +4,8 @@ import {
   Restaurant,
   Plate,
   Order,
-  OrderItem
+  OrderItem,
+  Location
 } from "../models";
 
 export async function loadUsers(users: User[]) {
@@ -201,6 +202,148 @@ export async function createContainsRelationships(items: OrderItem[]) {
     console.log(
       `CONTAINS creadas: ${items.length}`
     );
+  } finally {
+    await session.close();
+  }
+}
+
+export async function loadLocations(locations: Location[]) {
+  const session = neo4jDriver.session({
+    database: "neo4j"
+  });
+
+  try {
+    for (const location of locations) {
+      await session.run(
+        `
+        MERGE (l:Location {id: $id})
+        SET
+          l.name = $name,
+          l.districtId = $districtId
+        `,
+        {
+          id: location.id,
+          name: location.name,
+          districtId: location.district_id
+        }
+      );
+    }
+
+    console.log(`Locations cargadas: ${locations.length}`);
+  } finally {
+    await session.close();
+  }
+}
+
+export async function createRestaurantLocationRelationships(restaurants: Restaurant[]) {
+  const session = neo4jDriver.session({
+    database: "neo4j"
+  });
+
+  try {
+    for (const restaurant of restaurants) {
+      await session.run(
+        `
+        MATCH (r:Restaurant {id:$restaurantId})
+        MATCH (l:Location {id:$locationId})
+
+        MERGE (r)-[:LOCATED_IN]->(l)
+        `,
+        {
+          restaurantId: restaurant.id,
+          locationId: restaurant.location_id
+        }
+      );
+    }
+
+    console.log(`LOCATED_IN (restaurant) creadas: ${restaurants.length}`);
+  } finally {
+    await session.close();
+  }
+}
+
+export async function createOrderLocationRelationships(orders: Order[]) {
+  const session = neo4jDriver.session({
+    database: "neo4j"
+  });
+
+  try {
+    for (const order of orders) {
+      await session.run(
+        `
+        MATCH (o:Order {id:$orderId})
+        MATCH (l:Location {id:$locationId})
+
+        MERGE (o)-[:DELIVERED_TO]->(l)
+        `,
+        {
+          orderId: order.id,
+          locationId: order.location_id
+        }
+      );
+    }
+
+    console.log(`DELIVERED_TO creadas: ${orders.length}`);
+  } finally {
+    await session.close();
+  }
+}
+
+export async function seedDistances() {
+  const session = neo4jDriver.session({
+    database: "neo4j"
+  });
+
+  try {
+    const result = await session.run(`
+      MATCH (l:Location)
+      RETURN l.id AS id
+    `);
+
+    const ids = result.records.map((r) => r.get("id"));
+
+    for (let i = 0; i < ids.length; i++) {
+      for (let j = i + 1; j < ids.length; j++) {
+        const km = +(Math.random() * 20 + 1).toFixed(2);
+        const minutes = Math.round(km * 2.5);
+
+        await session.run(
+          `
+          MATCH (a:Location {id: $idA}), (b:Location {id: $idB})
+          MERGE (a)-[d:DISTANCE]->(b)
+          SET d.km = $km, d.minutes = $minutes
+          MERGE (b)-[d2:DISTANCE]->(a)
+          SET d2.km = $km, d2.minutes = $minutes
+          `,
+          { idA: ids[i], idB: ids[j], km, minutes }
+        );
+      }
+    }
+
+    console.log(`Distancias creadas entre ${ids.length} ubicaciones`);
+  } finally {
+    await session.close();
+  }
+}
+
+export async function seedRecommends() {
+  const session = neo4jDriver.session({
+    database: "neo4j"
+  });
+
+  try {
+    await session.run(`
+      MATCH (u1:User)-[:PLACED]->(:Order)-[:CONTAINS]->(p:Plate)<-[:CONTAINS]-(:Order)<-[:PLACED]-(u2:User)
+      WHERE u1.id < u2.id
+      WITH u1, u2, count(DISTINCT p) AS sharedPlates
+      WHERE sharedPlates >= 1
+      MERGE (u1)-[r:RECOMMENDS]->(u2)
+      SET r.weight = sharedPlates
+      MERGE (u2)-[r2:RECOMMENDS]->(u1)
+      SET r2.weight = sharedPlates
+    `);
+
+    console.log("Relaciones RECOMMENDS creadas");
   } finally {
     await session.close();
   }

@@ -5,7 +5,8 @@ import {
   Restaurant,
   Plate,
   Order,
-  OrderItem
+  OrderItem,
+  Location
 } from "../models";
 
 export const pgPool = new Pool({
@@ -31,12 +32,9 @@ export async function getUsers(): Promise<User[]> {
 
 export async function getRestaurants(): Promise<Restaurant[]> {
   const result = await pgPool.query(`
-    SELECT
-      id,
-      name
+    SELECT id, name, location_id
     FROM restaurant
   `);
-
   return result.rows;
 }
 
@@ -54,13 +52,9 @@ export async function getPlates(): Promise<Plate[]> {
 
 export async function getOrders(): Promise<Order[]> {
   const result = await pgPool.query(`
-    SELECT
-      id,
-      user_id,
-      restaurant_id
+    SELECT id, user_id, restaurant_id, location_id
     FROM "order"
   `);
-
   return result.rows;
 }
 
@@ -77,4 +71,12 @@ export async function getOrderItems(): Promise<OrderItem[]> {
 
 export async function closePostgres(): Promise<void> {
   await pgPool.end();
+}
+
+export async function getLocations(): Promise<Location[]> {
+  const result = await pgPool.query(`
+    SELECT id, name, district_id
+    FROM location
+  `);
+  return result.rows;
 }

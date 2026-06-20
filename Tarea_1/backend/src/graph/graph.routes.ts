@@ -1,11 +1,16 @@
 import { Router } from "express";
-import { getTopProducts } from "./graph.controller";
+import * as graphController from "./graph.controller";
 
 const router = Router();
 
-router.get(
-  "/top-products",
-  getTopProducts
-);
+router.get("/test", (_, res) => {
+  res.json({
+    message: "Graph funcionando"
+  });
+});
+
+router.get("/top-products", graphController.getTopProducts);
+router.get("/recommending-users", graphController.getRecommendingUsers);
+router.get("/shortest-path", graphController.getShortestPath);
 
 export default router;

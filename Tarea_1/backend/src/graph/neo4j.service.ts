@@ -11,3 +11,7 @@ export const driver = neo4j.driver(
 export function getSession() {
   return driver.session();
 }
+
+export async function closeNeo4j() {
+  await driver.close();
+}
