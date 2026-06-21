@@ -5,6 +5,7 @@ import restaurantRoutes from "./restaurants";
 import menuRoutes from "./menus";
 import reservationRoutes from "./reservations";
 import orderRoutes from "./orders";
+import graphRoutes from "../graph/graph.routes";
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use("/restaurants", restaurantRoutes);
 router.use("/menus", menuRoutes);
 router.use("/reservations", reservationRoutes);
 router.use("/orders", orderRoutes);
+router.use("/graph", graphRoutes);
 
 export default router;

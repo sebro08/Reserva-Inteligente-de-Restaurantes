@@ -2,6 +2,8 @@ services:
   db:
     image: postgres:15-alpine
     container_name: restaurante_db
+    ports:
+    - "5433:5432"
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -249,6 +251,21 @@ services:
     networks:
       - app-network
 
+  neo4j:
+    image: neo4j:5.26
+    container_name: neo4j
+    restart: on-failure
+    environment:
+      - NEO4J_AUTH=neo4j/password123
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    networks:
+      - app-network
+
   search-service:
     build:
       context: ./search-service
@@ -288,6 +305,9 @@ services:
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
       - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
       - REDIS_URL=redis://redis:6379
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USERNAME=${NEO4J_USERNAME}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
@@ -556,3 +576,5 @@ volumes:
   postgres_airflow_data:
   namenode_data:
   datanode_data:
+  neo4j_data:
+  neo4j_logs:
