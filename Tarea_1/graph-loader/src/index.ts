@@ -9,6 +9,16 @@ import {
 } from "./loaders/postgres-loader";
 
 import {
+  getUsersMongo,
+  getRestaurantsMongo,
+  getPlatesMongo,
+  getOrdersMongo,
+  getOrderItemsMongo,
+  getLocationsMongo,
+  closeMongoLoader
+} from "./loaders/mongo-loader";
+
+import {
   loadUsers,
   loadRestaurants,
   loadPlates,
@@ -27,32 +37,42 @@ import {
 import { closeNeo4j } from "./neo4j.service";
 
 async function main() {
-  try {
-    // 1. Extraer de Postgres
-    const users = await getUsers();
-    const restaurants = await getRestaurants();
-    const plates = await getPlates();
-    const orders = await getOrders();
-    const items = await getOrderItems();
-    const locations = await getLocations();
+  const dbType = (process.env.DB_TYPE || "postgres").toLowerCase();
 
-    // 2. Cargar nodos base
+  console.log(`Iniciando carga del grafo (fuente: ${dbType})`);
+
+  try {
+    let users, restaurants, plates, orders, items, locations;
+
+    if (dbType === "mongo" || dbType === "mongodb") {
+      users = await getUsersMongo();
+      restaurants = await getRestaurantsMongo();
+      plates = await getPlatesMongo();
+      orders = await getOrdersMongo();
+      items = await getOrderItemsMongo();
+      locations = await getLocationsMongo();
+    } else {
+      users = await getUsers();
+      restaurants = await getRestaurants();
+      plates = await getPlates();
+      orders = await getOrders();
+      items = await getOrderItems();
+      locations = await getLocations();
+    }
+
     await loadUsers(users);
     await loadRestaurants(restaurants);
     await loadPlates(plates);
     await loadOrders(orders);
     await loadLocations(locations);
 
-    // 3. Crear relaciones base
     await createPlacedRelationships(orders);
     await createRestaurantRelationships(orders);
     await createContainsRelationships(items);
 
-    // 4. Relaciones de ubicación
     await createRestaurantLocationRelationships(restaurants);
     await createOrderLocationRelationships(orders);
 
-    // 5. Relaciones derivadas/simuladas
     await seedDistances();
     await seedRecommends();
     await seedDeliverers(3);
@@ -62,6 +82,7 @@ async function main() {
     console.error(error);
   } finally {
     await closePostgres();
+    await closeMongoLoader();
     await closeNeo4j();
   }
 }

@@ -50,12 +50,46 @@ db.categories.insertMany([
 ]);
 
 db.locations.insertMany([
-  { id: 1, name: 'Centro San Jose', district_id: 1 },
-  { id: 2, name: 'Escazu',          district_id: 2 },
-  { id: 3, name: 'Heredia Centro',  district_id: 3 },
-  { id: 4, name: 'Cartago Centro',  district_id: 4 },
-  { id: 5, name: 'Alajuela Centro', district_id: 5 }
+  { id: 1,  name: 'Centro San Jose',   district_id: 10101 },
+  { id: 2,  name: 'Escazu',            district_id: 10201 },
+  { id: 3,  name: 'Desamparados',      district_id: 10301 },
+  { id: 4,  name: 'Zapote',            district_id: 10105 },
+  { id: 5,  name: 'Pavas',             district_id: 10109 },
+  { id: 6,  name: 'Merced',            district_id: 10102 },
+  { id: 7,  name: 'Hospital',          district_id: 10103 },
+  { id: 8,  name: 'Catedral',          district_id: 10104 },
+  { id: 9,  name: 'San Francisco de Dos Rios', district_id: 10106 },
+  { id: 10, name: 'Uruca',             district_id: 10107 },
+  { id: 11, name: 'Mata Redonda',      district_id: 10108 },
+  { id: 12, name: 'Hatillo',           district_id: 10110 },
+  { id: 13, name: 'San Sebastian',     district_id: 10111 },
+  { id: 14, name: 'San Antonio (Escazu)', district_id: 10202 },
+  { id: 15, name: 'San Rafael (Escazu)',  district_id: 10203 },
+  { id: 16, name: 'San Miguel (Desamparados)', district_id: 10302 },
+  { id: 17, name: 'San Juan de Dios',  district_id: 10303 },
+  { id: 18, name: 'Frailes',           district_id: 10306 },
+  { id: 19, name: 'Aserri',            district_id: 10601 },
+  { id: 20, name: 'Curridabat',        district_id: 11801 },
+  { id: 21, name: 'Granadilla',        district_id: 11802 },
+  { id: 22, name: 'Guadalupe',         district_id: 10801 },
+  { id: 23, name: 'San Francisco (Goicoechea)', district_id: 10802 },
+  { id: 24, name: 'San Pedro (Montes de Oca)', district_id: 11501 },
+  { id: 25, name: 'Sabanilla',         district_id: 11502 },
+  { id: 26, name: 'Santa Ana',         district_id: 10901 },
+  { id: 27, name: 'Alajuelita',        district_id: 11001 },
+  { id: 28, name: 'Tibas (Cinco Esquinas)', district_id: 11302 },
+  { id: 29, name: 'Moravia (San Vicente)',  district_id: 11401 },
+  { id: 30, name: 'Vazquez de Coronado (San Isidro)', district_id: 11101 }
 ]);
+
+// Reasigna cada orden a una ubicacion aleatoria entre las 30 disponibles
+db.orders.find().forEach(function(order) {
+  const randomLocationId = Math.floor(Math.random() * 30) + 1;
+  db.orders.updateOne(
+    { _id: order._id },
+    { $set: { location_id: randomLocationId } }
+  );
+});
 
 db.users.insertMany([
   { id: 1,  keycloak_id: 'kc-admin-001', first_name: 'Admin',   last_name: 'Principal', email: 'admin@resto.com',  is_active: true, created_at: new Date('2025-08-01T09:00:00Z'), role_id: 1 },
