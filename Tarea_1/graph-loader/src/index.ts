@@ -20,7 +20,8 @@ import {
   createRestaurantLocationRelationships,
   createOrderLocationRelationships,
   seedDistances,
-  seedRecommends
+  seedRecommends,
+  seedDeliverers
 } from "./loaders/neo-loader";
 
 import { closeNeo4j } from "./neo4j.service";
@@ -54,6 +55,7 @@ async function main() {
     // 5. Relaciones derivadas/simuladas
     await seedDistances();
     await seedRecommends();
+    await seedDeliverers(3);
 
     console.log("Graph load completed");
   } catch (error) {

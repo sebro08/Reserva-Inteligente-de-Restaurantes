@@ -302,25 +302,29 @@ export async function seedDistances() {
 
     const ids = result.records.map((r) => r.get("id"));
 
+    const pairs: { idA: number; idB: number; km: number; minutes: number }[] = [];
+
     for (let i = 0; i < ids.length; i++) {
       for (let j = i + 1; j < ids.length; j++) {
         const km = +(Math.random() * 20 + 1).toFixed(2);
         const minutes = Math.round(km * 2.5);
-
-        await session.run(
-          `
-          MATCH (a:Location {id: $idA}), (b:Location {id: $idB})
-          MERGE (a)-[d:DISTANCE]->(b)
-          SET d.km = $km, d.minutes = $minutes
-          MERGE (b)-[d2:DISTANCE]->(a)
-          SET d2.km = $km, d2.minutes = $minutes
-          `,
-          { idA: ids[i], idB: ids[j], km, minutes }
-        );
+        pairs.push({ idA: ids[i], idB: ids[j], km, minutes });
       }
     }
 
-    console.log(`Distancias creadas entre ${ids.length} ubicaciones`);
+    await session.run(
+      `
+      UNWIND $pairs AS pair
+      MATCH (a:Location {id: pair.idA}), (b:Location {id: pair.idB})
+      MERGE (a)-[d:DISTANCE]->(b)
+      SET d.km = pair.km, d.minutes = pair.minutes
+      MERGE (b)-[d2:DISTANCE]->(a)
+      SET d2.km = pair.km, d2.minutes = pair.minutes
+      `,
+      { pairs }
+    );
+
+    console.log(`Distancias creadas entre ${ids.length} ubicaciones (${pairs.length} pares)`);
   } finally {
     await session.close();
   }
@@ -349,3 +353,27 @@ export async function seedRecommends() {
   }
 }
 
+export async function seedDeliverers(count: number = 3) {
+  const session = neo4jDriver.session({
+    database: "neo4j"
+  });
+
+  try {
+    for (let i = 1; i <= count; i++) {
+      await session.run(
+        `
+        MERGE (d:Deliverer {id: $id})
+        SET d.name = $name
+        `,
+        {
+          id: i,
+          name: `Repartidor ${i}`
+        }
+      );
+    }
+
+    console.log(`Deliverers simulados creados: ${count}`);
+  } finally {
+    await session.close();
+  }
+}

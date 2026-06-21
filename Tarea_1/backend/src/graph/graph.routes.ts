@@ -12,5 +12,6 @@ router.get("/test", (_, res) => {
 router.get("/top-products", graphController.getTopProducts);
 router.get("/recommending-users", graphController.getRecommendingUsers);
 router.get("/shortest-path", graphController.getShortestPath);
+router.get("/delivery-routes", graphController.assignDeliveryRoutes);
 
 export default router;

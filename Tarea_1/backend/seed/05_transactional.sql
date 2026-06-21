@@ -39,11 +39,36 @@ INSERT INTO category (id, name) VALUES
 -- --- Ubicaciones (zonas geograficas) ----------------------------------------
 -- district_id referencia distritos ya cargados desde el CSV (existen cientos).
 INSERT INTO location (id, name, district_id) VALUES
-  (1, 'Centro San Jose', 10101), -- Carmen
-  (2, 'Escazu',          10201), -- Escazu
-  (3, 'Desamparados',    10301),
-  (4, 'Zapote',          10105),
-  (5, 'Pavas',           10109);
+  (1,  'Centro San Jose',   10101), -- Carmen
+  (2,  'Escazu',            10201), -- Escazu
+  (3,  'Desamparados',      10301),
+  (4,  'Zapote',            10105),
+  (5,  'Pavas',             10109),
+  (6,  'Merced',            10102),
+  (7,  'Hospital',          10103),
+  (8,  'Catedral',          10104),
+  (9,  'San Francisco de Dos Rios', 10106),
+  (10, 'Uruca',             10107),
+  (11, 'Mata Redonda',      10108),
+  (12, 'Hatillo',           10110),
+  (13, 'San Sebastian',     10111),
+  (14, 'San Antonio (Escazu)', 10202),
+  (15, 'San Rafael (Escazu)',  10203),
+  (16, 'San Miguel (Desamparados)', 10302),
+  (17, 'San Juan de Dios',  10303),
+  (18, 'Frailes',           10306),
+  (19, 'Aserri',            10601),
+  (20, 'Curridabat',        11801),
+  (21, 'Granadilla',        11802),
+  (22, 'Guadalupe',         10801),
+  (23, 'San Francisco (Goicoechea)', 10802),
+  (24, 'San Pedro (Montes de Oca)', 11501),
+  (25, 'Sabanilla',         11502),
+  (26, 'Santa Ana',         10901),
+  (27, 'Alajuelita',        11001),
+  (28, 'Tibas (Cinco Esquinas)', 11302),
+  (29, 'Moravia (San Vicente)', 11401),
+  (30, 'Vazquez de Coronado (San Isidro)', 11101);
 
 -- --- Usuarios ---------------------------------------------------------------
 -- id 1 = administrador (role 1). Resto = clientes (role 2).

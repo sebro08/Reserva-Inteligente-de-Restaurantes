@@ -99,3 +99,47 @@ export async function getShortestPath(
 
   }
 }
+
+export async function assignDeliveryRoutes(
+  req: Request,
+  res: Response
+): Promise<void> {
+
+  try {
+
+    const restaurantId = Number(req.query.restaurantId);
+
+    if (!restaurantId) {
+      res.status(400).json({
+        success: false,
+        message: "Debe proporcionar el query param 'restaurantId'"
+      });
+      return;
+    }
+
+    const data = await graphService.assignDeliveryRoutes(restaurantId);
+
+    if (!data) {
+      res.status(404).json({
+        success: false,
+        message: "Restaurante no encontrado o sin ubicación asociada"
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data
+    });
+
+  } catch (error) {
+
+    console.error("Graph Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Error asignando rutas de entrega"
+    });
+
+  }
+}
