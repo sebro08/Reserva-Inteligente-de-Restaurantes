@@ -26,11 +26,11 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Restaurant'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       403:
  *         description: Forbidden - requiere rol admin_restaurante
  *       500:
- *         description: Error al crear el restaurante
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.post("/", keycloak.protect("realm:admin_restaurante"), RestaurantController.createRestaurant);
 
@@ -52,9 +52,9 @@ router.post("/", keycloak.protect("realm:admin_restaurante"), RestaurantControll
  *               items:
  *                 $ref: '#/components/schemas/Restaurant'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       500:
- *         description: Error al obtener restaurantes
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.get("/", keycloak.protect(), cacheMiddleware(1800), RestaurantController.getRestaurants);
 

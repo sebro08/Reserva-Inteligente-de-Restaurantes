@@ -25,11 +25,11 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Order'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       403:
  *         description: Forbidden - requiere rol cliente_restaurante
  *       500:
- *         description: Error al realizar el pedido
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.post("/", keycloak.protect("realm:cliente_restaurante"), OrderController.createOrder);
 
@@ -56,11 +56,11 @@ router.post("/", keycloak.protect("realm:cliente_restaurante"), OrderController.
  *             schema:
  *               $ref: '#/components/schemas/Order'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       404:
  *         description: Pedido no encontrado
  *       500:
- *         description: Error al obtener el pedido
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.get("/:id", keycloak.protect(), OrderController.getOrder);
 export default router;

@@ -19,11 +19,11 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       404:
  *         description: Usuario no encontrado en la base de datos local
  *       500:
- *         description: Error al obtener el usuario
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.get("/me", keycloak.protect(), UserController.getMe);
 
@@ -56,11 +56,11 @@ router.get("/me", keycloak.protect(), UserController.getMe);
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       404:
  *         description: Usuario no encontrado
  *       500:
- *         description: Error al actualizar el usuario
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.put("/:id", keycloak.protect(), UserController.updateUser);
 
@@ -83,13 +83,13 @@ router.put("/:id", keycloak.protect(), UserController.updateUser);
  *       200:
  *         description: Usuario eliminado con éxito
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       403:
  *         description: Forbidden - requiere rol admin_restaurante
  *       404:
  *         description: Usuario no encontrado
  *       500:
- *         description: Error al eliminar el usuario
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.delete("/:id", keycloak.protect("realm:admin_restaurante"), UserController.deleteUser);
 

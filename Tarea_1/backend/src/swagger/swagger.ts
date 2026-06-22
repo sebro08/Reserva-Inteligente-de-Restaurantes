@@ -16,8 +16,24 @@ const options: swaggerJsdoc.Options = {
     servers: [
       {
         url: "http://localhost/api",
-        description: "Servidor Nginx",
+        description: "Servidor Nginx (local)",
       },
+      // Agrega aquí tu server de staging/producción cuando lo tengas, ej:
+      // {
+      //   url: "https://api.tu-dominio.com/api",
+      //   description: "Servidor de producción",
+      // },
+    ],
+
+    // Define el orden y la descripción de cada grupo en Swagger UI
+    tags: [
+      { name: "Auth", description: "Registro e inicio de sesión" },
+      { name: "Users", description: "Gestión de usuarios" },
+      { name: "Restaurants", description: "Gestión de restaurantes" },
+      { name: "Menus", description: "Gestión de menús" },
+      { name: "Orders", description: "Pedidos" },
+      { name: "Reservations", description: "Reservas" },
+      { name: "Graph", description: "Análisis y recomendaciones basadas en grafo" },
     ],
 
     components: {
@@ -29,55 +45,83 @@ const options: swaggerJsdoc.Options = {
         },
       },
 
+      // =========================
+      // RESPUESTAS REUTILIZABLES
+      // =========================
+      responses: {
+        Unauthorized: {
+          description: "No autorizado",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/ErrorResponse" },
+            },
+          },
+        },
+        Forbidden: {
+          description: "Acceso denegado",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/ErrorResponse" },
+            },
+          },
+        },
+        NotFound: {
+          description: "Recurso no encontrado",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/ErrorResponse" },
+            },
+          },
+        },
+        InternalServerError: {
+          description: "Error interno del servidor",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/ErrorResponse" },
+            },
+          },
+        },
+      },
+
       schemas: {
+        // =========================
+        // ERROR (genérico)
+        // =========================
+        ErrorResponse: {
+          type: "object",
+          properties: {
+            message: {
+              type: "string",
+              example: "Error interno del servidor",
+            },
+          },
+        },
+
         // =========================
         // USER
         // =========================
         User: {
           type: "object",
           properties: {
-            id: {
-              type: "integer",
-              example: 1,
-            },
-            first_name: {
-              type: "string",
-              example: "Juan",
-            },
-            last_name: {
-              type: "string",
-              example: "Pérez",
-            },
-            email: {
-              type: "string",
-              example: "juan@test.com",
-            },
+            id: { type: "integer", example: 1 },
+            first_name: { type: "string", example: "Juan" },
+            last_name: { type: "string", example: "Pérez" },
+            email: { type: "string", example: "juan@test.com" },
             keycloak_id: {
               type: "string",
               example: "kc-user-001",
+              readOnly: true, // dato interno, no se debería enviar desde el cliente
             },
-            is_active: {
-              type: "boolean",
-              example: true,
-            },
+            is_active: { type: "boolean", example: true },
           },
         },
 
         UpdateUserRequest: {
           type: "object",
           properties: {
-            first_name: {
-              type: "string",
-              example: "Juan",
-            },
-            last_name: {
-              type: "string",
-              example: "Pérez",
-            },
-            email: {
-              type: "string",
-              example: "juan@test.com",
-            },
+            first_name: { type: "string", example: "Juan" },
+            last_name: { type: "string", example: "Pérez" },
+            email: { type: "string", example: "juan@test.com" },
           },
         },
 
@@ -87,20 +131,10 @@ const options: swaggerJsdoc.Options = {
         Restaurant: {
           type: "object",
           properties: {
-            id: {
-              type: "integer",
-              example: 1,
-            },
-            name: {
-              type: "string",
-              example: "Soda Tapia",
-            },
-            admin: {
-              type: "object",
-            },
-            location: {
-              type: "object",
-            },
+            id: { type: "integer", example: 1 },
+            name: { type: "string", example: "Soda Tapia" },
+            admin: { type: "object" },
+            location: { type: "object" },
           },
         },
 
@@ -108,18 +142,9 @@ const options: swaggerJsdoc.Options = {
           type: "object",
           required: ["name"],
           properties: {
-            name: {
-              type: "string",
-              example: "Soda Tapia",
-            },
-            admin_id: {
-              type: "integer",
-              example: 1,
-            },
-            location_id: {
-              type: "integer",
-              example: 1,
-            },
+            name: { type: "string", example: "Soda Tapia" },
+            admin_id: { type: "integer", example: 1 },
+            location_id: { type: "integer", example: 1 },
           },
         },
 
@@ -129,22 +154,12 @@ const options: swaggerJsdoc.Options = {
         Menu: {
           type: "object",
           properties: {
-            id: {
-              type: "integer",
-              example: 1,
-            },
-            name: {
-              type: "string",
-              example: "Menú del día",
-            },
-            restaurant: {
-              $ref: "#/components/schemas/Restaurant",
-            },
+            id: { type: "integer", example: 1 },
+            name: { type: "string", example: "Menú del día" },
+            restaurant: { $ref: "#/components/schemas/Restaurant" },
             plates: {
               type: "array",
-              items: {
-                type: "object",
-              },
+              items: { type: "object" },
             },
           },
         },
@@ -153,24 +168,15 @@ const options: swaggerJsdoc.Options = {
           type: "object",
           required: ["name"],
           properties: {
-            name: {
-              type: "string",
-              example: "Menú del día",
-            },
-            restaurant_id: {
-              type: "integer",
-              example: 1,
-            },
+            name: { type: "string", example: "Menú del día" },
+            restaurant_id: { type: "integer", example: 1 },
           },
         },
 
         UpdateMenuRequest: {
           type: "object",
           properties: {
-            name: {
-              type: "string",
-              example: "Menú actualizado",
-            },
+            name: { type: "string", example: "Menú actualizado" },
           },
         },
 
@@ -181,43 +187,22 @@ const options: swaggerJsdoc.Options = {
           type: "object",
           required: ["user_id", "restaurant_id"],
           properties: {
-            user_id: {
-              type: "integer",
-              example: 1,
-            },
-            restaurant_id: {
-              type: "integer",
-              example: 1,
-            },
-            pickup: {
-              type: "boolean",
-              example: false,
-            },
+            user_id: { type: "integer", example: 1 },
+            restaurant_id: { type: "integer", example: 1 },
+            pickup: { type: "boolean", example: false },
           },
         },
 
         Order: {
           type: "object",
           properties: {
-            id: {
-              type: "integer",
-              example: 1,
-            },
-            pickup: {
-              type: "boolean",
-              example: false,
-            },
-            user: {
-              $ref: "#/components/schemas/User",
-            },
-            restaurant: {
-              $ref: "#/components/schemas/Restaurant",
-            },
+            id: { type: "integer", example: 1 },
+            pickup: { type: "boolean", example: false },
+            user: { $ref: "#/components/schemas/User" },
+            restaurant: { $ref: "#/components/schemas/Restaurant" },
             items: {
               type: "array",
-              items: {
-                type: "object",
-              },
+              items: { type: "object" },
             },
           },
         },
@@ -227,62 +212,33 @@ const options: swaggerJsdoc.Options = {
         // =========================
         CreateReservationRequest: {
           type: "object",
-          required: [
-            "reservation_date",
-            "reservation_time",
-            "people_count",
-          ],
+          required: ["reservation_date", "reservation_time", "people_count"],
           properties: {
-            user_id: {
-              type: "integer",
-              example: 1,
-            },
-            restaurant_id: {
-              type: "integer",
-              example: 1,
-            },
+            user_id: { type: "integer", example: 1 },
+            restaurant_id: { type: "integer", example: 1 },
             reservation_date: {
               type: "string",
               format: "date",
-              example: "2025-12-25",
+              example: "2026-12-25",
             },
-            reservation_time: {
-              type: "string",
-              example: "20:00",
-            },
-            people_count: {
-              type: "integer",
-              example: 4,
-            },
+            reservation_time: { type: "string", example: "20:00" },
+            people_count: { type: "integer", example: 4 },
           },
         },
 
         Reservation: {
           type: "object",
           properties: {
-            id: {
-              type: "integer",
-              example: 1,
-            },
+            id: { type: "integer", example: 1 },
             reservation_date: {
               type: "string",
               format: "date",
-              example: "2025-12-25",
+              example: "2026-12-25",
             },
-            reservation_time: {
-              type: "string",
-              example: "20:00",
-            },
-            people_count: {
-              type: "integer",
-              example: 4,
-            },
-            user: {
-              $ref: "#/components/schemas/User",
-            },
-            restaurant: {
-              $ref: "#/components/schemas/Restaurant",
-            },
+            reservation_time: { type: "string", example: "20:00" },
+            people_count: { type: "integer", example: 4 },
+            user: { $ref: "#/components/schemas/User" },
+            restaurant: { $ref: "#/components/schemas/Restaurant" },
           },
         },
 
@@ -291,35 +247,15 @@ const options: swaggerJsdoc.Options = {
         // =========================
         AuthRegisterRequest: {
           type: "object",
-          required: [
-            "first_name",
-            "last_name",
-            "email",
-            "password",
-          ],
+          required: ["first_name", "last_name", "email", "password"],
           properties: {
-            first_name: {
-              type: "string",
-              example: "Juan",
-            },
-            last_name: {
-              type: "string",
-              example: "Pérez",
-            },
-            email: {
-              type: "string",
-              example: "juan@correo.com",
-            },
-            password: {
-              type: "string",
-              example: "pass123",
-            },
+            first_name: { type: "string", example: "Juan" },
+            last_name: { type: "string", example: "Pérez" },
+            email: { type: "string", example: "juan@correo.com" },
+            password: { type: "string", example: "pass123" },
             role_name: {
               type: "string",
-              enum: [
-                "cliente_restaurante",
-                "admin_restaurante",
-              ],
+              enum: ["cliente_restaurante", "admin_restaurante"],
               example: "cliente_restaurante",
             },
           },
@@ -329,55 +265,40 @@ const options: swaggerJsdoc.Options = {
           type: "object",
           required: ["email", "password"],
           properties: {
-            email: {
-              type: "string",
-              example: "juan@correo.com",
-            },
-            password: {
-              type: "string",
-              example: "pass123",
-            },
+            email: { type: "string", example: "juan@correo.com" },
+            password: { type: "string", example: "pass123" },
           },
         },
 
         AuthLoginResponse: {
           type: "object",
           properties: {
-            message: {
-              type: "string",
-              example: "Login exitoso",
-            },
-            access_token: {
-              type: "string",
-            },
-            refresh_token: {
-              type: "string",
-            },
-            expires_in: {
-              type: "integer",
-              example: 3600,
-            },
+            message: { type: "string", example: "Login exitoso" },
+            access_token: { type: "string" },
+            refresh_token: { type: "string" },
+            expires_in: { type: "integer", example: 3600 },
           },
         },
       },
     },
 
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
+    // Seguridad por defecto para TODAS las operaciones.
+    // Las rutas públicas (login, register) deben sobreescribir esto con `security: []`
+    security: [{ bearerAuth: [] }],
   },
 
-  apis: ["./dist/routes/*.js", "./src/routes/*.ts"],
+  // Glob de archivos donde swagger-jsdoc busca los comentarios @swagger.
+  // Se agregó la carpeta graph, que antes no estaba incluida.
+  apis: [
+    "./dist/routes/*.js",
+    "./src/routes/*.ts",
+    "./dist/graph/*.routes.js",
+    "./src/graph/*.routes.ts",
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
 export const setupSwagger = (app: Express) => {
-  app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerSpec)
-  );
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };
