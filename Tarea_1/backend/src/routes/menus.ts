@@ -17,16 +17,7 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - name
- *             properties:
- *               name:
- *                 type: string
- *                 example: Menú del día
- *               restaurant_id:
- *                 type: integer
- *                 example: 1
+ *             $ref: '#/components/schemas/CreateMenuRequest'
  *     responses:
  *       201:
  *         description: Menú creado exitosamente
@@ -35,7 +26,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Menu'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       403:
  *         description: Forbidden - requiere rol admin_restaurante
  *       500:
@@ -65,7 +56,7 @@ router.post("/", keycloak.protect("realm:admin_restaurante"), MenuController.cre
  *             schema:
  *               $ref: '#/components/schemas/Menu'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       404:
  *         description: Menú no encontrado
  *       500:
@@ -85,8 +76,7 @@ router.get("/:id", keycloak.protect(), cacheMiddleware(1800), MenuController.get
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
- *         example: 1
+ *           $ref: '#/components/schemas/UpdateMenuRequest'
  *     requestBody:
  *       required: true
  *       content:
@@ -105,13 +95,13 @@ router.get("/:id", keycloak.protect(), cacheMiddleware(1800), MenuController.get
  *             schema:
  *               $ref: '#/components/schemas/Menu'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       403:
  *         description: Forbidden - requiere rol admin_restaurante
  *       404:
  *         description: Menú no encontrado
  *       500:
- *         description: Error al actualizar el menú
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.put("/:id", keycloak.protect("realm:admin_restaurante"), MenuController.updateMenu);
 /**
@@ -141,13 +131,13 @@ router.put("/:id", keycloak.protect("realm:admin_restaurante"), MenuController.u
  *                   type: string
  *                   example: Menú eliminado con éxito
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       403:
  *         description: Forbidden - requiere rol admin_restaurante
  *       404:
  *         description: Menú no encontrado
  *       500:
- *         description: Error al eliminar el menú
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.delete("/:id", keycloak.protect("realm:admin_restaurante"), MenuController.deleteMenu);
 

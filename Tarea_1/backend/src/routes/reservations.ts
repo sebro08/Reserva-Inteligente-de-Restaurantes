@@ -26,11 +26,11 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Reservation'
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       403:
  *         description: Forbidden - requiere rol cliente_restaurante
  *       500:
- *         description: Error al crear la reserva
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.post("/", keycloak.protect("realm:cliente_restaurante"), ReservationController.createReservation);
 
@@ -53,11 +53,11 @@ router.post("/", keycloak.protect("realm:cliente_restaurante"), ReservationContr
  *       200:
  *         description: Reserva cancelada con éxito
  *       401:
- *         description: No autorizado
+ *         $ref: '#/components/responses/Unauthorized'
  *       404:
  *         description: Reserva no encontrada
  *       500:
- *         description: Error al cancelar la reserva
+ *         $ref: '#/components/responses/InternalServerError'
  */
 router.delete("/:id", keycloak.protect(), ReservationController.deleteReservation);
 export default router;
