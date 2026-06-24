@@ -33,4 +33,6 @@ export interface Location {
   id: number;
   name: string;
   district_id: number;
+  latitude: number | null;
+  longitude: number | null;
 }

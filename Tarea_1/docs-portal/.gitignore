@@ -1,0 +1,12 @@
+# Dependencias y artefactos de build de Docusaurus
+/node_modules
+/build
+/.docusaurus
+.cache-loader
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.DS_Store

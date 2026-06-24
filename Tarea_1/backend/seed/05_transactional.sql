@@ -38,37 +38,40 @@ INSERT INTO category (id, name) VALUES
 
 -- --- Ubicaciones (zonas geograficas) ----------------------------------------
 -- district_id referencia distritos ya cargados desde el CSV (existen cientos).
-INSERT INTO location (id, name, district_id) VALUES
-  (1,  'Centro San Jose',   10101), -- Carmen
-  (2,  'Escazu',            10201), -- Escazu
-  (3,  'Desamparados',      10301),
-  (4,  'Zapote',            10105),
-  (5,  'Pavas',             10109),
-  (6,  'Merced',            10102),
-  (7,  'Hospital',          10103),
-  (8,  'Catedral',          10104),
-  (9,  'San Francisco de Dos Rios', 10106),
-  (10, 'Uruca',             10107),
-  (11, 'Mata Redonda',      10108),
-  (12, 'Hatillo',           10110),
-  (13, 'San Sebastian',     10111),
-  (14, 'San Antonio (Escazu)', 10202),
-  (15, 'San Rafael (Escazu)',  10203),
-  (16, 'San Miguel (Desamparados)', 10302),
-  (17, 'San Juan de Dios',  10303),
-  (18, 'Frailes',           10306),
-  (19, 'Aserri',            10601),
-  (20, 'Curridabat',        11801),
-  (21, 'Granadilla',        11802),
-  (22, 'Guadalupe',         10801),
-  (23, 'San Francisco (Goicoechea)', 10802),
-  (24, 'San Pedro (Montes de Oca)', 11501),
-  (25, 'Sabanilla',         11502),
-  (26, 'Santa Ana',         10901),
-  (27, 'Alajuelita',        11001),
-  (28, 'Tibas (Cinco Esquinas)', 11302),
-  (29, 'Moravia (San Vicente)', 11401),
-  (30, 'Vazquez de Coronado (San Isidro)', 11101);
+-- latitude/longitude son coordenadas reales aproximadas (geonodos) del area
+-- metropolitana de San Jose; sirven para calcular distancias Haversine y
+-- simular rutas de entrega en Neo4j (no son aleatorias -> reproducibles).
+INSERT INTO location (id, name, district_id, latitude, longitude) VALUES
+  (1,  'Centro San Jose',   10101, 9.9356, -84.0792), -- Carmen
+  (2,  'Escazu',            10201, 9.9189, -84.1378), -- Escazu
+  (3,  'Desamparados',      10301, 9.8990, -84.0668),
+  (4,  'Zapote',            10105, 9.9197, -84.0556),
+  (5,  'Pavas',             10109, 9.9489, -84.1228),
+  (6,  'Merced',            10102, 9.9389, -84.0889),
+  (7,  'Hospital',          10103, 9.9300, -84.0875),
+  (8,  'Catedral',          10104, 9.9280, -84.0739),
+  (9,  'San Francisco de Dos Rios', 10106, 9.9100, -84.0561),
+  (10, 'Uruca',             10107, 9.9583, -84.1242),
+  (11, 'Mata Redonda',      10108, 9.9344, -84.1011),
+  (12, 'Hatillo',           10110, 9.9136, -84.1011),
+  (13, 'San Sebastian',     10111, 9.9039, -84.0889),
+  (14, 'San Antonio (Escazu)', 10202, 9.9211, -84.1497),
+  (15, 'San Rafael (Escazu)',  10203, 9.9311, -84.1281),
+  (16, 'San Miguel (Desamparados)', 10302, 9.8869, -84.0606),
+  (17, 'San Juan de Dios',  10303, 9.8908, -84.0758),
+  (18, 'Frailes',           10306, 9.7711, -84.0061),
+  (19, 'Aserri',            10601, 9.8589, -84.0917),
+  (20, 'Curridabat',        11801, 9.9075, -84.0331),
+  (21, 'Granadilla',        11802, 9.9203, -84.0181),
+  (22, 'Guadalupe',         10801, 9.9483, -84.0561),
+  (23, 'San Francisco (Goicoechea)', 10802, 9.9456, -84.0703),
+  (24, 'San Pedro (Montes de Oca)', 11501, 9.9286, -84.0506),
+  (25, 'Sabanilla',         11502, 9.9389, -84.0331),
+  (26, 'Santa Ana',         10901, 9.9325, -84.1839),
+  (27, 'Alajuelita',        11001, 9.9011, -84.1003),
+  (28, 'Tibas (Cinco Esquinas)', 11302, 9.9558, -84.0875),
+  (29, 'Moravia (San Vicente)', 11401, 9.9589, -84.0500),
+  (30, 'Vazquez de Coronado (San Isidro)', 11101, 9.9678, -84.0094);
 
 -- --- Usuarios ---------------------------------------------------------------
 -- id 1 = administrador (role 1). Resto = clientes (role 2).

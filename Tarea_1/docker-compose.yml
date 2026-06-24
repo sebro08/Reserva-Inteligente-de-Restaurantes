@@ -257,6 +257,11 @@ services:
     restart: on-failure
     environment:
       - NEO4J_AUTH=neo4j/password123
+      # APOC core (incluido en la imagen) habilita apoc.algo.dijkstra para
+      # calcular caminos minimos PONDERADOS por km en las rutas de entrega.
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_dbms_security_procedures_allowlist=apoc.*
     ports:
       - "7474:7474"
       - "7687:7687"
@@ -343,6 +348,31 @@ services:
       - app-network
 
   # -----------------------------------------------------
+  # VISUALIZACIÓN (METABASE - Track C)
+  # Perfil "viz": docker compose --profile viz up -d metabase
+  # Se conecta a Postgres (db) para construir los 3 dashboards obligatorios.
+  # Su configuración (conexiones y dashboards) se guarda en una app-db H2 dentro
+  # del volumen metabase_data: sobrevive a 'stop/start' y 'down' (SIN -v); un
+  # 'down -v' sí borra los dashboards (ver docs/track_c_metabase.md).
+  # -----------------------------------------------------
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    profiles: ["viz"]
+    restart: on-failure
+    ports:
+      - "3030:3000" # Metabase escucha en 3000; lo publicamos en 3030 en el host
+    environment:
+      - MB_DB_TYPE=h2
+      - MB_DB_FILE=/metabase-data/metabase.db
+    volumes:
+      - metabase_data:/metabase-data
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # -----------------------------------------------------
   # INFRAESTRUCTURA ANALÍTICA (AIRFLOW + HIVE/HADOOP)
   # Perfil "data": Para iniciar usar: docker-compose --profile data up -d
   # -----------------------------------------------------
@@ -406,6 +436,14 @@ services:
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
       - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW_FERNET_KEY:-ZmDfcTF7_60GrrY167zsiPd67pEvs0aGOv2oasOM1Pg=}
       - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW_SECRET_KEY:-restaurante_secret_2025}
+      # Coordenadas internas (red Docker) + credenciales del .env, iguales que en
+      # el scheduler, para que el DAG se parsee igual en ambos contenedores.
+      - DB_TYPE=${DB_TYPE:-postgres}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=${DB_USERNAME:-restaurante_admin}
+      - DB_PASSWORD=${DB_PASSWORD:-changeme}
+      - DB_NAME=${DB_NAME:-restaurante_db}
     command: webserver
     volumes:
       - ./dags:/opt/airflow/dags
@@ -438,6 +476,15 @@ services:
       # DB_TYPE que el DAG lee para elegir la fuente del ETL (postgres o mongo).
       # Se toma del .env; el DAG fija los hosts/URIs correctos de la red Docker.
       - DB_TYPE=${DB_TYPE:-postgres}
+      # DB_HOST/DB_PORT = coordenadas DENTRO de la red Docker (servicio "db",
+      # puerto interno 5432). NO se toman del .env, que apunta al host
+      # (localhost:5433, el puerto publicado) y no funciona entre contenedores.
+      - DB_HOST=db
+      - DB_PORT=5432
+      # Credenciales/nombre SÍ del .env, para usar la contraseña REAL (no hardcodeada).
+      - DB_USERNAME=${DB_USERNAME:-restaurante_admin}
+      - DB_PASSWORD=${DB_PASSWORD:-changeme}
+      - DB_NAME=${DB_NAME:-restaurante_db}
     command: scheduler
     volumes:
       - ./dags:/opt/airflow/dags
@@ -578,3 +625,4 @@ volumes:
   datanode_data:
   neo4j_data:
   neo4j_logs:
+  metabase_data:

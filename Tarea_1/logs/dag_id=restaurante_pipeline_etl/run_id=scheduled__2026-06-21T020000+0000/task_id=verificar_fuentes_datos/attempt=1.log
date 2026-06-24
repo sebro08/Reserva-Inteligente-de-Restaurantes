@@ -1,0 +1,100 @@
+[2026-06-23T01:13:26.298+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [queued]>
+[2026-06-23T01:13:26.308+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [queued]>
+[2026-06-23T01:13:26.309+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 2
+[2026-06-23T01:13:26.324+0000] {taskinstance.py:2214} INFO - Executing <Task(PythonOperator): verificar_fuentes_datos> on 2026-06-21 02:00:00+00:00
+[2026-06-23T01:13:26.330+0000] {standard_task_runner.py:60} INFO - Started process 177 to run task
+[2026-06-23T01:13:26.336+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'restaurante_pipeline_etl', 'verificar_fuentes_datos', 'scheduled__2026-06-21T02:00:00+00:00', '--job-id', '2', '--raw', '--subdir', 'DAGS_FOLDER/restaurante_pipeline.py', '--cfg-path', '/tmp/tmplt1a6gn1']
+[2026-06-23T01:13:26.340+0000] {standard_task_runner.py:88} INFO - Job 2: Subtask verificar_fuentes_datos
+[2026-06-23T01:13:26.435+0000] {task_command.py:423} INFO - Running <TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [running]> on host a762bc6f8a3e
+[2026-06-23T01:13:26.567+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='restaurante_team' AIRFLOW_CTX_DAG_ID='restaurante_pipeline_etl' AIRFLOW_CTX_TASK_ID='verificar_fuentes_datos' AIRFLOW_CTX_EXECUTION_DATE='2026-06-21T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-21T02:00:00+00:00'
+[2026-06-23T01:13:30.546+0000] {taskinstance.py:2728} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/restaurante_pipeline.py", line 70, in verificar_fuentes
+    conn = psycopg2.connect(
+  File "/home/airflow/.local/lib/python3.8/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: could not translate host name "db" to address: Name or service not known
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 444, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 414, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 200, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 217, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/restaurante_pipeline.py", line 85, in verificar_fuentes
+    raise Exception(f"No se puede conectar a PostgreSQL: {exc}")
+Exception: No se puede conectar a PostgreSQL: could not translate host name "db" to address: Name or service not known
+
+[2026-06-23T01:13:30.565+0000] {taskinstance.py:1149} INFO - Marking task as UP_FOR_RETRY. dag_id=restaurante_pipeline_etl, task_id=verificar_fuentes_datos, execution_date=20260621T020000, start_date=20260623T011326, end_date=20260623T011330
+[2026-06-23T01:13:30.584+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2 for task verificar_fuentes_datos (No se puede conectar a PostgreSQL: could not translate host name "db" to address: Name or service not known
+; 177)
+[2026-06-23T01:13:30.622+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-06-23T01:13:30.650+0000] {taskinstance.py:3309} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-06-23T01:39:54.811+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [queued]>
+[2026-06-23T01:39:54.823+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [queued]>
+[2026-06-23T01:39:54.824+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 2
+[2026-06-23T01:39:54.841+0000] {taskinstance.py:2214} INFO - Executing <Task(PythonOperator): verificar_fuentes_datos> on 2026-06-21 02:00:00+00:00
+[2026-06-23T01:39:54.847+0000] {standard_task_runner.py:60} INFO - Started process 178 to run task
+[2026-06-23T01:39:54.852+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'restaurante_pipeline_etl', 'verificar_fuentes_datos', 'scheduled__2026-06-21T02:00:00+00:00', '--job-id', '2', '--raw', '--subdir', 'DAGS_FOLDER/restaurante_pipeline.py', '--cfg-path', '/tmp/tmpkwmb7u6f']
+[2026-06-23T01:39:54.855+0000] {standard_task_runner.py:88} INFO - Job 2: Subtask verificar_fuentes_datos
+[2026-06-23T01:39:54.952+0000] {task_command.py:423} INFO - Running <TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [running]> on host 22b42bb72f17
+[2026-06-23T01:39:55.097+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='restaurante_team' AIRFLOW_CTX_DAG_ID='restaurante_pipeline_etl' AIRFLOW_CTX_TASK_ID='verificar_fuentes_datos' AIRFLOW_CTX_EXECUTION_DATE='2026-06-21T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-21T02:00:00+00:00'
+[2026-06-23T01:39:55.099+0000] {taskinstance.py:2728} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/restaurante_pipeline.py", line 70, in verificar_fuentes
+    conn = psycopg2.connect(
+  File "/home/airflow/.local/lib/python3.8/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 444, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 414, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 200, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 217, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/restaurante_pipeline.py", line 85, in verificar_fuentes
+    raise Exception(f"No se puede conectar a PostgreSQL: {exc}")
+Exception: No se puede conectar a PostgreSQL: connection to server at "localhost" (::1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+[2026-06-23T01:39:55.115+0000] {taskinstance.py:1149} INFO - Marking task as UP_FOR_RETRY. dag_id=restaurante_pipeline_etl, task_id=verificar_fuentes_datos, execution_date=20260621T020000, start_date=20260623T013954, end_date=20260623T013955
+[2026-06-23T01:39:55.131+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2 for task verificar_fuentes_datos (No se puede conectar a PostgreSQL: connection to server at "localhost" (::1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+; 178)
+[2026-06-23T01:39:55.150+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-06-23T01:39:55.178+0000] {taskinstance.py:3309} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-06-23T01:45:22.370+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [queued]>
+[2026-06-23T01:45:22.379+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [queued]>
+[2026-06-23T01:45:22.380+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 2
+[2026-06-23T01:45:22.395+0000] {taskinstance.py:2214} INFO - Executing <Task(PythonOperator): verificar_fuentes_datos> on 2026-06-21 02:00:00+00:00
+[2026-06-23T01:45:22.400+0000] {standard_task_runner.py:60} INFO - Started process 173 to run task
+[2026-06-23T01:45:22.405+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'restaurante_pipeline_etl', 'verificar_fuentes_datos', 'scheduled__2026-06-21T02:00:00+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/restaurante_pipeline.py', '--cfg-path', '/tmp/tmpt2yj7i25']
+[2026-06-23T01:45:22.408+0000] {standard_task_runner.py:88} INFO - Job 5: Subtask verificar_fuentes_datos
+[2026-06-23T01:45:22.492+0000] {task_command.py:423} INFO - Running <TaskInstance: restaurante_pipeline_etl.verificar_fuentes_datos scheduled__2026-06-21T02:00:00+00:00 [running]> on host a43a28248d26
+[2026-06-23T01:45:22.627+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='restaurante_team' AIRFLOW_CTX_DAG_ID='restaurante_pipeline_etl' AIRFLOW_CTX_TASK_ID='verificar_fuentes_datos' AIRFLOW_CTX_EXECUTION_DATE='2026-06-21T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-21T02:00:00+00:00'
+[2026-06-23T01:45:22.640+0000] {logging_mixin.py:188} INFO - PostgreSQL OK — ordenes: 240, platos: 18
+[2026-06-23T01:45:22.642+0000] {logging_mixin.py:188} INFO - HiveServer2 OK en puerto 10000
+[2026-06-23T01:45:22.642+0000] {python.py:202} INFO - Done. Returned value was: {'fuente': 'postgres', 'ordenes': 240}
+[2026-06-23T01:45:22.698+0000] {taskinstance.py:1149} INFO - Marking task as SUCCESS. dag_id=restaurante_pipeline_etl, task_id=verificar_fuentes_datos, execution_date=20260621T020000, start_date=20260623T014522, end_date=20260623T014522
+[2026-06-23T01:45:22.736+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-23T01:45:22.771+0000] {taskinstance.py:3309} INFO - 1 downstream tasks scheduled from follow-on schedule check

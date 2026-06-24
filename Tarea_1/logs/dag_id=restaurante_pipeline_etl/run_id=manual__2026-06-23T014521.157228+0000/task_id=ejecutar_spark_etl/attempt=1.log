@@ -1,0 +1,190 @@
+[2026-06-23T01:45:23.467+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.ejecutar_spark_etl manual__2026-06-23T01:45:21.157228+00:00 [queued]>
+[2026-06-23T01:45:23.476+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.ejecutar_spark_etl manual__2026-06-23T01:45:21.157228+00:00 [queued]>
+[2026-06-23T01:45:23.477+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 1
+[2026-06-23T01:45:23.494+0000] {taskinstance.py:2214} INFO - Executing <Task(DockerOperator): ejecutar_spark_etl> on 2026-06-23 01:45:21.157228+00:00
+[2026-06-23T01:45:23.502+0000] {standard_task_runner.py:60} INFO - Started process 177 to run task
+[2026-06-23T01:45:23.505+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'restaurante_pipeline_etl', 'ejecutar_spark_etl', 'manual__2026-06-23T01:45:21.157228+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/restaurante_pipeline.py', '--cfg-path', '/tmp/tmpqauf6ss4']
+[2026-06-23T01:45:23.507+0000] {standard_task_runner.py:88} INFO - Job 7: Subtask ejecutar_spark_etl
+[2026-06-23T01:45:23.609+0000] {task_command.py:423} INFO - Running <TaskInstance: restaurante_pipeline_etl.ejecutar_spark_etl manual__2026-06-23T01:45:21.157228+00:00 [running]> on host a43a28248d26
+[2026-06-23T01:45:23.739+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='restaurante_team' AIRFLOW_CTX_DAG_ID='restaurante_pipeline_etl' AIRFLOW_CTX_TASK_ID='ejecutar_spark_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-23T01:45:21.157228+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-23T01:45:21.157228+00:00'
+[2026-06-23T01:45:23.852+0000] {docker.py:359} INFO - Starting docker container from image restaurante_spark:latest
+[2026-06-23T01:45:28.193+0000] {docker.py:429} INFO - :: loading settings :: url = jar:file:/opt/spark/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+[2026-06-23T01:45:28.366+0000] {docker.py:429} INFO - Ivy Default Cache set to: /tmp/.ivy2/cache
+The jars for the packages stored in: /tmp/.ivy2/jars
+[2026-06-23T01:45:28.377+0000] {docker.py:429} INFO - org.postgresql#postgresql added as a dependency
+[2026-06-23T01:45:28.380+0000] {docker.py:429} INFO - org.mongodb.spark#mongo-spark-connector_2.12 added as a dependency
+[2026-06-23T01:45:28.381+0000] {docker.py:429} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-9530c893-5596-4dcb-b542-7fb0572dbd2e;1.0
+[2026-06-23T01:45:28.383+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:28.384+0000] {docker.py:429} INFO - confs: [default]
+[2026-06-23T01:45:29.421+0000] {docker.py:429} INFO - found org.postgresql#postgresql;42.6.0 in central
+[2026-06-23T01:45:29.557+0000] {docker.py:429} INFO - found org.checkerframework#checker-qual;3.31.0 in central
+[2026-06-23T01:45:29.690+0000] {docker.py:429} INFO - found org.mongodb.spark#mongo-spark-connector_2.12;10.2.1 in central
+[2026-06-23T01:45:30.347+0000] {docker.py:429} INFO - found org.mongodb#mongodb-driver-sync;4.8.2 in central
+[2026-06-23T01:45:30.351+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:30.352+0000] {docker.py:429} INFO - [4.8.2] org.mongodb#mongodb-driver-sync;[4.8.1,4.8.99)
+[2026-06-23T01:45:30.472+0000] {docker.py:429} INFO - found org.mongodb#bson;4.8.2 in central
+[2026-06-23T01:45:30.473+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:31.380+0000] {docker.py:429} INFO - found org.mongodb#mongodb-driver-core;4.8.2 in central
+[2026-06-23T01:45:31.479+0000] {docker.py:429} INFO - found org.mongodb#bson-record-codec;4.8.2 in central
+[2026-06-23T01:45:31.570+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/postgresql/postgresql/42.6.0/postgresql-42.6.0.jar ...
+[2026-06-23T01:45:31.578+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:31.894+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.postgresql#postgresql;42.6.0!postgresql.jar (393ms)
+[2026-06-23T01:45:31.925+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/10.2.1/mongo-spark-connector_2.12-10.2.1.jar ...
+[2026-06-23T01:45:32.220+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb.spark#mongo-spark-connector_2.12;10.2.1!mongo-spark-connector_2.12.jar (312ms)
+[2026-06-23T01:45:32.248+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar ...
+[2026-06-23T01:45:32.302+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.checkerframework#checker-qual;3.31.0!checker-qual.jar (84ms)
+[2026-06-23T01:45:32.340+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-sync/4.8.2/mongodb-driver-sync-4.8.2.jar ...
+[2026-06-23T01:45:32.382+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb#mongodb-driver-sync;4.8.2!mongodb-driver-sync.jar (72ms)
+[2026-06-23T01:45:32.406+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/bson/4.8.2/bson-4.8.2.jar ...
+[2026-06-23T01:45:32.471+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb#bson;4.8.2!bson.jar (88ms)
+[2026-06-23T01:45:32.502+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-core/4.8.2/mongodb-driver-core-4.8.2.jar ...
+[2026-06-23T01:45:32.652+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb#mongodb-driver-core;4.8.2!mongodb-driver-core.jar (178ms)
+[2026-06-23T01:45:32.681+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/bson-record-codec/4.8.2/bson-record-codec-4.8.2.jar ...
+[2026-06-23T01:45:32.713+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb#bson-record-codec;4.8.2!bson-record-codec.jar (59ms)
+[2026-06-23T01:45:32.718+0000] {docker.py:429} INFO - :: resolution report :: resolve 3116ms :: artifacts dl 1219ms
+[2026-06-23T01:45:32.719+0000] {docker.py:429} INFO - :: modules in use:
+[2026-06-23T01:45:32.720+0000] {docker.py:429} INFO - org.checkerframework#checker-qual;3.31.0 from central in [default]
+[2026-06-23T01:45:32.721+0000] {docker.py:429} INFO - org.mongodb#bson;4.8.2 from central in [default]
+	org.mongodb#bson-record-codec;4.8.2 from central in [default]
+	org.mongodb#mongodb-driver-core;4.8.2 from central in [default]
+[2026-06-23T01:45:32.722+0000] {docker.py:429} INFO - org.mongodb#mongodb-driver-sync;4.8.2 from central in [default]
+	org.mongodb.spark#mongo-spark-connector_2.12;10.2.1 from central in [default]
+	org.postgresql#postgresql;42.6.0 from central in [default]
+[2026-06-23T01:45:32.723+0000] {docker.py:429} INFO - ---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   7   |   7   |   7   |   0   ||   7   |   7   |
+[2026-06-23T01:45:32.723+0000] {docker.py:429} INFO - ---------------------------------------------------------------------
+[2026-06-23T01:45:32.732+0000] {docker.py:429} INFO - :: retrieving :: org.apache.spark#spark-submit-parent-9530c893-5596-4dcb-b542-7fb0572dbd2e
+	confs: [default]
+[2026-06-23T01:45:32.759+0000] {docker.py:429} INFO - 7 artifacts copied, 0 already retrieved (3645kB/27ms)
+[2026-06-23T01:45:33.226+0000] {docker.py:429} INFO - 26/06/23 01:45:33 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-06-23T01:45:34.667+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO SparkContext: Running Spark version 3.4.1
+[2026-06-23T01:45:34.722+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceUtils: ==============================================================
+[2026-06-23T01:45:34.732+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceUtils: No custom resources configured for spark.driver.
+[2026-06-23T01:45:34.739+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceUtils: ==============================================================
+26/06/23 01:45:34 INFO SparkContext: Submitted application: Restaurante_ETL
+[2026-06-23T01:45:34.814+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+[2026-06-23T01:45:34.852+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceProfile: Limiting resource is cpu
+[2026-06-23T01:45:34.862+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceProfileManager: Added ResourceProfile id: 0
+[2026-06-23T01:45:35.010+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: Changing view acls to: spark
+[2026-06-23T01:45:35.017+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: Changing modify acls to: spark
+[2026-06-23T01:45:35.018+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: Changing view acls groups to: 
+26/06/23 01:45:35 INFO SecurityManager: Changing modify acls groups to:
+[2026-06-23T01:45:35.019+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+[2026-06-23T01:45:35.612+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO Utils: Successfully started service 'sparkDriver' on port 39733.
+[2026-06-23T01:45:35.677+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SparkEnv: Registering MapOutputTracker
+[2026-06-23T01:45:35.760+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SparkEnv: Registering BlockManagerMaster
+[2026-06-23T01:45:35.811+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+[2026-06-23T01:45:35.814+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+[2026-06-23T01:45:35.827+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+[2026-06-23T01:45:35.889+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-b416d018-ab14-470d-b66b-1666ee0e0f4c
+[2026-06-23T01:45:35.948+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO MemoryStore: MemoryStore started with capacity 1048.8 MiB
+[2026-06-23T01:45:36.002+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SparkEnv: Registering OutputCommitCoordinator
+[2026-06-23T01:45:36.356+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+[2026-06-23T01:45:36.503+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+[2026-06-23T01:45:36.597+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar at spark://edd394841fc5:39733/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1782179134648
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar at spark://edd394841fc5:39733/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar with timestamp 1782179134648
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar at spark://edd394841fc5:39733/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1782179134648
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar at spark://edd394841fc5:39733/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar with timestamp 1782179134648
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar at spark://edd394841fc5:39733/jars/org.mongodb_bson-4.8.2.jar with timestamp 1782179134648
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar at spark://edd394841fc5:39733/jars/org.mongodb_mongodb-driver-core-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.600+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar at spark://edd394841fc5:39733/jars/org.mongodb_bson-record-codec-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.603+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar at file:///tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.606+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.postgresql_postgresql-42.6.0.jar
+[2026-06-23T01:45:36.636+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar at file:///tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.639+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar
+[2026-06-23T01:45:36.652+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar at file:///tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.653+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.checkerframework_checker-qual-3.31.0.jar
+[2026-06-23T01:45:36.664+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar at file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.665+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_mongodb-driver-sync-4.8.2.jar
+[2026-06-23T01:45:36.672+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar at file:///tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.674+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_bson-4.8.2.jar
+[2026-06-23T01:45:36.689+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar at file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar with timestamp 1782179134648
+26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_mongodb-driver-core-4.8.2.jar
+[2026-06-23T01:45:36.697+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar at file:///tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.698+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_bson-record-codec-4.8.2.jar
+[2026-06-23T01:45:36.803+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Starting executor ID driver on host edd394841fc5
+[2026-06-23T01:45:36.814+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+[2026-06-23T01:45:36.836+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.871+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.postgresql_postgresql-42.6.0.jar
+[2026-06-23T01:45:36.880+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.883+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar
+[2026-06-23T01:45:36.891+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.892+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_mongodb-driver-sync-4.8.2.jar
+[2026-06-23T01:45:36.900+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.902+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_bson-4.8.2.jar
+[2026-06-23T01:45:36.909+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.926+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.checkerframework_checker-qual-3.31.0.jar
+[2026-06-23T01:45:36.933+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.937+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_mongodb-driver-core-4.8.2.jar
+[2026-06-23T01:45:36.943+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:36.946+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_bson-record-codec-4.8.2.jar
+[2026-06-23T01:45:36.963+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching spark://edd394841fc5:39733/jars/org.mongodb_mongodb-driver-core-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:37.116+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO TransportClientFactory: Successfully created connection to edd394841fc5/172.18.0.13:39733 after 115 ms (0 ms spent in bootstraps)
+[2026-06-23T01:45:37.131+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://edd394841fc5:39733/jars/org.mongodb_mongodb-driver-core-4.8.2.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp17233076875992164504.tmp
+[2026-06-23T01:45:37.227+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp17233076875992164504.tmp has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_mongodb-driver-core-4.8.2.jar
+[2026-06-23T01:45:37.235+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_mongodb-driver-core-4.8.2.jar to class loader
+[2026-06-23T01:45:37.238+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://edd394841fc5:39733/jars/org.mongodb_bson-record-codec-4.8.2.jar with timestamp 1782179134648
+26/06/23 01:45:37 INFO Utils: Fetching spark://edd394841fc5:39733/jars/org.mongodb_bson-record-codec-4.8.2.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp6772244399725419931.tmp
+[2026-06-23T01:45:37.247+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp6772244399725419931.tmp has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_bson-record-codec-4.8.2.jar
+[2026-06-23T01:45:37.254+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_bson-record-codec-4.8.2.jar to class loader
+[2026-06-23T01:45:37.255+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://edd394841fc5:39733/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1782179134648
+[2026-06-23T01:45:37.256+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://edd394841fc5:39733/jars/org.checkerframework_checker-qual-3.31.0.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp5294238702229728879.tmp
+[2026-06-23T01:45:37.262+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp5294238702229728879.tmp has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.checkerframework_checker-qual-3.31.0.jar
+[2026-06-23T01:45:37.272+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.checkerframework_checker-qual-3.31.0.jar to class loader
+[2026-06-23T01:45:37.273+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://edd394841fc5:39733/jars/org.mongodb_bson-4.8.2.jar with timestamp 1782179134648
+[2026-06-23T01:45:37.275+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://edd394841fc5:39733/jars/org.mongodb_bson-4.8.2.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp7524203045908399294.tmp
+[2026-06-23T01:45:37.281+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp7524203045908399294.tmp has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_bson-4.8.2.jar
+[2026-06-23T01:45:37.288+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_bson-4.8.2.jar to class loader
+26/06/23 01:45:37 INFO Executor: Fetching spark://edd394841fc5:39733/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar with timestamp 1782179134648
+[2026-06-23T01:45:37.294+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://edd394841fc5:39733/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp886604577114451260.tmp
+[2026-06-23T01:45:37.298+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp886604577114451260.tmp has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar
+[2026-06-23T01:45:37.305+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar to class loader
+[2026-06-23T01:45:37.306+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://edd394841fc5:39733/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar with timestamp 1782179134648
+26/06/23 01:45:37 INFO Utils: Fetching spark://edd394841fc5:39733/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp9950484349768277002.tmp
+[2026-06-23T01:45:37.316+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp9950484349768277002.tmp has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_mongodb-driver-sync-4.8.2.jar
+[2026-06-23T01:45:37.332+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.mongodb_mongodb-driver-sync-4.8.2.jar to class loader
+26/06/23 01:45:37 INFO Executor: Fetching spark://edd394841fc5:39733/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1782179134648
+26/06/23 01:45:37 INFO Utils: Fetching spark://edd394841fc5:39733/jars/org.postgresql_postgresql-42.6.0.jar to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp9023488926101090304.tmp
+[2026-06-23T01:45:37.358+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/fetchFileTemp9023488926101090304.tmp has been previously copied to /tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.postgresql_postgresql-42.6.0.jar
+[2026-06-23T01:45:37.368+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-eea1f445-794e-453a-94da-7e560aada786/userFiles-3214a08a-75f7-4592-a48a-2c2b47d11d9e/org.postgresql_postgresql-42.6.0.jar to class loader
+[2026-06-23T01:45:37.386+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 38487.
+[2026-06-23T01:45:37.387+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO NettyBlockTransferService: Server created on edd394841fc5:38487
+[2026-06-23T01:45:37.395+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+[2026-06-23T01:45:37.416+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, edd394841fc5, 38487, None)
+[2026-06-23T01:45:37.427+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManagerMasterEndpoint: Registering block manager edd394841fc5:38487 with 1048.8 MiB RAM, BlockManagerId(driver, edd394841fc5, 38487, None)
+[2026-06-23T01:45:37.437+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, edd394841fc5, 38487, None)
+[2026-06-23T01:45:37.441+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, edd394841fc5, 38487, None)
+[2026-06-23T01:45:38.307+0000] {docker.py:429} INFO - =========================================
+ Iniciando ETL (fuente de datos: postgres)
+=========================================
+[2026-06-23T01:45:45.935+0000] {docker.py:429} INFO - Datos extraidos de postgres correctamente.
+Transformando datos: esquema estrella + cubos OLAP...
+[2026-06-23T01:46:19.621+0000] {docker.py:429} INFO - Transformaciones listas. Lineas de detalle: 720
+Cargando ESQUEMA ESTRELLA en restaurante_dw...
+[2026-06-23T01:46:27.438+0000] {docker.py:429} INFO - 26/06/23 01:46:27 WARN SessionState: METASTORE_FILTER_HOOK will be ignored, since hive.security.authorization.manager is set to instance of HiveAuthorizerFactory.
+[2026-06-23T01:46:27.791+0000] {docker.py:429} INFO - -> restaurante_dw.dim_tiempo
+[2026-06-23T01:46:28.849+0000] {docker.py:429} INFO - -> restaurante_dw.dim_usuario
+[2026-06-23T01:46:29.752+0000] {docker.py:429} INFO - -> restaurante_dw.dim_producto
+[2026-06-23T01:46:30.935+0000] {docker.py:429} INFO - -> restaurante_dw.dim_ubicacion
+[2026-06-23T01:46:32.001+0000] {docker.py:429} INFO - -> restaurante_dw.dim_restaurante
+[2026-06-23T01:46:35.404+0000] {docker.py:429} INFO - -> restaurante_dw.fact_detalle_ordenes
+Cargando CUBOS OLAP en restaurante_olap...
+[2026-06-23T01:46:39.078+0000] {docker.py:429} INFO - -> restaurante_olap.tendencias_consumo
+[2026-06-23T01:46:39.718+0000] {docker.py:429} INFO - -> restaurante_olap.horarios_pico
+[2026-06-23T01:46:40.189+0000] {docker.py:429} INFO - -> restaurante_olap.crecimiento_mensual
+[2026-06-23T01:46:43.445+0000] {docker.py:429} INFO - -> restaurante_olap.olap_ingresos_mes_categoria
+[2026-06-23T01:46:47.115+0000] {docker.py:429} INFO - -> restaurante_olap.olap_ingresos_categoria
+[2026-06-23T01:46:49.954+0000] {docker.py:429} INFO - -> restaurante_olap.olap_actividad_geografica
+[2026-06-23T01:46:50.551+0000] {docker.py:429} INFO - -> restaurante_olap.olap_pedidos_estado
+[2026-06-23T01:46:51.056+0000] {docker.py:429} INFO - -> restaurante_olap.olap_pedidos_mes_estado
+=========================================
+ ETL completado exitosamente!
+ Esquema estrella: 5 dimensiones + 1 hechos
+ Cubos OLAP: 8 tablas pre-agregadas
+=========================================
+[2026-06-23T01:46:52.263+0000] {taskinstance.py:1149} INFO - Marking task as SUCCESS. dag_id=restaurante_pipeline_etl, task_id=ejecutar_spark_etl, execution_date=20260623T014521, start_date=20260623T014523, end_date=20260623T014652
+[2026-06-23T01:46:52.339+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-23T01:46:52.376+0000] {taskinstance.py:3309} INFO - 1 downstream tasks scheduled from follow-on schedule check

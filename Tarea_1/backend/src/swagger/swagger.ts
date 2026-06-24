@@ -297,7 +297,10 @@ const options: swaggerJsdoc.Options = {
   ],
 };
 
-const swaggerSpec = swaggerJsdoc(options);
+// Se exporta el spec (además de las opciones) para poder volcarlo a un
+// openapi.json estático que alimenta el portal de documentación (Docusaurus/Redoc).
+export const swaggerOptions = options;
+export const swaggerSpec = swaggerJsdoc(options);
 
 export const setupSwagger = (app: Express) => {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

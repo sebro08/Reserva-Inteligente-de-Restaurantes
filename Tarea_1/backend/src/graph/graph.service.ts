@@ -61,16 +61,20 @@ export async function getShortestPath(fromId: number, toId: number) {
   const session = getSession();
 
   try {
+    // apoc.algo.dijkstra busca el camino de MENOR km (peso), no de menos saltos.
+    // Como el grafo de distancias es disperso (cada Location solo conecta con sus
+    // vecinos mas cercanos), el camino optimo puede atravesar nodos intermedios.
     const result = await session.run(
       `
       MATCH (start:Location {id: $fromId}), (end:Location {id: $toId})
-      MATCH path = shortestPath((start)-[:DISTANCE*]-(end))
+      CALL apoc.algo.dijkstra(start, end, 'DISTANCE', 'km') YIELD path, weight
       RETURN
         [node IN nodes(path) | node.name] AS locations,
         [rel IN relationships(path) | rel.km] AS distancesKm,
         [rel IN relationships(path) | rel.minutes] AS durationsMin,
-        reduce(totalKm = 0.0, rel IN relationships(path) | totalKm + rel.km) AS totalKm,
+        weight AS totalKm,
         reduce(totalMin = 0, rel IN relationships(path) | totalMin + rel.minutes) AS totalMinutes
+      LIMIT 1
       `,
       { fromId, toId }
     );
@@ -140,11 +144,14 @@ async function nearestNeighborRouteByLocation(
     let bestMinutes = 0;
 
     for (let i = 0; i < remainingLocations.length; i++) {
+      // Costo = camino minimo ponderado (Dijkstra) sobre la red dispersa, no una
+      // arista directa: dos ubicaciones pueden no ser vecinas inmediatas.
       const result = await session.run(
         `
         MATCH (a:Location {id: $from}), (b:Location {id: $to})
-        MATCH (a)-[d:DISTANCE]-(b)
-        RETURN d.km AS km, d.minutes AS minutes
+        CALL apoc.algo.dijkstra(a, b, 'DISTANCE', 'km') YIELD path, weight
+        RETURN weight AS km, reduce(t = 0, r IN relationships(path) | t + r.minutes) AS minutes
+        LIMIT 1
         `,
         { from: currentLocationId, to: remainingLocations[i] }
       );

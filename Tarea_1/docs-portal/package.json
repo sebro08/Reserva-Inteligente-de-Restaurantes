@@ -1,0 +1,35 @@
+{
+  "name": "reserva-docs-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portal de documentación (developer portal) de la API Reserva Inteligente de Restaurantes",
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear",
+    "sync:openapi": "npm --prefix ../backend run export:openapi"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.6.3",
+    "@docusaurus/preset-classic": "^3.6.3",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.1.1",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "redocusaurus": "^2.2.2"
+  },
+  "browserslist": {
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}

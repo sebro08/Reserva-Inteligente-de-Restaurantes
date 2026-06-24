@@ -1,0 +1,985 @@
+[2026-06-23T01:45:23.467+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.ejecutar_spark_etl scheduled__2026-06-21T02:00:00+00:00 [queued]>
+[2026-06-23T01:45:23.476+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: restaurante_pipeline_etl.ejecutar_spark_etl scheduled__2026-06-21T02:00:00+00:00 [queued]>
+[2026-06-23T01:45:23.477+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 1
+[2026-06-23T01:45:23.493+0000] {taskinstance.py:2214} INFO - Executing <Task(DockerOperator): ejecutar_spark_etl> on 2026-06-21 02:00:00+00:00
+[2026-06-23T01:45:23.499+0000] {standard_task_runner.py:60} INFO - Started process 176 to run task
+[2026-06-23T01:45:23.503+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'restaurante_pipeline_etl', 'ejecutar_spark_etl', 'scheduled__2026-06-21T02:00:00+00:00', '--job-id', '8', '--raw', '--subdir', 'DAGS_FOLDER/restaurante_pipeline.py', '--cfg-path', '/tmp/tmp074wamai']
+[2026-06-23T01:45:23.506+0000] {standard_task_runner.py:88} INFO - Job 8: Subtask ejecutar_spark_etl
+[2026-06-23T01:45:23.604+0000] {task_command.py:423} INFO - Running <TaskInstance: restaurante_pipeline_etl.ejecutar_spark_etl scheduled__2026-06-21T02:00:00+00:00 [running]> on host a43a28248d26
+[2026-06-23T01:45:23.737+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='restaurante_team' AIRFLOW_CTX_DAG_ID='restaurante_pipeline_etl' AIRFLOW_CTX_TASK_ID='ejecutar_spark_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-21T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-21T02:00:00+00:00'
+[2026-06-23T01:45:23.838+0000] {docker.py:359} INFO - Starting docker container from image restaurante_spark:latest
+[2026-06-23T01:45:28.267+0000] {docker.py:429} INFO - :: loading settings :: url = jar:file:/opt/spark/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+[2026-06-23T01:45:28.445+0000] {docker.py:429} INFO - Ivy Default Cache set to: /tmp/.ivy2/cache
+The jars for the packages stored in: /tmp/.ivy2/jars
+[2026-06-23T01:45:28.460+0000] {docker.py:429} INFO - org.postgresql#postgresql added as a dependency
+[2026-06-23T01:45:28.463+0000] {docker.py:429} INFO - org.mongodb.spark#mongo-spark-connector_2.12 added as a dependency
+[2026-06-23T01:45:28.464+0000] {docker.py:429} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-0fea06b3-3068-4d11-8057-c60e60c3ba3e;1.0
+[2026-06-23T01:45:28.465+0000] {docker.py:429} INFO - confs: [default]
+[2026-06-23T01:45:28.466+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:29.400+0000] {docker.py:429} INFO - found org.postgresql#postgresql;42.6.0 in central
+[2026-06-23T01:45:29.401+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:29.530+0000] {docker.py:429} INFO - found org.checkerframework#checker-qual;3.31.0 in central
+[2026-06-23T01:45:29.652+0000] {docker.py:429} INFO - found org.mongodb.spark#mongo-spark-connector_2.12;10.2.1 in central
+[2026-06-23T01:45:30.339+0000] {docker.py:429} INFO - found org.mongodb#mongodb-driver-sync;4.8.2 in central
+	[4.8.2] org.mongodb#mongodb-driver-sync;[4.8.1,4.8.99)
+[2026-06-23T01:45:30.465+0000] {docker.py:429} INFO - found org.mongodb#bson;4.8.2 in central
+[2026-06-23T01:45:31.374+0000] {docker.py:429} INFO - found org.mongodb#mongodb-driver-core;4.8.2 in central
+[2026-06-23T01:45:31.490+0000] {docker.py:429} INFO - found org.mongodb#bson-record-codec;4.8.2 in central
+[2026-06-23T01:45:31.498+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:31.690+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/postgresql/postgresql/42.6.0/postgresql-42.6.0.jar ...
+[2026-06-23T01:45:32.185+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.postgresql#postgresql;42.6.0!postgresql.jar (569ms)
+[2026-06-23T01:45:32.201+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:32.230+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/10.2.1/mongo-spark-connector_2.12-10.2.1.jar ...
+[2026-06-23T01:45:32.266+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb.spark#mongo-spark-connector_2.12;10.2.1!mongo-spark-connector_2.12.jar (64ms)
+[2026-06-23T01:45:32.303+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar ...
+[2026-06-23T01:45:32.305+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:32.351+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.checkerframework#checker-qual;3.31.0!checker-qual.jar (74ms)
+[2026-06-23T01:45:32.380+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-sync/4.8.2/mongodb-driver-sync-4.8.2.jar ...
+[2026-06-23T01:45:32.501+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb#mongodb-driver-sync;4.8.2!mongodb-driver-sync.jar (147ms)
+[2026-06-23T01:45:32.524+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/bson/4.8.2/bson-4.8.2.jar ...
+[2026-06-23T01:45:32.616+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb#bson;4.8.2!bson.jar (111ms)
+[2026-06-23T01:45:32.638+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-core/4.8.2/mongodb-driver-core-4.8.2.jar ...
+[2026-06-23T01:45:32.845+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb#mongodb-driver-core;4.8.2!mongodb-driver-core.jar (227ms)
+[2026-06-23T01:45:32.871+0000] {docker.py:429} INFO - downloading https://repo1.maven.org/maven2/org/mongodb/bson-record-codec/4.8.2/bson-record-codec-4.8.2.jar ...
+[2026-06-23T01:45:32.903+0000] {docker.py:429} INFO - [SUCCESSFUL ] org.mongodb#bson-record-codec;4.8.2!bson-record-codec.jar (51ms)
+:: resolution report :: resolve 3120ms :: artifacts dl 1315ms
+	:: modules in use:
+[2026-06-23T01:45:32.904+0000] {docker.py:429} INFO - org.checkerframework#checker-qual;3.31.0 from central in [default]
+[2026-06-23T01:45:32.906+0000] {docker.py:429} INFO - org.mongodb#bson;4.8.2 from central in [default]
+[2026-06-23T01:45:32.908+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:32.909+0000] {docker.py:429} INFO - org.mongodb#bson-record-codec;4.8.2 from central in [default]
+[2026-06-23T01:45:32.915+0000] {docker.py:429} INFO - org.mongodb#mongodb-driver-core;4.8.2 from central in [default]
+[2026-06-23T01:45:32.916+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:32.917+0000] {docker.py:429} INFO - org.mongodb#mongodb-driver-sync;4.8.2 from central in [default]
+	org.mongodb.spark#mongo-spark-connector_2.12;10.2.1 from central in [default]
+	org.postgresql#postgresql;42.6.0 from central in [default]
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   7   |   7   |   7   |   0   ||   7   |   7   |
+	---------------------------------------------------------------------
+[2026-06-23T01:45:32.918+0000] {docker.py:429} INFO - :: retrieving :: org.apache.spark#spark-submit-parent-0fea06b3-3068-4d11-8057-c60e60c3ba3e
+[2026-06-23T01:45:32.919+0000] {docker.py:429} INFO - confs: [default]
+[2026-06-23T01:45:32.953+0000] {docker.py:429} INFO - 7 artifacts copied, 0 already retrieved (3645kB/37ms)
+[2026-06-23T01:45:32.955+0000] {docker.py:429} INFO - 
+[2026-06-23T01:45:33.411+0000] {docker.py:429} INFO - 26/06/23 01:45:33 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-06-23T01:45:34.801+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO SparkContext: Running Spark version 3.4.1
+[2026-06-23T01:45:34.873+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceUtils: ==============================================================
+26/06/23 01:45:34 INFO ResourceUtils: No custom resources configured for spark.driver.
+[2026-06-23T01:45:34.879+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceUtils: ==============================================================
+[2026-06-23T01:45:34.881+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO SparkContext: Submitted application: Restaurante_ETL
+[2026-06-23T01:45:34.943+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+[2026-06-23T01:45:34.972+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceProfile: Limiting resource is cpu
+[2026-06-23T01:45:34.974+0000] {docker.py:429} INFO - 26/06/23 01:45:34 INFO ResourceProfileManager: Added ResourceProfile id: 0
+[2026-06-23T01:45:35.184+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: Changing view acls to: spark
+[2026-06-23T01:45:35.187+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: Changing modify acls to: spark
+[2026-06-23T01:45:35.191+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: Changing view acls groups to:
+[2026-06-23T01:45:35.192+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: Changing modify acls groups to:
+[2026-06-23T01:45:35.196+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+[2026-06-23T01:45:35.695+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO Utils: Successfully started service 'sparkDriver' on port 44441.
+[2026-06-23T01:45:35.744+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SparkEnv: Registering MapOutputTracker
+[2026-06-23T01:45:35.817+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SparkEnv: Registering BlockManagerMaster
+[2026-06-23T01:45:35.873+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+[2026-06-23T01:45:35.878+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+[2026-06-23T01:45:35.890+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+[2026-06-23T01:45:35.955+0000] {docker.py:429} INFO - 26/06/23 01:45:35 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-0fb98bed-307a-4e8a-9678-f6e71197bbbb
+[2026-06-23T01:45:36.005+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO MemoryStore: MemoryStore started with capacity 1048.8 MiB
+[2026-06-23T01:45:36.084+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkEnv: Registering OutputCommitCoordinator
+[2026-06-23T01:45:36.369+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+[2026-06-23T01:45:36.510+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+[2026-06-23T01:45:36.592+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar at spark://2aefdfeb78bd:44441/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar at spark://2aefdfeb78bd:44441/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar at spark://2aefdfeb78bd:44441/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar at spark://2aefdfeb78bd:44441/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar at spark://2aefdfeb78bd:44441/jars/org.mongodb_bson-4.8.2.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar at spark://2aefdfeb78bd:44441/jars/org.mongodb_mongodb-driver-core-4.8.2.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar at spark://2aefdfeb78bd:44441/jars/org.mongodb_bson-record-codec-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.599+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar at file:///tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.600+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.postgresql_postgresql-42.6.0.jar
+[2026-06-23T01:45:36.627+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar at file:///tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.628+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar
+[2026-06-23T01:45:36.637+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar at file:///tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.639+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.checkerframework_checker-qual-3.31.0.jar
+[2026-06-23T01:45:36.648+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar at file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_mongodb-driver-sync-4.8.2.jar
+[2026-06-23T01:45:36.664+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar at file:///tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_bson-4.8.2.jar
+[2026-06-23T01:45:36.671+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar at file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.673+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_mongodb-driver-core-4.8.2.jar
+[2026-06-23T01:45:36.683+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar at file:///tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.687+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: Copying /tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_bson-record-codec-4.8.2.jar
+[2026-06-23T01:45:36.803+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Starting executor ID driver on host 2aefdfeb78bd
+[2026-06-23T01:45:36.815+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+[2026-06-23T01:45:36.836+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.902+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.postgresql_postgresql-42.6.0.jar
+[2026-06-23T01:45:36.909+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar
+[2026-06-23T01:45:36.937+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar with timestamp 1782179134781
+26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_mongodb-driver-sync-4.8.2.jar
+[2026-06-23T01:45:36.943+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.946+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb_bson-4.8.2.jar has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_bson-4.8.2.jar
+[2026-06-23T01:45:36.959+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.967+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.checkerframework_checker-qual-3.31.0.jar
+[2026-06-23T01:45:36.979+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:36.987+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb_mongodb-driver-core-4.8.2.jar has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_mongodb-driver-core-4.8.2.jar
+[2026-06-23T01:45:37.002+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Executor: Fetching file:///tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:37.005+0000] {docker.py:429} INFO - 26/06/23 01:45:36 INFO Utils: /tmp/.ivy2/jars/org.mongodb_bson-record-codec-4.8.2.jar has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_bson-record-codec-4.8.2.jar
+[2026-06-23T01:45:37.018+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb_bson-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:37.193+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO TransportClientFactory: Successfully created connection to 2aefdfeb78bd/172.18.0.12:44441 after 125 ms (0 ms spent in bootstraps)
+[2026-06-23T01:45:37.223+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb_bson-4.8.2.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp13943788985861437387.tmp
+[2026-06-23T01:45:37.305+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp13943788985861437387.tmp has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_bson-4.8.2.jar
+[2026-06-23T01:45:37.312+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_bson-4.8.2.jar to class loader
+[2026-06-23T01:45:37.314+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:37.316+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb_mongodb-driver-sync-4.8.2.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp7388239690093962235.tmp
+[2026-06-23T01:45:37.321+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp7388239690093962235.tmp has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_mongodb-driver-sync-4.8.2.jar
+[2026-06-23T01:45:37.333+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_mongodb-driver-sync-4.8.2.jar to class loader
+26/06/23 01:45:37 INFO Executor: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb_bson-record-codec-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:37.335+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb_bson-record-codec-4.8.2.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp5574804710564023287.tmp
+[2026-06-23T01:45:37.337+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp5574804710564023287.tmp has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_bson-record-codec-4.8.2.jar
+[2026-06-23T01:45:37.350+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_bson-record-codec-4.8.2.jar to class loader
+[2026-06-23T01:45:37.352+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://2aefdfeb78bd:44441/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1782179134781
+[2026-06-23T01:45:37.354+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://2aefdfeb78bd:44441/jars/org.postgresql_postgresql-42.6.0.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp13015141582732861342.tmp
+[2026-06-23T01:45:37.372+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp13015141582732861342.tmp has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.postgresql_postgresql-42.6.0.jar
+[2026-06-23T01:45:37.381+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.postgresql_postgresql-42.6.0.jar to class loader
+[2026-06-23T01:45:37.383+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb_mongodb-driver-core-4.8.2.jar with timestamp 1782179134781
+[2026-06-23T01:45:37.384+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb_mongodb-driver-core-4.8.2.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp2054185811206968088.tmp
+[2026-06-23T01:45:37.414+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp2054185811206968088.tmp has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_mongodb-driver-core-4.8.2.jar
+[2026-06-23T01:45:37.416+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb_mongodb-driver-core-4.8.2.jar to class loader
+[2026-06-23T01:45:37.418+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar with timestamp 1782179134781
+[2026-06-23T01:45:37.419+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://2aefdfeb78bd:44441/jars/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp8029934307790083359.tmp
+[2026-06-23T01:45:37.434+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp8029934307790083359.tmp has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar
+[2026-06-23T01:45:37.443+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.mongodb.spark_mongo-spark-connector_2.12-10.2.1.jar to class loader
+[2026-06-23T01:45:37.451+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Fetching spark://2aefdfeb78bd:44441/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1782179134781
+[2026-06-23T01:45:37.454+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Fetching spark://2aefdfeb78bd:44441/jars/org.checkerframework_checker-qual-3.31.0.jar to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp2742289771415323412.tmp
+[2026-06-23T01:45:37.455+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/fetchFileTemp2742289771415323412.tmp has been previously copied to /tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.checkerframework_checker-qual-3.31.0.jar
+[2026-06-23T01:45:37.464+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Executor: Adding file:/tmp/spark-0f22ef29-2870-47d7-9664-da2159982810/userFiles-6ec4fa1b-46c8-450c-aae2-18dec94660a0/org.checkerframework_checker-qual-3.31.0.jar to class loader
+[2026-06-23T01:45:37.474+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33597.
+[2026-06-23T01:45:37.480+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO NettyBlockTransferService: Server created on 2aefdfeb78bd:33597
+26/06/23 01:45:37 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+[2026-06-23T01:45:37.492+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 2aefdfeb78bd, 33597, None)
+[2026-06-23T01:45:37.499+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManagerMasterEndpoint: Registering block manager 2aefdfeb78bd:33597 with 1048.8 MiB RAM, BlockManagerId(driver, 2aefdfeb78bd, 33597, None)
+[2026-06-23T01:45:37.505+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 2aefdfeb78bd, 33597, None)
+[2026-06-23T01:45:37.508+0000] {docker.py:429} INFO - 26/06/23 01:45:37 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 2aefdfeb78bd, 33597, None)
+[2026-06-23T01:45:38.410+0000] {docker.py:429} INFO - =========================================
+ Iniciando ETL (fuente de datos: postgres)
+=========================================
+[2026-06-23T01:45:45.963+0000] {docker.py:429} INFO - Datos extraidos de postgres correctamente.
+Transformando datos: esquema estrella + cubos OLAP...
+[2026-06-23T01:46:19.473+0000] {docker.py:429} INFO - Transformaciones listas. Lineas de detalle: 720
+Cargando ESQUEMA ESTRELLA en restaurante_dw...
+[2026-06-23T01:46:25.276+0000] {docker.py:429} INFO - 26/06/23 01:46:25 WARN DataStreamer: DataStreamer Exception
+java.io.FileNotFoundException: File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.apache.hadoop.ipc.RemoteException.instantiateException(RemoteException.java:121)
+	at org.apache.hadoop.ipc.RemoteException.unwrapRemoteException(RemoteException.java:88)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1091)
+	at org.apache.hadoop.hdfs.DataStreamer.locateFollowingBlock(DataStreamer.java:1915)
+	at org.apache.hadoop.hdfs.DataStreamer.nextBlockOutputStream(DataStreamer.java:1717)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:713)
+Caused by: org.apache.hadoop.ipc.RemoteException(java.io.FileNotFoundException): File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1612)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1558)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1455)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:242)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:129)
+	at com.sun.proxy.$Proxy33.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.addBlock(ClientNamenodeProtocolTranslatorPB.java:530)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy34.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1088)
+	... 3 more
+[2026-06-23T01:46:25.287+0000] {docker.py:429} INFO - 26/06/23 01:46:25 ERROR Utils: Aborting task
+java.io.FileNotFoundException: File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.apache.hadoop.ipc.RemoteException.instantiateException(RemoteException.java:121)
+	at org.apache.hadoop.ipc.RemoteException.unwrapRemoteException(RemoteException.java:88)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1091)
+	at org.apache.hadoop.hdfs.DataStreamer.locateFollowingBlock(DataStreamer.java:1915)
+	at org.apache.hadoop.hdfs.DataStreamer.nextBlockOutputStream(DataStreamer.java:1717)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:713)
+Caused by: org.apache.hadoop.ipc.RemoteException(java.io.FileNotFoundException): File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1612)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1558)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1455)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:242)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:129)
+	at com.sun.proxy.$Proxy33.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.addBlock(ClientNamenodeProtocolTranslatorPB.java:530)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy34.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1088)
+	... 3 more
+[2026-06-23T01:46:25.300+0000] {docker.py:429} INFO - 26/06/23 01:46:25 WARN FileOutputCommitter: Could not delete hdfs://namenode:9000/user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807
+[2026-06-23T01:46:25.308+0000] {docker.py:429} INFO - 26/06/23 01:46:25 ERROR FileFormatWriter: Job job_202606230146238757535267822084282_0021 aborted.
+[2026-06-23T01:46:25.517+0000] {docker.py:429} INFO - 26/06/23 01:46:25 ERROR Executor: Exception in task 0.0 in stage 21.0 (TID 807)
+org.apache.spark.SparkException: [TASK_WRITE_FAILED] Task failed while writing rows to hdfs://namenode:9000/user/hive/warehouse/restaurante_dw.db/dim_tiempo.
+	at org.apache.spark.sql.errors.QueryExecutionErrors$.taskFailedWhileWritingRowsError(QueryExecutionErrors.scala:788)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeTask(FileFormatWriter.scala:420)
+	at org.apache.spark.sql.execution.datasources.WriteFilesExec.$anonfun$doExecuteWrite$1(WriteFiles.scala:100)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:888)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:888)
+	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:364)
+	at org.apache.spark.rdd.RDD.iterator(RDD.scala:328)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:92)
+	at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:161)
+	at org.apache.spark.scheduler.Task.run(Task.scala:139)
+	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:554)
+	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1529)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:557)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.apache.hadoop.ipc.RemoteException.instantiateException(RemoteException.java:121)
+	at org.apache.hadoop.ipc.RemoteException.unwrapRemoteException(RemoteException.java:88)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1091)
+	at org.apache.hadoop.hdfs.DataStreamer.locateFollowingBlock(DataStreamer.java:1915)
+	at org.apache.hadoop.hdfs.DataStreamer.nextBlockOutputStream(DataStreamer.java:1717)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:713)
+Caused by: org.apache.hadoop.ipc.RemoteException(java.io.FileNotFoundException): File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1612)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1558)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1455)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:242)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:129)
+	at com.sun.proxy.$Proxy33.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.addBlock(ClientNamenodeProtocolTranslatorPB.java:530)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy34.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1088)
+	... 3 more
+[2026-06-23T01:46:25.565+0000] {docker.py:429} INFO - 26/06/23 01:46:25 WARN TaskSetManager: Lost task 0.0 in stage 21.0 (TID 807) (2aefdfeb78bd executor driver): org.apache.spark.SparkException: [TASK_WRITE_FAILED] Task failed while writing rows to hdfs://namenode:9000/user/hive/warehouse/restaurante_dw.db/dim_tiempo.
+	at org.apache.spark.sql.errors.QueryExecutionErrors$.taskFailedWhileWritingRowsError(QueryExecutionErrors.scala:788)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeTask(FileFormatWriter.scala:420)
+	at org.apache.spark.sql.execution.datasources.WriteFilesExec.$anonfun$doExecuteWrite$1(WriteFiles.scala:100)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:888)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:888)
+	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:364)
+	at org.apache.spark.rdd.RDD.iterator(RDD.scala:328)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:92)
+	at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:161)
+	at org.apache.spark.scheduler.Task.run(Task.scala:139)
+	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:554)
+	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1529)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:557)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.apache.hadoop.ipc.RemoteException.instantiateException(RemoteException.java:121)
+	at org.apache.hadoop.ipc.RemoteException.unwrapRemoteException(RemoteException.java:88)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1091)
+	at org.apache.hadoop.hdfs.DataStreamer.locateFollowingBlock(DataStreamer.java:1915)
+	at org.apache.hadoop.hdfs.DataStreamer.nextBlockOutputStream(DataStreamer.java:1717)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:713)
+Caused by: org.apache.hadoop.ipc.RemoteException(java.io.FileNotFoundException): File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1612)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1558)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1455)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:242)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:129)
+	at com.sun.proxy.$Proxy33.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.addBlock(ClientNamenodeProtocolTranslatorPB.java:530)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy34.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1088)
+	... 3 more
+[2026-06-23T01:46:25.568+0000] {docker.py:429} INFO - 26/06/23 01:46:25 ERROR TaskSetManager: Task 0 in stage 21.0 failed 1 times; aborting job
+[2026-06-23T01:46:25.588+0000] {docker.py:429} INFO - 26/06/23 01:46:25 ERROR FileFormatWriter: Aborting job 303a1718-7b40-4eea-800c-87737c4418fe.
+org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 21.0 failed 1 times, most recent failure: Lost task 0.0 in stage 21.0 (TID 807) (2aefdfeb78bd executor driver): org.apache.spark.SparkException: [TASK_WRITE_FAILED] Task failed while writing rows to hdfs://namenode:9000/user/hive/warehouse/restaurante_dw.db/dim_tiempo.
+	at org.apache.spark.sql.errors.QueryExecutionErrors$.taskFailedWhileWritingRowsError(QueryExecutionErrors.scala:788)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeTask(FileFormatWriter.scala:420)
+	at org.apache.spark.sql.execution.datasources.WriteFilesExec.$anonfun$doExecuteWrite$1(WriteFiles.scala:100)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:888)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:888)
+	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:364)
+	at org.apache.spark.rdd.RDD.iterator(RDD.scala:328)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:92)
+	at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:161)
+	at org.apache.spark.scheduler.Task.run(Task.scala:139)
+	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:554)
+	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1529)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:557)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.apache.hadoop.ipc.RemoteException.instantiateException(RemoteException.java:121)
+	at org.apache.hadoop.ipc.RemoteException.unwrapRemoteException(RemoteException.java:88)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1091)
+	at org.apache.hadoop.hdfs.DataStreamer.locateFollowingBlock(DataStreamer.java:1915)
+	at org.apache.hadoop.hdfs.DataStreamer.nextBlockOutputStream(DataStreamer.java:1717)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:713)
+Caused by: org.apache.hadoop.ipc.RemoteException(java.io.FileNotFoundException): File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1612)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1558)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1455)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:242)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:129)
+	at com.sun.proxy.$Proxy33.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.addBlock(ClientNamenodeProtocolTranslatorPB.java:530)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy34.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1088)
+	... 3 more
+
+Driver stacktrace:
+	at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2785)
+	at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2(DAGScheduler.scala:2721)
+	at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2$adapted(DAGScheduler.scala:2720)
+	at scala.collection.mutable.ResizableArray.foreach(ResizableArray.scala:62)
+	at scala.collection.mutable.ResizableArray.foreach$(ResizableArray.scala:55)
+	at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:49)
+	at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:2720)
+	at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1(DAGScheduler.scala:1206)
+	at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1$adapted(DAGScheduler.scala:1206)
+	at scala.Option.foreach(Option.scala:407)
+	at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:1206)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2984)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2923)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2912)
+	at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)
+	at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:971)
+	at org.apache.spark.SparkContext.runJob(SparkContext.scala:2263)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.$anonfun$executeWrite$4(FileFormatWriter.scala:307)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.writeAndCommit(FileFormatWriter.scala:271)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeWrite(FileFormatWriter.scala:304)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:190)
+	at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:190)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:113)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:111)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:125)
+	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:354)
+	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.withFinalPlanUpdate(AdaptiveSparkPlanExec.scala:382)
+	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.executeCollect(AdaptiveSparkPlanExec.scala:354)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.$anonfun$applyOrElse$1(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:118)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:195)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:103)
+	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:827)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:65)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:94)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformDownWithPruning$1(TreeNode.scala:512)
+	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:104)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDownWithPruning(TreeNode.scala:512)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.org$apache$spark$sql$catalyst$plans$logical$AnalysisHelper$$super$transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning(AnalysisHelper.scala:267)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning$(AnalysisHelper.scala:263)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:488)
+	at org.apache.spark.sql.execution.QueryExecution.eagerlyExecuteCommands(QueryExecution.scala:94)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted$lzycompute(QueryExecution.scala:81)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:79)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:133)
+	at org.apache.spark.sql.execution.datasources.DataSource.writeAndRead(DataSource.scala:511)
+	at org.apache.spark.sql.execution.command.CreateDataSourceTableAsSelectCommand.saveDataIntoTable(createDataSourceTables.scala:228)
+	at org.apache.spark.sql.execution.command.CreateDataSourceTableAsSelectCommand.run(createDataSourceTables.scala:183)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:75)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:73)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.executeCollect(commands.scala:84)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.$anonfun$applyOrElse$1(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:118)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:195)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:103)
+	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:827)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:65)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:94)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformDownWithPruning$1(TreeNode.scala:512)
+	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:104)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDownWithPruning(TreeNode.scala:512)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.org$apache$spark$sql$catalyst$plans$logical$AnalysisHelper$$super$transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning(AnalysisHelper.scala:267)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning$(AnalysisHelper.scala:263)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:488)
+	at org.apache.spark.sql.execution.QueryExecution.eagerlyExecuteCommands(QueryExecution.scala:94)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted$lzycompute(QueryExecution.scala:81)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:79)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:133)
+	at org.apache.spark.sql.DataFrameWriter.runCommand(DataFrameWriter.scala:856)
+	at org.apache.spark.sql.DataFrameWriter.createTable(DataFrameWriter.scala:697)
+	at org.apache.spark.sql.DataFrameWriter.saveAsTable(DataFrameWriter.scala:675)
+	at org.apache.spark.sql.DataFrameWriter.saveAsTable(DataFrameWriter.scala:570)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lan
+[2026-06-23T01:46:25.590+0000] {docker.py:429} INFO - g.reflect.Method.invoke(Unknown Source)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: org.apache.spark.SparkException: [TASK_WRITE_FAILED] Task failed while writing rows to hdfs://namenode:9000/user/hive/warehouse/restaurante_dw.db/dim_tiempo.
+	at org.apache.spark.sql.errors.QueryExecutionErrors$.taskFailedWhileWritingRowsError(QueryExecutionErrors.scala:788)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeTask(FileFormatWriter.scala:420)
+	at org.apache.spark.sql.execution.datasources.WriteFilesExec.$anonfun$doExecuteWrite$1(WriteFiles.scala:100)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:888)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:888)
+	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:364)
+	at org.apache.spark.rdd.RDD.iterator(RDD.scala:328)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:92)
+	at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:161)
+	at org.apache.spark.scheduler.Task.run(Task.scala:139)
+	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:554)
+	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1529)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:557)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	... 1 more
+Caused by: java.io.FileNotFoundException: File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.apache.hadoop.ipc.RemoteException.instantiateException(RemoteException.java:121)
+	at org.apache.hadoop.ipc.RemoteException.unwrapRemoteException(RemoteException.java:88)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1091)
+	at org.apache.hadoop.hdfs.DataStreamer.locateFollowingBlock(DataStreamer.java:1915)
+	at org.apache.hadoop.hdfs.DataStreamer.nextBlockOutputStream(DataStreamer.java:1717)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:713)
+Caused by: org.apache.hadoop.ipc.RemoteException(java.io.FileNotFoundException): File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1612)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1558)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1455)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:242)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:129)
+	at com.sun.proxy.$Proxy33.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.addBlock(ClientNamenodeProtocolTranslatorPB.java:530)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy34.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1088)
+	... 3 more
+[2026-06-23T01:46:25.926+0000] {docker.py:429} INFO - Error guardando en Hive: An error occurred while calling o629.saveAsTable.
+: org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 21.0 failed 1 times, most recent failure: Lost task 0.0 in stage 21.0 (TID 807) (2aefdfeb78bd executor driver): org.apache.spark.SparkException: [TASK_WRITE_FAILED] Task failed while writing rows to hdfs://namenode:9000/user/hive/warehouse/restaurante_dw.db/dim_tiempo.
+	at org.apache.spark.sql.errors.QueryExecutionErrors$.taskFailedWhileWritingRowsError(QueryExecutionErrors.scala:788)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeTask(FileFormatWriter.scala:420)
+	at org.apache.spark.sql.execution.datasources.WriteFilesExec.$anonfun$doExecuteWrite$1(WriteFiles.scala:100)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:888)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:888)
+	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:364)
+	at org.apache.spark.rdd.RDD.iterator(RDD.scala:328)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:92)
+	at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:161)
+	at org.apache.spark.scheduler.Task.run(Task.scala:139)
+	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:554)
+	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1529)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:557)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.apache.hadoop.ipc.RemoteException.instantiateException(RemoteException.java:121)
+	at org.apache.hadoop.ipc.RemoteException.unwrapRemoteException(RemoteException.java:88)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1091)
+	at org.apache.hadoop.hdfs.DataStreamer.locateFollowingBlock(DataStreamer.java:1915)
+	at org.apache.hadoop.hdfs.DataStreamer.nextBlockOutputStream(DataStreamer.java:1717)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:713)
+Caused by: org.apache.hadoop.ipc.RemoteException(java.io.FileNotFoundException): File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1612)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1558)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1455)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:242)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:129)
+	at com.sun.proxy.$Proxy33.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.addBlock(ClientNamenodeProtocolTranslatorPB.java:530)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy34.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1088)
+	... 3 more
+
+Driver stacktrace:
+	at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2785)
+	at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2(DAGScheduler.scala:2721)
+	at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2$adapted(DAGScheduler.scala:2720)
+	at scala.collection.mutable.ResizableArray.foreach(ResizableArray.scala:62)
+	at scala.collection.mutable.ResizableArray.foreach$(ResizableArray.scala:55)
+	at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:49)
+	at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:2720)
+	at org.apache.spark.schedu
+[2026-06-23T01:46:25.928+0000] {docker.py:429} INFO - ler.DAGScheduler.$anonfun$handleTaskSetFailed$1(DAGScheduler.scala:1206)
+	at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1$adapted(DAGScheduler.scala:1206)
+	at scala.Option.foreach(Option.scala:407)
+	at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:1206)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2984)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2923)
+	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2912)
+	at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)
+	at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:971)
+	at org.apache.spark.SparkContext.runJob(SparkContext.scala:2263)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.$anonfun$executeWrite$4(FileFormatWriter.scala:307)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.writeAndCommit(FileFormatWriter.scala:271)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeWrite(FileFormatWriter.scala:304)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:190)
+	at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:190)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:113)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:111)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:125)
+	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:354)
+	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.withFinalPlanUpdate(AdaptiveSparkPlanExec.scala:382)
+	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.executeCollect(AdaptiveSparkPlanExec.scala:354)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.$anonfun$applyOrElse$1(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:118)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:195)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:103)
+	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:827)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:65)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:94)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformDownWithPruning$1(TreeNode.scala:512)
+	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:104)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDownWithPruning(TreeNode.scala:512)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.org$apache$spark$sql$catalyst$plans$logical$AnalysisHelper$$super$transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning(AnalysisHelper.scala:267)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning$(AnalysisHelper.scala:263)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:488)
+	at org.apache.spark.sql.execution.QueryExecution.eagerlyExecuteCommands(QueryExecution.scala:94)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted$lzycompute(QueryExecution.scala:81)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:79)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:133)
+	at org.apache.spark.sql.execution.datasources.DataSource.writeAndRead(DataSource.scala:511)
+	at org.apache.spark.sql.execution.command.CreateDataSourceTableAsSelectCommand.saveDataIntoTable(createDataSourceTables.scala:228)
+	at org.apache.spark.sql.execution.command.CreateDataSourceTableAsSelectCommand.run(createDataSourceTables.scala:183)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:75)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:73)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.executeCollect(commands.scala:84)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.$anonfun$applyOrElse$1(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:118)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:195)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:103)
+	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:827)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:65)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:94)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformDownWithPruning$1(TreeNode.scala:512)
+	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:104)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDownWithPruning(TreeNode.scala:512)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.org$apache$spark$sql$catalyst$plans$logical$AnalysisHelper$$super$transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning(AnalysisHelper.scala:267)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning$(AnalysisHelper.scala:263)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:31)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:488)
+	at org.apache.spark.sql.execution.QueryExecution.eagerlyExecuteCommands(QueryExecution.scala:94)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted$lzycompute(QueryExecution.scala:81)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:79)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:133)
+	at org.apache.spark.sql.DataFrameWriter.runCommand(DataFrameWriter.scala:856)
+	at org.apache.spark.sql.DataFrameWriter.createTable(DataFrameWriter.scala:697)
+	at org.apache.spark.sql.DataFrameWriter.saveAsTable(DataFrameWriter.scala:675)
+	at org.apache.spark.sql.DataFrameWriter.saveAsTable(DataFrameWriter.scala:570)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: org.apache.spark.SparkException: [TASK_WRITE_FAILED] Task failed while writing rows to hdfs://namenode:9000/user/hive/warehouse/restaurante_dw.db/dim_tiempo.
+	at org.apache.spark.sql.errors.QueryExecutionErrors$.taskFailedWhileWritingRowsError(QueryExecutionErrors.scala:788)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeTask(FileFormatWriter.scala:420)
+	at org.apache.spark.sql.execution.datasources.WriteFilesExec.$anonfun$doExecuteWrite$1(WriteFiles.scala:100)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:888)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:888)
+	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:364)
+	at org.apache.spark.rdd.RDD.iterator(RDD.scala:328)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:92)
+	at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:161)
+	at org.apache.spark.scheduler.Task.run(Task.scala:139)
+	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:554)
+	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1529)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:557)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	... 1 more
+Caused by: java.io.FileNotFoundException: File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.base/java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.apache.hadoop.ipc.RemoteException.instantiateException(RemoteException.java:121)
+	at org.apache.hadoop.ipc.RemoteException.unwrapRemoteException(RemoteException.java:88)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1091)
+	at org.apache.hadoop.hdfs.DataStreamer.locateFollowingBlock(DataStreamer.java:1915)
+	at org.apache.hadoop.hdfs.DataStreamer.nextBlockOutputStream(DataStreamer.java:1717)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:713)
+Caused by: org.apache.hadoop.ipc.RemoteException(java.io.FileNotFoundException): File does not exist: /user/hive/warehouse/restaurante_dw.db/dim_tiempo/_temporary/0/_temporary/attempt_202606230146238757535267822084282_0021_m_000000_807/part-00000-04c6bb55-6a56-4192-953a-51c27461c765-c000.snappy.parquet (inode 16510) Holder DFSClient_NONMAPREDUCE_1878239680_31 does not have any open files.
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkLease(FSNamesystem.java:2898)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.analyzeFileState(FSDirWriteFileOp.java:599)
+	at org.apache.hadoop.hdfs.server.namenode.FSDirWriteFileOp.validateAddBlock(FSDirWriteFileOp.java:171)
+	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getAdditionalBlock(FSNamesystem.java:2777)
+	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.addBlock(NameNodeRpcServer.java:892)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.addBlock(ClientNamenodeProtocolServerSideTranslatorPB.java:574)
+	at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1612)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1558)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1455)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:242)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine2$Invoker.invoke(ProtobufRpcEngine2.java:129)
+	at com.sun.proxy.$Proxy33.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB.addBlock(ClientNamenodeProtocolTranslatorPB.java:530)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy34.addBlock(Unknown Source)
+	at org.apache.hadoop.hdfs.DFSOutputStream.addBlock(DFSOutputStream.java:1088)
+	... 3 more
+
+Estan corriendo los servicios namenode, datanode y hive-metastore?
+[2026-06-23T01:46:26.822+0000] {taskinstance.py:1149} INFO - Marking task as SUCCESS. dag_id=restaurante_pipeline_etl, task_id=ejecutar_spark_etl, execution_date=20260621T020000, start_date=20260623T014523, end_date=20260623T014626
+[2026-06-23T01:46:26.883+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-23T01:46:26.929+0000] {taskinstance.py:3309} INFO - 1 downstream tasks scheduled from follow-on schedule check

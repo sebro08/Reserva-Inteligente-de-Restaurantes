@@ -12,6 +12,14 @@ export class Location {
   @Column()
   name: string;
 
+  // Coordenadas geograficas (geonodo) usadas para calcular distancias reales
+  // y simular rutas de entrega en Neo4j. Nullable para no romper filas antiguas.
+  @Column({ type: "double precision", nullable: true })
+  latitude: number;
+
+  @Column({ type: "double precision", nullable: true })
+  longitude: number;
+
   @ManyToOne(() => District, district => district.locations)
   @JoinColumn({ name: "district_id" })
   district: District;

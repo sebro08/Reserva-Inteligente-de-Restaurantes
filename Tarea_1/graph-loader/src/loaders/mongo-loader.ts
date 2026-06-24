@@ -100,7 +100,9 @@ export async function getLocationsMongo(): Promise<Location[]> {
   return docs.map((doc) => ({
     id: doc.id,
     name: doc.name,
-    district_id: doc.district_id
+    district_id: doc.district_id,
+    latitude: doc.latitude ?? null,
+    longitude: doc.longitude ?? null
   }));
 }
 

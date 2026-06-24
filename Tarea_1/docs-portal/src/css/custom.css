@@ -1,0 +1,84 @@
+/**
+ * Tema del portal. Acento verde (estilo Spotify) sobre los tokens de Infima.
+ */
+
+/* Modo claro: teal/turquesa más profundo para que rinda sobre blanco
+   (un tiffany puro perdería contraste en links y botones). */
+:root {
+  --ifm-color-primary: #0d9488;
+  --ifm-color-primary-dark: #0c857a;
+  --ifm-color-primary-darker: #0b7d72;
+  --ifm-color-primary-darkest: #09675e;
+  --ifm-color-primary-light: #12a89a;
+  --ifm-color-primary-lighter: #14b3a4;
+  --ifm-color-primary-lightest: #2dd4bf;
+  --ifm-code-font-size: 95%;
+  --ifm-font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Modo oscuro: tiffany/turquesa vibrante sobre fondo casi negro. */
+[data-theme='dark'] {
+  --ifm-color-primary: #2dd4bf;
+  --ifm-color-primary-dark: #20c8b2;
+  --ifm-color-primary-darker: #1ebda8;
+  --ifm-color-primary-darkest: #199b8a;
+  --ifm-color-primary-light: #4adbc9;
+  --ifm-color-primary-lighter: #5ddfcf;
+  --ifm-color-primary-lightest: #80e7db;
+  --ifm-background-color: #0d1117;
+  --ifm-background-surface-color: #161b22;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
+}
+
+/* Navbar un poco más sobria, al estilo de los portales de developers. */
+.navbar {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+[data-theme='dark'] .navbar {
+  background-color: #0d1117;
+}
+
+/* Tarjetas de la portada (ver intro.md). */
+.portal-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.portal-card {
+  display: block;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+  text-decoration: none !important;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.portal-card:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+}
+
+.portal-card__icon {
+  width: 26px;
+  height: 26px;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.7rem;
+  display: block;
+}
+
+.portal-card h3 {
+  margin: 0 0 0.35rem;
+  color: var(--ifm-heading-color);
+}
+
+.portal-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}

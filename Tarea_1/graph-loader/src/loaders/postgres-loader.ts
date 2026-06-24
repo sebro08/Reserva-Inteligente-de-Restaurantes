@@ -75,7 +75,7 @@ export async function closePostgres(): Promise<void> {
 
 export async function getLocations(): Promise<Location[]> {
   const result = await pgPool.query(`
-    SELECT id, name, district_id
+    SELECT id, name, district_id, latitude, longitude
     FROM location
   `);
   return result.rows;
