@@ -2,3 +2,10 @@ node_modules
 .env
 backend/INSTALACION.md
 graph-loader/.env.local
+
+# Python
+__pycache__/
+*.pyc
+
+# Airflow / logs de ejecución
+logs/

@@ -350,7 +350,10 @@ services:
   # -----------------------------------------------------
   # VISUALIZACIÓN (METABASE - Track C)
   # Perfil "viz": docker compose --profile viz up -d metabase
-  # Se conecta a Postgres (db) para construir los 3 dashboards obligatorios.
+  # Se conecta al Data Warehouse (Hive: hive-server:10000, base restaurante_olap)
+  # vía el driver SparkSQL integrado para construir los 3 dashboards obligatorios.
+  # La conexión, preguntas y dashboards los crea metabase/provision_metabase.py
+  # (fallback opcional a un mart en Postgres con MB_DB_ENGINE=postgres).
   # Su configuración (conexiones y dashboards) se guarda en una app-db H2 dentro
   # del volumen metabase_data: sobrevive a 'stop/start' y 'down' (SIN -v); un
   # 'down -v' sí borra los dashboards (ver docs/track_c_metabase.md).
